@@ -36,4 +36,12 @@ public class ListCommandTest {
         showPersonAtIndex(model, INDEX_FIRST_PERSON);
         assertCommandSuccess(new ListCommand(), model, ListCommand.MESSAGE_SUCCESS, expectedModel);
     }
+
+    @Test
+    // Check when address book is empty, it should returns MESSAGE_SUCCESS_EMPTY_LIST
+    public void execute_emptyList_showsFailureMessage() {
+        Model emptyModel = new ModelManager();
+        Model expectedEmptyModel = new ModelManager();
+        assertCommandSuccess(new ListCommand(), emptyModel, ListCommand.MESSAGE_SUCCESS_EMPTY_LIST, expectedEmptyModel);
+    }
 }
