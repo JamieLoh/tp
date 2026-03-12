@@ -22,6 +22,10 @@ checkstyle {
 
 test {
     useJUnitPlatform()
+    // Export internal JavaFX package needed by TestFX on Java 17
+    jvmArgs = [
+        '--add-exports=javafx.graphics/com.sun.javafx.application=ALL-UNNAMED'
+    ]
     finalizedBy jacocoTestReport
 }
 
@@ -63,6 +67,10 @@ dependencies {
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: jUnitVersion
 
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: jUnitVersion
+
+    // TestFX dependencies for GUI testing
+    testImplementation 'org.testfx:testfx-junit5:4.0.16-alpha'
+    testImplementation 'org.testfx:testfx-core:4.0.16-alpha'
 }
 
 shadowJar {
