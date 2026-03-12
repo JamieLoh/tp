@@ -2,6 +2,7 @@ package seedu.address.ui;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -16,12 +17,19 @@ import javafx.stage.Stage;
  */
 public class HelpWindowTest {
 
+    private static boolean toolkitAvailable;
+
     @BeforeAll
     public static void initToolkit() throws InterruptedException {
         CountDownLatch latch = new CountDownLatch(1);
         try {
             Platform.startup(latch::countDown);
+            toolkitAvailable = true;
         } catch (IllegalStateException e) {
+            toolkitAvailable = true;
+            latch.countDown();
+        } catch (UnsupportedOperationException e) {
+            toolkitAvailable = false;
             latch.countDown();
         }
         latch.await();
@@ -29,6 +37,7 @@ public class HelpWindowTest {
 
     @Test
     public void constructorSuccess() throws Exception {
+        assumeTrue(toolkitAvailable, "JavaFX is not available in headless environment");
         CountDownLatch latch = new CountDownLatch(1);
         Platform.runLater(() -> {
             try {
