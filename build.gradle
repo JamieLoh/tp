@@ -23,7 +23,9 @@ checkstyle {
 // Run this locally with: ./gradlew testGui
 test {
     useJUnitPlatform()
-
+    
+    exclude '**/GUItests/**'
+    
     jvmArgs = [
             '--add-exports=javafx.graphics/com.sun.javafx.application=ALL-UNNAMED',
             '--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED',
@@ -36,7 +38,11 @@ test {
 }
 
 task testGui(type: Test) {
+    group = 'verification'      
+    description = 'Runs GUI tests'  
+
     useJUnitPlatform()
+    systemProperty 'ci', 'false'
 
     jvmArgs = [
             '--add-exports=javafx.graphics/com.sun.javafx.application=ALL-UNNAMED',
@@ -44,7 +50,7 @@ task testGui(type: Test) {
             '--add-opens=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED',
     ]
 
-    include '**/DeleteCommandGuiTest*'
+    include '**/GUItests/**'
 }
 
 task coverage(type: JacocoReport) {
