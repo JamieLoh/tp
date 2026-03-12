@@ -12,7 +12,8 @@ public class ListCommand extends Command {
 
     public static final String COMMAND_WORD = "list";
 
-    public static final String MESSAGE_SUCCESS = "Listed all applications";
+    public static final String MESSAGE_SUCCESS = "Listed all applications! "
+            + "Now you have %d application(s) in your list!";
 
     public static final String MESSAGE_SUCCESS_EMPTY_LIST = "You have not added any applications yet!";
 
@@ -27,6 +28,8 @@ public class ListCommand extends Command {
         if (model.getFilteredPersonList().isEmpty()) {
             return new CommandResult(MESSAGE_SUCCESS_EMPTY_LIST);
         }
-        return new CommandResult(MESSAGE_SUCCESS);
+
+        int size = model.getFilteredPersonList().size();
+        return new CommandResult(String.format(MESSAGE_SUCCESS, size));
     }
 }

@@ -70,7 +70,9 @@ public class LogicManagerTest {
         model.addPerson(new PersonBuilder().build());
         String listCommand = ListCommand.COMMAND_WORD;
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        assertCommandSuccess(listCommand, ListCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(listCommand,
+                String.format(ListCommand.MESSAGE_SUCCESS, expectedModel.getFilteredPersonList().size()),
+                expectedModel);
     }
 
     @Test
