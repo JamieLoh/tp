@@ -4,7 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_WEBSITE;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
@@ -26,7 +26,7 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.CompanyName;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.Phone;
+import seedu.address.model.person.Role;
 import seedu.address.model.person.Website;
 import seedu.address.model.tag.Tag;
 
@@ -42,13 +42,13 @@ public class EditCommand extends Command {
             + "Existing values will be overwritten by the input values.\n"
             + "Parameters: INDEX (must be a positive integer) "
             + "[" + PREFIX_NAME + "COMPANY_NAME] "
-            + "[" + PREFIX_PHONE + "PHONE] "
+            + "[" + PREFIX_ROLE + "ROLE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
             + "[" + PREFIX_WEBSITE + "WEBSITE] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
-            + PREFIX_PHONE + "91234567 "
+            + PREFIX_ROLE + "Backend Developer Intern "
             + PREFIX_EMAIL + "johndoe@example.com";
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
@@ -99,13 +99,13 @@ public class EditCommand extends Command {
         assert personToEdit != null;
 
         CompanyName updatedName = editPersonDescriptor.getCompanyName().orElse(personToEdit.getCompanyName());
-        Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
+        Role updatedRole = editPersonDescriptor.getRole().orElse(personToEdit.getRole());
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         Website updatedWebsite = editPersonDescriptor.getWebsite().orElse(personToEdit.getWebsite());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
-        return new Person(updatedName, updatedPhone, updatedEmail,
+        return new Person(updatedName, updatedRole, updatedEmail,
                 updatedWebsite, updatedAddress, updatedTags);
     }
 
@@ -139,7 +139,7 @@ public class EditCommand extends Command {
      */
     public static class EditPersonDescriptor {
         private CompanyName companyName;
-        private Phone phone;
+        private Role role;
         private Email email;
         private Website website;
         private Address address;
@@ -153,7 +153,7 @@ public class EditCommand extends Command {
          */
         public EditPersonDescriptor(EditPersonDescriptor toCopy) {
             setCompanyName(toCopy.companyName);
-            setPhone(toCopy.phone);
+            setRole(toCopy.role);
             setEmail(toCopy.email);
             setWebsite(toCopy.website);
             setAddress(toCopy.address);
@@ -164,7 +164,7 @@ public class EditCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(companyName, phone, email, website, address, tags);
+            return CollectionUtil.isAnyNonNull(companyName, role, email, website, address, tags);
         }
 
         public void setCompanyName(CompanyName name) {
@@ -175,12 +175,12 @@ public class EditCommand extends Command {
             return Optional.ofNullable(companyName);
         }
 
-        public void setPhone(Phone phone) {
-            this.phone = phone;
+        public void setRole(Role role) {
+            this.role = role;
         }
 
-        public Optional<Phone> getPhone() {
-            return Optional.ofNullable(phone);
+        public Optional<Role> getRole() {
+            return Optional.ofNullable(role);
         }
 
         public void setEmail(Email email) {
@@ -237,7 +237,7 @@ public class EditCommand extends Command {
 
             EditPersonDescriptor otherEditPersonDescriptor = (EditPersonDescriptor) other;
             return Objects.equals(companyName, otherEditPersonDescriptor.companyName)
-                    && Objects.equals(phone, otherEditPersonDescriptor.phone)
+                    && Objects.equals(role, otherEditPersonDescriptor.role)
                     && Objects.equals(email, otherEditPersonDescriptor.email)
                     && Objects.equals(website, otherEditPersonDescriptor.website)
                     && Objects.equals(address, otherEditPersonDescriptor.address)
@@ -248,7 +248,7 @@ public class EditCommand extends Command {
         public String toString() {
             return new ToStringBuilder(this)
                     .add("companyName", companyName)
-                    .add("phone", phone)
+                    .add("role", role)
                     .add("email", email)
                     .add("website", website)
                     .add("address", address)

@@ -8,7 +8,7 @@ import static seedu.address.logic.commands.CommandTestUtil.DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_COMPANY_NAME_BMW;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_ROLE_BACKEND_DEVELOPER;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 
 import org.junit.jupiter.api.Test;
@@ -41,8 +41,8 @@ public class EditPersonDescriptorTest {
                 .withName(VALID_COMPANY_NAME_BMW).build();
         assertFalse(DESC_AMY.equals(editedAmy));
 
-        // different phone -> returns false
-        editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withPhone(VALID_PHONE_BOB).build();
+        // different role -> returns false
+        editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withRole(VALID_ROLE_BACKEND_DEVELOPER).build();
         assertFalse(DESC_AMY.equals(editedAmy));
 
         // different email -> returns false
@@ -62,8 +62,8 @@ public class EditPersonDescriptorTest {
     public void toStringMethod() {
         EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();
         String expected = EditPersonDescriptor.class.getCanonicalName() + "{companyName="
-                + editPersonDescriptor.getCompanyName().orElse(null) + ", phone="
-                + editPersonDescriptor.getPhone().orElse(null) + ", email="
+                + editPersonDescriptor.getCompanyName().orElse(null) + ", role="
+                + editPersonDescriptor.getRole().orElse(null) + ", email="
                 + editPersonDescriptor.getEmail().orElse(null) + ", website="
                 + editPersonDescriptor.getWebsite().orElse(null) + ", address="
                 + editPersonDescriptor.getAddress().orElse(null) + ", tags="

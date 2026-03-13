@@ -4,7 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_WEBSITE;
 
@@ -24,14 +24,14 @@ public class AddCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds an application to the address book. "
             + "Parameters: "
             + PREFIX_NAME + "COMPANY_NAME "
-            + PREFIX_PHONE + "PHONE "
+            + PREFIX_ROLE + "ROLE "
             + PREFIX_EMAIL + "EMAIL "
-            + PREFIX_WEBSITE + "WEBSITE"
+            + PREFIX_WEBSITE + "WEBSITE "
             + PREFIX_ADDRESS + "ADDRESS "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "Grab "
-            + PREFIX_PHONE + "98765432 "
+            + PREFIX_ROLE + "Backend Developer Intern "
             + PREFIX_EMAIL + "johnd@example.com "
             + PREFIX_WEBSITE + "https://johndoe.example.com "
             + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 "

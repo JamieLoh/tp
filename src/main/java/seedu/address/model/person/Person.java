@@ -18,7 +18,7 @@ public class Person {
 
     // Identity fields
     private final CompanyName companyName;
-    private final Phone phone;
+    private final Role role;
     private final Email email;
 
     // Data fields
@@ -29,10 +29,10 @@ public class Person {
     /**
      * Every field must be present and not null.
      */
-    public Person(CompanyName companyName, Phone phone, Email email, Website website, Address address, Set<Tag> tags) {
-        requireAllNonNull(companyName, phone, email, website, address, tags);
+    public Person(CompanyName companyName, Role role, Email email, Website website, Address address, Set<Tag> tags) {
+        requireAllNonNull(companyName, role, email, website, address, tags);
         this.companyName = companyName;
-        this.phone = phone;
+        this.role = role;
         this.email = email;
         this.website = website;
         this.address = address;
@@ -43,8 +43,8 @@ public class Person {
         return companyName;
     }
 
-    public Phone getPhone() {
-        return phone;
+    public Role getRole() {
+        return role;
     }
 
     public Email getEmail() {
@@ -97,7 +97,7 @@ public class Person {
 
         Person otherPerson = (Person) other;
         return companyName.equals(otherPerson.companyName)
-                && phone.equals(otherPerson.phone)
+                && role.equals(otherPerson.role)
                 && email.equals(otherPerson.email)
                 && website.equals(otherPerson.website)
                 && address.equals(otherPerson.address)
@@ -107,14 +107,14 @@ public class Person {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(companyName, phone, email, website, address, tags);
+        return Objects.hash(companyName, role, email, website, address, tags);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
                 .add("companyName", companyName)
-                .add("phone", phone)
+                .add("role", role)
                 .add("email", email)
                 .add("website", website)
                 .add("address", address)

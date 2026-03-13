@@ -2,49 +2,49 @@
   "_comment": "AddressBook save file which contains the same Person values as in TypicalPersons#getTypicalAddressBook()",
   "persons" : [ {
     "companyName": "Alice Pauline",
-    "phone" : "94351253",
+    "role" : "Machine Learning Engineer",
     "email" : "alice@example.com",
     "website": "https://alice.com",
     "address" : "123, Jurong West Ave 6, #08-111",
     "tags" : [ "friends" ]
   }, {
     "companyName": "Benson Meier",
-    "phone" : "98765432",
+    "role" : "Data Engineer",
     "email" : "johnd@example.com",
     "website": "https://benson.com",
     "address" : "311, Clementi Ave 2, #02-25",
     "tags" : [ "owesMoney", "friends" ]
   }, {
     "companyName": "Carl Kurz",
-    "phone" : "95352563",
+    "role" : "Game Developer",
     "email" : "heinz@example.com",
     "website": "https://carl.com",
     "address" : "wall street",
     "tags" : [ ]
   }, {
     "companyName": "Daniel Meier",
-    "phone" : "87652533",
+    "role" : "Security Engineer",
     "email" : "cornelia@example.com",
     "website": "https://daniel.com",
     "address" : "10th street",
     "tags" : [ "friends" ]
   }, {
     "companyName": "Elle Meyer",
-    "phone" : "9482224",
+    "role" : "Full Stack Developer",
     "email" : "werner@example.com",
     "website": "https://elle.com",
     "address" : "michegan ave",
     "tags" : [ ]
   }, {
     "companyName": "Fiona Kunz",
-    "phone" : "9482427",
+    "role" : "DevOps Engineer",
     "email" : "lydia@example.com",
     "website": "https://fiona.com",
     "address" : "little tokyo",
     "tags" : [ ]
   }, {
     "companyName": "George Best",
-    "phone" : "9482442",
+    "role" : "Cloud Architect",
     "email" : "anna@example.com",
     "website": "https://george.com",
     "address" : "4th street",

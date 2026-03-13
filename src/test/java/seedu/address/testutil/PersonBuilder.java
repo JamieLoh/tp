@@ -7,7 +7,7 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.CompanyName;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.Phone;
+import seedu.address.model.person.Role;
 import seedu.address.model.person.Website;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
@@ -18,14 +18,14 @@ import seedu.address.model.util.SampleDataUtil;
 public class PersonBuilder {
 
     public static final String DEFAULT_COMPANY_NAME = "Amazon";
-    public static final String DEFAULT_PHONE = "85355255";
+    public static final String DEFAULT_ROLE = "Backend Developer Intern";
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
     public static final String DEFAULT_WEBSITE = "https://example.com";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
 
 
     private CompanyName companyName;
-    private Phone phone;
+    private Role role;
     private Email email;
     private Website website;
     private Address address;
@@ -36,7 +36,7 @@ public class PersonBuilder {
      */
     public PersonBuilder() {
         companyName = new CompanyName(DEFAULT_COMPANY_NAME);
-        phone = new Phone(DEFAULT_PHONE);
+        role = new Role(DEFAULT_ROLE);
         email = new Email(DEFAULT_EMAIL);
         website = new Website(DEFAULT_WEBSITE);
         address = new Address(DEFAULT_ADDRESS);
@@ -48,7 +48,7 @@ public class PersonBuilder {
      */
     public PersonBuilder(Person personToCopy) {
         companyName = personToCopy.getCompanyName();
-        phone = personToCopy.getPhone();
+        role = personToCopy.getRole();
         email = personToCopy.getEmail();
         website = personToCopy.getWebsite();
         address = personToCopy.getAddress();
@@ -80,10 +80,10 @@ public class PersonBuilder {
     }
 
     /**
-     * Sets the {@code Phone} of the {@code Person} that we are building.
+     * Sets the {@code Role} of the {@code Role} that we are building.
      */
-    public PersonBuilder withPhone(String phone) {
-        this.phone = new Phone(phone);
+    public PersonBuilder withRole(String role) {
+        this.role = new Role(role);
         return this;
     }
 
@@ -104,7 +104,7 @@ public class PersonBuilder {
     }
 
     public Person build() {
-        return new Person(companyName, phone, email, website, address, tags);
+        return new Person(companyName, role, email, website, address, tags);
     }
 
 }
