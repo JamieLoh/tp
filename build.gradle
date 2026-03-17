@@ -47,7 +47,7 @@ task testGui(type: Test) {
             '--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED',
             '--add-opens=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED',
     ]
-    
+
     include '**/guitests/**'
 }
 
