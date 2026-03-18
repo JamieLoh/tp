@@ -1,12 +1,12 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_APPLICATIONS;
 
 import seedu.address.model.Model;
 
 /**
- * Lists all persons in the address book to the user.
+ * Lists all applications in the address book to the user.
  */
 public class ListCommand extends Command {
 
@@ -22,14 +22,14 @@ public class ListCommand extends Command {
     public CommandResult execute(Model model) {
         requireNonNull(model);
 
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        model.updateFilteredApplicationList(PREDICATE_SHOW_ALL_APPLICATIONS);
 
         // check if list is empty
-        if (model.getFilteredPersonList().isEmpty()) {
+        if (model.getFilteredApplicationList().isEmpty()) {
             return new CommandResult(MESSAGE_SUCCESS_EMPTY_LIST);
         }
 
-        int size = model.getFilteredPersonList().size();
+        int size = model.getFilteredApplicationList().size();
         return new CommandResult(String.format(MESSAGE_SUCCESS, size));
     }
 }

@@ -1,9 +1,0 @@
-{
-  "persons": [ {
-    "companyName": "Hans Muster",
-    "role": "Algorithm Engineer",
-    "email": "invalid@email!3e",
-    "website": "https://example.com",
-    "address": "4th street"
-  } ]
-}

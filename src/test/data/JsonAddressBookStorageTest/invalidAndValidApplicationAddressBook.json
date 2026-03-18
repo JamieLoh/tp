@@ -1,0 +1,13 @@
+{
+  "applications": [ {
+    "companyName": "Valid Application",
+    "role": "Algorithm Engineer",
+    "email": "hans@example.com",
+    "address": "4th street"
+  }, {
+    "companyName": "Application With Invalid Role Field",
+    "role": "Algorithm@Engineer",
+    "email": "hans@example.com",
+    "address": "4th street"
+  } ]
+}

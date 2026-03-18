@@ -26,7 +26,7 @@ public class TestApp extends javafx.application.Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        model = new ModelManager(TypicalPersons.getTypicalAddressBook(), new UserPrefs());
+        model = new ModelManager(TypicalApplications.getTypicalAddressBook(), new UserPrefs());
 
         Path tempDir = Files.createTempDirectory("testui");
         JsonAddressBookStorage addressBookStorage =

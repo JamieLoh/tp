@@ -40,137 +40,138 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_WEBSITE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
-import static seedu.address.testutil.TypicalPersons.AMY;
-import static seedu.address.testutil.TypicalPersons.BOB;
+import static seedu.address.testutil.TypicalApplications.AMY;
+import static seedu.address.testutil.TypicalApplications.BOB;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.AddCommand;
-import seedu.address.model.person.Address;
-import seedu.address.model.person.CompanyName;
-import seedu.address.model.person.Date;
-import seedu.address.model.person.Email;
-import seedu.address.model.person.Person;
-import seedu.address.model.person.Role;
-import seedu.address.model.person.Website;
+import seedu.address.model.application.Address;
+import seedu.address.model.application.Application;
+import seedu.address.model.application.CompanyName;
+import seedu.address.model.application.Date;
+import seedu.address.model.application.Email;
+import seedu.address.model.application.Role;
+import seedu.address.model.application.Website;
 import seedu.address.model.tag.Tag;
-import seedu.address.testutil.PersonBuilder;
+import seedu.address.testutil.ApplicationBuilder;
 
 public class AddCommandParserTest {
     private AddCommandParser parser = new AddCommandParser();
 
     @Test
     public void parse_allFieldsPresent_success() {
-        Person expectedPerson = new PersonBuilder(BOB).withTags(VALID_TAG_FRIEND).build();
+        Application expectedApplication = new ApplicationBuilder(BOB).withTags(VALID_TAG_FRIEND).build();
 
         // whitespace only preamble
         assertParseSuccess(parser, PREAMBLE_WHITESPACE + NAME_DESC_BOB
                 + ROLE_DESC_BACKEND_DEVELOPER + EMAIL_DESC_BOB + WEBSITE_DESC_BOB
-                + ADDRESS_DESC_BOB + DATE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
+                + ADDRESS_DESC_BOB + DATE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedApplication));
 
         // multiple tags - all accepted
-        Person expectedPersonMultipleTags = new PersonBuilder(BOB).withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND)
+        Application expectedApplicationMultipleTags = new ApplicationBuilder(BOB)
+                .withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND)
                 .build();
         assertParseSuccess(parser,
                 NAME_DESC_BOB + ROLE_DESC_BACKEND_DEVELOPER + EMAIL_DESC_BOB
                         + WEBSITE_DESC_BOB + ADDRESS_DESC_BOB + DATE_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
-                new AddCommand(expectedPersonMultipleTags));
+                new AddCommand(expectedApplicationMultipleTags));
     }
 
     @Test
     public void parse_repeatedNonTagValue_failure() {
-        String validExpectedPersonString = NAME_DESC_BOB + ROLE_DESC_BACKEND_DEVELOPER + EMAIL_DESC_BOB
+        String validExpectedApplicationString = NAME_DESC_BOB + ROLE_DESC_BACKEND_DEVELOPER + EMAIL_DESC_BOB
                 + WEBSITE_DESC_BOB + ADDRESS_DESC_BOB + DATE_DESC_BOB + TAG_DESC_FRIEND;
 
         // multiple names
-        assertParseFailure(parser, NAME_DESC_AMY + validExpectedPersonString,
+        assertParseFailure(parser, NAME_DESC_AMY + validExpectedApplicationString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NAME));
 
         // multiple roles
-        assertParseFailure(parser, ROLE_DESC_FRONTEND_DEVELOPER + validExpectedPersonString,
+        assertParseFailure(parser, ROLE_DESC_FRONTEND_DEVELOPER + validExpectedApplicationString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_ROLE));
 
         // multiple emails
-        assertParseFailure(parser, EMAIL_DESC_AMY + validExpectedPersonString,
+        assertParseFailure(parser, EMAIL_DESC_AMY + validExpectedApplicationString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_EMAIL));
 
         // multiple websites
-        assertParseFailure(parser, WEBSITE_DESC_AMY + validExpectedPersonString,
+        assertParseFailure(parser, WEBSITE_DESC_AMY + validExpectedApplicationString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_WEBSITE));
 
         // multiple addresses
-        assertParseFailure(parser, ADDRESS_DESC_AMY + validExpectedPersonString,
+        assertParseFailure(parser, ADDRESS_DESC_AMY + validExpectedApplicationString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_ADDRESS));
 
         // multiple dates
-        assertParseFailure(parser, DATE_DESC_AMY + validExpectedPersonString,
+        assertParseFailure(parser, DATE_DESC_AMY + validExpectedApplicationString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_DATE));
 
         // multiple fields repeated
         assertParseFailure(parser,
                 ROLE_DESC_FRONTEND_DEVELOPER + EMAIL_DESC_AMY + NAME_DESC_AMY
                         + WEBSITE_DESC_AMY + ADDRESS_DESC_AMY + DATE_DESC_AMY
-                        + validExpectedPersonString,
+                        + validExpectedApplicationString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NAME, PREFIX_ADDRESS,
                         PREFIX_WEBSITE, PREFIX_EMAIL, PREFIX_ROLE, PREFIX_DATE));
 
         // invalid value followed by valid value
 
         // invalid name
-        assertParseFailure(parser, INVALID_COMPANY_NAME_DESC + validExpectedPersonString,
+        assertParseFailure(parser, INVALID_COMPANY_NAME_DESC + validExpectedApplicationString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NAME));
 
         // invalid email
-        assertParseFailure(parser, INVALID_EMAIL_DESC + validExpectedPersonString,
+        assertParseFailure(parser, INVALID_EMAIL_DESC + validExpectedApplicationString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_EMAIL));
 
         // invalid role
-        assertParseFailure(parser, INVALID_ROLE_DESC + validExpectedPersonString,
+        assertParseFailure(parser, INVALID_ROLE_DESC + validExpectedApplicationString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_ROLE));
 
         // invalid website
-        assertParseFailure(parser, validExpectedPersonString + INVALID_WEBSITE_DESC,
+        assertParseFailure(parser, validExpectedApplicationString + INVALID_WEBSITE_DESC,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_WEBSITE));
 
         // invalid address
-        assertParseFailure(parser, INVALID_ADDRESS_DESC + validExpectedPersonString,
+        assertParseFailure(parser, INVALID_ADDRESS_DESC + validExpectedApplicationString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_ADDRESS));
 
         // invalid date
-        assertParseFailure(parser, INVALID_DATE_DESC + validExpectedPersonString,
+        assertParseFailure(parser, INVALID_DATE_DESC + validExpectedApplicationString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_DATE));
 
         // valid value followed by invalid value
 
         // invalid name
-        assertParseFailure(parser, validExpectedPersonString + INVALID_COMPANY_NAME_DESC,
+        assertParseFailure(parser, validExpectedApplicationString + INVALID_COMPANY_NAME_DESC,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NAME));
 
         // invalid email
-        assertParseFailure(parser, validExpectedPersonString + INVALID_EMAIL_DESC,
+        assertParseFailure(parser, validExpectedApplicationString + INVALID_EMAIL_DESC,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_EMAIL));
 
         // invalid role
-        assertParseFailure(parser, validExpectedPersonString + INVALID_ROLE_DESC,
+        assertParseFailure(parser, validExpectedApplicationString + INVALID_ROLE_DESC,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_ROLE));
 
         // invalid address
-        assertParseFailure(parser, validExpectedPersonString + INVALID_ADDRESS_DESC,
+        assertParseFailure(parser, validExpectedApplicationString + INVALID_ADDRESS_DESC,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_ADDRESS));
 
         // invalid date
-        assertParseFailure(parser, validExpectedPersonString + INVALID_DATE_DESC,
+        assertParseFailure(parser, validExpectedApplicationString + INVALID_DATE_DESC,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_DATE));
     }
 
     @Test
     public void parse_optionalFieldsMissing_success() {
         // zero tags
-        Person expectedPerson = new PersonBuilder(AMY).withTags().build();
+        Application expectedApplication = new ApplicationBuilder(AMY).withTags().build();
         assertParseSuccess(parser, NAME_DESC_AMY + ROLE_DESC_FRONTEND_DEVELOPER + EMAIL_DESC_AMY
                         + WEBSITE_DESC_AMY + ADDRESS_DESC_AMY + DATE_DESC_AMY,
-                new AddCommand(expectedPerson));
+                new AddCommand(expectedApplication));
     }
 
     @Test
