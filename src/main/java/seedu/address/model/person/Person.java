@@ -84,7 +84,8 @@ public class Person {
         }
 
         return otherPerson != null
-                && otherPerson.getCompanyName().equals(getCompanyName());
+                && otherPerson.getCompanyName().equals(getCompanyName())
+                && otherPerson.getRole().equals(getRole());
     }
 
     /**
