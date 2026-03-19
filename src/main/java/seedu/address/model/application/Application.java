@@ -25,20 +25,22 @@ public class Application {
     private final Website website;
     private final Address address;
     private final Date date;
+    private final Status status;
     private final Set<Tag> tags = new HashSet<>();
 
     /**
      * Every field must be present and not null.
      */
     public Application(CompanyName companyName, Role role, Email email, Website website,
-                       Address address, Date date, Set<Tag> tags) {
-        requireAllNonNull(companyName, role, website, address, date, tags);
+                       Address address, Date date, Status status, Set<Tag> tags) {
+        requireAllNonNull(companyName, role, website, address, date, status, tags);
         this.companyName = companyName;
         this.role = role;
         this.email = email; //can be null
         this.website = website;
         this.address = address;
         this.date = date;
+        this.status = status;
         this.tags.addAll(tags);
     }
 
@@ -64,6 +66,10 @@ public class Application {
 
     public Date getDate() {
         return date;
+    }
+
+    public Status getStatus() {
+        return status;
     }
 
     /**
@@ -110,13 +116,14 @@ public class Application {
                 && website.equals(otherApplication.website)
                 && address.equals(otherApplication.address)
                 && date.equals(otherApplication.date)
+                && status.equals(otherApplication.status)
                 && tags.equals(otherApplication.tags);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(companyName, role, email, website, address, date, tags);
+        return Objects.hash(companyName, role, email, website, address, date, status, tags);
     }
 
     @Override
@@ -127,6 +134,7 @@ public class Application {
                 .add("website", website)
                 .add("address", address)
                 .add("date", date)
+                .add("status", status)
                 .add("tags", tags);
 
         if (email != null) {

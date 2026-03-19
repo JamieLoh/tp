@@ -7,6 +7,7 @@
     "website": "https://alice.com",
     "address" : "123, Jurong West Ave 6, #08-111",
     "date" : "01-01-2026",
+    "status" : "Pending",
     "tags" : [ "friends" ]
   }, {
     "companyName": "Benson Meier",
@@ -15,6 +16,7 @@
     "website": "https://benson.com",
     "address" : "311, Clementi Ave 2, #02-25",
     "date" : "02-02-2026",
+    "status" : "Pending",
     "tags" : [ "owesMoney", "friends" ]
   }, {
     "companyName": "Carl Kurz",
@@ -23,6 +25,7 @@
     "website": "https://carl.com",
     "address" : "wall street",
     "date" : "13-01-2026",
+    "status" : "Pending",
     "tags" : [ ]
   }, {
     "companyName": "Daniel Meier",
@@ -31,6 +34,7 @@
     "website": "https://daniel.com",
     "address" : "10th street",
     "date" : "24-01-2026",
+    "status" : "Pending",
     "tags" : [ "friends" ]
   }, {
     "companyName": "Elle Meyer",
@@ -39,6 +43,7 @@
     "website": "https://elle.com",
     "address" : "michegan ave",
     "date" : "05-02-2026",
+    "status" : "Pending",
     "tags" : [ ]
   }, {
     "companyName": "Fiona Kunz",
@@ -47,6 +52,7 @@
     "website": "https://fiona.com",
     "address" : "little tokyo",
     "date" : "06-02-2026",
+    "status" : "Pending",
     "tags" : [ ]
   }, {
     "companyName": "George Best",
@@ -55,6 +61,7 @@
     "website": "https://george.com",
     "address" : "4th street",
     "date" : "07-01-2026",
+    "status" : "Pending",
     "tags" : [ ]
   } ]
 }

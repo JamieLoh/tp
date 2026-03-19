@@ -6,6 +6,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_WEBSITE;
 
@@ -30,6 +31,7 @@ public class AddCommand extends Command {
             + PREFIX_WEBSITE + "WEBSITE "
             + PREFIX_ADDRESS + "ADDRESS "
             + PREFIX_DATE + "DATE "
+            + PREFIX_STATUS + "STATUS "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "Grab "
@@ -38,6 +40,7 @@ public class AddCommand extends Command {
             + PREFIX_WEBSITE + "https://johndoe.example.com "
             + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 "
             + PREFIX_DATE + "01-03-2026 "
+            + PREFIX_STATUS + "Pending "
             + PREFIX_TAG + "friends "
             + PREFIX_TAG + "owesMoney";
 

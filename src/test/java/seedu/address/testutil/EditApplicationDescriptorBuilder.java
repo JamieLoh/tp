@@ -12,6 +12,7 @@ import seedu.address.model.application.CompanyName;
 import seedu.address.model.application.Date;
 import seedu.address.model.application.Email;
 import seedu.address.model.application.Role;
+import seedu.address.model.application.Status;
 import seedu.address.model.application.Website;
 import seedu.address.model.tag.Tag;
 
@@ -41,6 +42,7 @@ public class EditApplicationDescriptorBuilder {
         descriptor.setWebsite(application.getWebsite());
         descriptor.setAddress(application.getAddress());
         descriptor.setDate(application.getDate());
+        descriptor.setStatus(application.getStatus());
         descriptor.setTags(application.getTags());
     }
 
@@ -89,6 +91,14 @@ public class EditApplicationDescriptorBuilder {
      */
     public EditApplicationDescriptorBuilder withDate(String date) {
         descriptor.setDate(new Date(date));
+        return this;
+    }
+
+    /**
+     * Sets the {@code Status} of the {@code EditApplicationDescriptor} that we are building.
+     */
+    public EditApplicationDescriptorBuilder withStatus(String status) {
+        descriptor.setStatus(new Status(status));
         return this;
     }
 

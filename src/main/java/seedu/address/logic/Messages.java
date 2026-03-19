@@ -49,6 +49,8 @@ public class Messages {
                 .append(application.getAddress())
                 .append("; Date: ")
                 .append(application.getDate())
+                .append("; Status: ")
+                .append(application.getStatus())
                 .append("; Tags: ");
         application.getTags().forEach(builder::append);
         return builder.toString();

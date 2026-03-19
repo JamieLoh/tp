@@ -104,6 +104,10 @@ public class ApplicationTest {
         editedAlice = new ApplicationBuilder(ALICE).withDate("31-12-2099").build();
         assertFalse(ALICE.equals(editedAlice));
 
+        // different status -> returns false
+        editedAlice = new ApplicationBuilder(ALICE).withStatus("Rejected").build();
+        assertFalse(ALICE.equals(editedAlice));
+
         // different tags -> returns false
         editedAlice = new ApplicationBuilder(ALICE).withTags(VALID_TAG_HUSBAND).build();
         assertFalse(ALICE.equals(editedAlice));
@@ -115,7 +119,8 @@ public class ApplicationTest {
                 + "{companyName=" + ALICE.getCompanyName() + ", role=" + ALICE.getRole()
                 + ", website=" + ALICE.getWebsite()
                 + ", address=" + ALICE.getAddress() + ", date=" + ALICE.getDate()
-                + ", tags=" + ALICE.getTags() + ", email=" + ALICE.getEmail() + "}";
+                + ", status=" + ALICE.getStatus() + ", tags=" + ALICE.getTags()
+                + ", email=" + ALICE.getEmail() + "}";
         assertEquals(expected, ALICE.toString());
     }
 

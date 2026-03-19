@@ -16,6 +16,7 @@ import seedu.address.model.application.CompanyName;
 import seedu.address.model.application.Date;
 import seedu.address.model.application.Email;
 import seedu.address.model.application.Role;
+import seedu.address.model.application.Status;
 import seedu.address.model.application.Website;
 import seedu.address.model.tag.Tag;
 
@@ -32,6 +33,7 @@ class JsonAdaptedApplication {
     private final String website;
     private final String date;
     private final String address;
+    private final String status;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
 
     /**
@@ -41,6 +43,7 @@ class JsonAdaptedApplication {
     public JsonAdaptedApplication(@JsonProperty("companyName") String companyName, @JsonProperty("role") String role,
                                   @JsonProperty("email") String email, @JsonProperty("website") String website,
                                   @JsonProperty("address") String address, @JsonProperty("date") String date,
+                                  @JsonProperty("status") String status,
                                   @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.companyName = companyName;
         this.role = role;
@@ -48,6 +51,7 @@ class JsonAdaptedApplication {
         this.website = website;
         this.address = address;
         this.date = date;
+        this.status = status;
         if (tags != null) {
             this.tags.addAll(tags);
         }
@@ -63,6 +67,7 @@ class JsonAdaptedApplication {
         website = source.getWebsite().websiteName;
         address = source.getAddress().value;
         date = source.getDate().value;
+        status = source.getStatus().toString();
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
@@ -128,8 +133,18 @@ class JsonAdaptedApplication {
         }
         final Date modelDate = new Date(date);
 
+        if (status == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Status.class.getSimpleName()));
+        }
+        if (!Status.isValidStatus(status)) {
+            throw new IllegalValueException(Status.MESSAGE_CONSTRAINTS);
+        }
+        final Status modelStatus = new Status(status);
+
         final Set<Tag> modelTags = new HashSet<>(applicationTags);
-        return new Application(modelName, modelRole, modelEmail, modelWebsite, modelAddress, modelDate, modelTags);
+        return new Application(
+                modelName, modelRole, modelEmail, modelWebsite, modelAddress, modelDate, modelStatus, modelTags
+        );
     }
 
 }

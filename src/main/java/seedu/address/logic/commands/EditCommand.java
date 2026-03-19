@@ -6,6 +6,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_WEBSITE;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_APPLICATIONS;
@@ -29,6 +30,7 @@ import seedu.address.model.application.CompanyName;
 import seedu.address.model.application.Date;
 import seedu.address.model.application.Email;
 import seedu.address.model.application.Role;
+import seedu.address.model.application.Status;
 import seedu.address.model.application.Website;
 import seedu.address.model.tag.Tag;
 
@@ -48,7 +50,8 @@ public class EditCommand extends Command {
             + "[" + PREFIX_EMAIL + "EMAIL] "
             + "[" + PREFIX_WEBSITE + "WEBSITE] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
-            + "[" + PREFIX_DATE + "DATE]\n"
+            + "[" + PREFIX_DATE + "DATE] "
+            + "[" + PREFIX_STATUS + "STATUS]\n"
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_ROLE + "Backend Developer Intern "
@@ -108,10 +111,11 @@ public class EditCommand extends Command {
         Website updatedWebsite = editApplicationDescriptor.getWebsite().orElse(applicationToEdit.getWebsite());
         Address updatedAddress = editApplicationDescriptor.getAddress().orElse(applicationToEdit.getAddress());
         Date updatedDate = editApplicationDescriptor.getDate().orElse(applicationToEdit.getDate());
+        Status updatedStatus = editApplicationDescriptor.getStatus().orElse(applicationToEdit.getStatus());
         Set<Tag> updatedTags = editApplicationDescriptor.getTags().orElse(applicationToEdit.getTags());
 
         return new Application(updatedName, updatedRole, updatedEmail,
-                updatedWebsite, updatedAddress, updatedDate, updatedTags);
+                updatedWebsite, updatedAddress, updatedDate, updatedStatus, updatedTags);
     }
 
     @Override
@@ -149,6 +153,7 @@ public class EditCommand extends Command {
         private Website website;
         private Address address;
         private Date date;
+        private Status status;
         private Set<Tag> tags;
 
         public EditApplicationDescriptor() {}
@@ -164,6 +169,7 @@ public class EditCommand extends Command {
             setWebsite(toCopy.website);
             setAddress(toCopy.address);
             setDate(toCopy.date);
+            setStatus(toCopy.status);
             setTags(toCopy.tags);
         }
 
@@ -171,7 +177,7 @@ public class EditCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(companyName, role, email, website, address, date, tags);
+            return CollectionUtil.isAnyNonNull(companyName, role, email, website, address, date, status, tags);
         }
 
         public void setCompanyName(CompanyName name) {
@@ -222,6 +228,14 @@ public class EditCommand extends Command {
             return Optional.ofNullable(date);
         }
 
+        public void setStatus(Status status) {
+            this.status = status;
+        }
+
+        public Optional<Status> getStatus() {
+            return Optional.ofNullable(status);
+        }
+
         /**
          * Sets {@code tags} to this object's {@code tags}.
          * A defensive copy of {@code tags} is used internally.
@@ -257,6 +271,7 @@ public class EditCommand extends Command {
                     && Objects.equals(website, otherEditApplicationDescriptor.website)
                     && Objects.equals(address, otherEditApplicationDescriptor.address)
                     && Objects.equals(date, otherEditApplicationDescriptor.date)
+                    && Objects.equals(status, otherEditApplicationDescriptor.status)
                     && Objects.equals(tags, otherEditApplicationDescriptor.tags);
         }
 
@@ -268,6 +283,7 @@ public class EditCommand extends Command {
                     .add("website", website)
                     .add("address", address)
                     .add("date", date)
+                    .add("status", status)
                     .add("tags", tags);
 
             if (email != null) {

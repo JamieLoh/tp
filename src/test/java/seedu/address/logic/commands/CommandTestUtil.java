@@ -7,6 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_WEBSITE;
 import static seedu.address.testutil.Assert.assertThrows;
@@ -40,6 +41,8 @@ public class CommandTestUtil {
     public static final String VALID_WEBSITE_BOB = "https://bob.example.com";
     public static final String VALID_DATE_AMY = "02-03-2026";
     public static final String VALID_DATE_BOB = "20-04-2026";
+    public static final String VALID_STATUS_AMY = "Pending";
+    public static final String VALID_STATUS_BOB = "Offered";
     public static final String VALID_TAG_HUSBAND = "husband";
     public static final String VALID_TAG_FRIEND = "friend";
 
@@ -55,6 +58,8 @@ public class CommandTestUtil {
     public static final String ADDRESS_DESC_BOB = " " + PREFIX_ADDRESS + VALID_ADDRESS_BOB;
     public static final String DATE_DESC_AMY = " " + PREFIX_DATE + VALID_DATE_AMY;
     public static final String DATE_DESC_BOB = " " + PREFIX_DATE + VALID_DATE_BOB;
+    public static final String STATUS_DESC_AMY = " " + PREFIX_STATUS + VALID_STATUS_AMY;
+    public static final String STATUS_DESC_BOB = " " + PREFIX_STATUS + VALID_STATUS_BOB;
     public static final String TAG_DESC_FRIEND = " " + PREFIX_TAG + VALID_TAG_FRIEND;
     public static final String TAG_DESC_HUSBAND = " " + PREFIX_TAG + VALID_TAG_HUSBAND;
 
@@ -64,6 +69,7 @@ public class CommandTestUtil {
     public static final String INVALID_WEBSITE_DESC = " " + PREFIX_WEBSITE; // empty string not allowed for websites
     public static final String INVALID_ADDRESS_DESC = " " + PREFIX_ADDRESS; // empty string not allowed for addresses
     public static final String INVALID_DATE_DESC = " " + PREFIX_DATE + "2026-03-01"; // wrong date format
+    public static final String INVALID_STATUS_DESC = " " + PREFIX_STATUS + "Applied"; // not a valid status
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
@@ -75,10 +81,11 @@ public class CommandTestUtil {
     static {
         DESC_AMY = new EditApplicationDescriptorBuilder().withName(VALID_COMPANY_NAME_AMAZON)
                 .withRole(VALID_ROLE_FRONTEND_DEVELOPER).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
-                .withDate(VALID_DATE_AMY).withTags(VALID_TAG_FRIEND).build();
+                .withDate(VALID_DATE_AMY).withStatus(VALID_STATUS_AMY).withTags(VALID_TAG_FRIEND).build();
         DESC_BOB = new EditApplicationDescriptorBuilder().withName(VALID_COMPANY_NAME_BMW)
                 .withRole(VALID_ROLE_BACKEND_DEVELOPER).withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB)
-                .withDate(VALID_DATE_BOB).withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
+                .withDate(VALID_DATE_BOB).withStatus(VALID_STATUS_BOB).withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND)
+                .build();
     }
 
     /**

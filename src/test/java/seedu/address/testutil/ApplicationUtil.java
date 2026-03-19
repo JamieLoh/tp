@@ -5,6 +5,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_WEBSITE;
 
@@ -38,6 +39,7 @@ public class ApplicationUtil {
         sb.append(PREFIX_WEBSITE + application.getWebsite().websiteName + " ");
         sb.append(PREFIX_ADDRESS + application.getAddress().value + " ");
         sb.append(PREFIX_DATE + application.getDate().value + " ");
+        sb.append(PREFIX_STATUS + application.getStatus().toString() + " ");
         application.getTags().stream().forEach(
             s -> sb.append(PREFIX_TAG + s.tagName + " ")
         );
@@ -49,7 +51,9 @@ public class ApplicationUtil {
      */
     public static String getEditApplicationDescriptorDetails(EditCommand.EditApplicationDescriptor descriptor) {
         StringBuilder sb = new StringBuilder();
-        descriptor.getCompanyName().ifPresent(name -> sb.append(PREFIX_NAME).append(name.fullCompanyName).append(" "));
+        descriptor.getCompanyName().ifPresent(
+                name -> sb.append(PREFIX_NAME).append(name.fullCompanyName).append(" ")
+        );
         descriptor.getRole().ifPresent(role -> sb.append(PREFIX_ROLE).append(role.value).append(" "));
         descriptor.getEmail().ifPresent(email -> sb.append(PREFIX_EMAIL).append(email.value).append(" "));
         descriptor.getWebsite().ifPresent(website -> sb.append(PREFIX_WEBSITE)
@@ -57,6 +61,9 @@ public class ApplicationUtil {
         descriptor.getAddress().ifPresent(address -> sb.append(PREFIX_ADDRESS)
                 .append(address.value).append(" "));
         descriptor.getDate().ifPresent(date -> sb.append(PREFIX_DATE).append(date.value).append(" "));
+        descriptor.getStatus().ifPresent(
+                status -> sb.append(PREFIX_STATUS).append(status.toString()).append(" ")
+        );
         if (descriptor.getTags().isPresent()) {
             Set<Tag> tags = descriptor.getTags().get();
             if (tags.isEmpty()) {

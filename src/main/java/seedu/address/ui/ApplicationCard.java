@@ -41,6 +41,8 @@ public class ApplicationCard extends UiPart<Region> {
     @FXML
     private Label date;
     @FXML
+    private Label status;
+    @FXML
     private FlowPane tags;
 
     /**
@@ -55,6 +57,7 @@ public class ApplicationCard extends UiPart<Region> {
         address.setText(application.getAddress().value);
         email.setText(application.getEmail() == null ? "" : application.getEmail().value);
         date.setText(application.getDate().value);
+        status.setText(application.getStatus().toString());
         application.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));

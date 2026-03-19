@@ -9,6 +9,7 @@ import seedu.address.model.application.CompanyName;
 import seedu.address.model.application.Date;
 import seedu.address.model.application.Email;
 import seedu.address.model.application.Role;
+import seedu.address.model.application.Status;
 import seedu.address.model.application.Website;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
@@ -24,7 +25,7 @@ public class ApplicationBuilder {
     public static final String DEFAULT_WEBSITE = "https://example.com";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
     public static final String DEFAULT_DATE = "01-03-2026";
-
+    public static final String DEFAULT_STATUS = "Pending";
 
     private CompanyName companyName;
     private Role role;
@@ -32,6 +33,7 @@ public class ApplicationBuilder {
     private Website website;
     private Address address;
     private Date date;
+    private Status status;
     private Set<Tag> tags;
 
     /**
@@ -44,6 +46,7 @@ public class ApplicationBuilder {
         website = new Website(DEFAULT_WEBSITE);
         address = new Address(DEFAULT_ADDRESS);
         date = new Date(DEFAULT_DATE);
+        status = new Status(DEFAULT_STATUS);
         tags = new HashSet<>();
     }
 
@@ -57,6 +60,7 @@ public class ApplicationBuilder {
         website = applicationToCopy.getWebsite();
         address = applicationToCopy.getAddress();
         date = applicationToCopy.getDate();
+        status = applicationToCopy.getStatus();
         tags = new HashSet<>(applicationToCopy.getTags());
     }
 
@@ -120,8 +124,16 @@ public class ApplicationBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code Status} of the {@code Application} that we are building.
+     */
+    public ApplicationBuilder withStatus(String status) {
+        this.status = new Status(status);
+        return this;
+    }
+
     public Application build() {
-        return new Application(companyName, role, email, website, address, date, tags);
+        return new Application(companyName, role, email, website, address, date, status, tags);
     }
 
 }
