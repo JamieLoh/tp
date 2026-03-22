@@ -9,11 +9,15 @@ public class WebsiteTest {
 
     @Test
     public void isValidWebsite() {
-        assertFalse(Website.isValidWebsite(null));
-        assertFalse(Website.isValidWebsite(""));
-        assertFalse(Website.isValidWebsite("   "));
+        assertTrue(Website.isValidWebsite("google.com"));
+        assertTrue(Website.isValidWebsite("www.google.com"));
+        assertTrue(Website.isValidWebsite("https://google.com"));
+        assertTrue(Website.isValidWebsite("https://nus.edu.sg"));
 
-        assertTrue(Website.isValidWebsite("https://example.com"));
-        assertTrue(Website.isValidWebsite("example.com"));
+        assertFalse(Website.isValidWebsite(""));
+        assertFalse(Website.isValidWebsite(" "));
+        assertFalse(Website.isValidWebsite("abc"));
+        assertFalse(Website.isValidWebsite("http://"));
+        assertFalse(Website.isValidWebsite("not a website"));
     }
 }
