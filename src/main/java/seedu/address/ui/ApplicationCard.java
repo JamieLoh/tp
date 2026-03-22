@@ -39,6 +39,8 @@ public class ApplicationCard extends UiPart<Region> {
     @FXML
     private Label email;
     @FXML
+    private Label website;
+    @FXML
     private Label date;
     @FXML
     private Label status;
@@ -56,6 +58,7 @@ public class ApplicationCard extends UiPart<Region> {
         role.setText(application.getRole().value);
         address.setText(application.getAddress().value);
         email.setText(application.getEmail() == null ? "" : application.getEmail().value);
+        website.setText(application.getWebsite() == null ? "" : application.getWebsite().websiteName);
         date.setText(application.getDate().value);
         status.setText(application.getStatus().toString());
         application.getTags().stream()
