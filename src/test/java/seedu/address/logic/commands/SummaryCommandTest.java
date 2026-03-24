@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalApplications.getTypicalAddressBook;
 
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,11 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 
 public class SummaryCommandTest {
+
+    @Test
+    public void execute_nullModel_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> new SummaryCommand().execute(null));
+    }
 
     @Test
     public void execute_emptyModel_showsZeroCounts() {
