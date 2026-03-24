@@ -5,9 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_APPLICATIONS_LISTED_OVERVIEW;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.testutil.TypicalApplications.CARL;
-import static seedu.address.testutil.TypicalApplications.ELLE;
-import static seedu.address.testutil.TypicalApplications.FIONA;
 import static seedu.address.testutil.TypicalApplications.getTypicalAddressBook;
 
 import java.util.Arrays;
@@ -18,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.application.CompanyNameContainsKeywordsPredicate;
+import seedu.address.model.application.ApplicationMatchesPredicate;
 
 /**
  * Contains integration tests (interaction with the Model) for {@code FindCommand}.
@@ -29,10 +26,12 @@ public class FindCommandTest {
 
     @Test
     public void equals() {
-        CompanyNameContainsKeywordsPredicate firstPredicate =
-                new CompanyNameContainsKeywordsPredicate(Collections.singletonList("first"));
-        CompanyNameContainsKeywordsPredicate secondPredicate =
-                new CompanyNameContainsKeywordsPredicate(Collections.singletonList("second"));
+        ApplicationMatchesPredicate firstPredicate =
+                new ApplicationMatchesPredicate("Grab", null, null, null,
+                        null, null, null, Collections.emptyList());
+        ApplicationMatchesPredicate secondPredicate =
+                new ApplicationMatchesPredicate("Google", null, null, null,
+                        null, null, null, Collections.emptyList());
 
         FindCommand findFirstCommand = new FindCommand(firstPredicate);
         FindCommand findSecondCommand = new FindCommand(secondPredicate);
@@ -50,43 +49,283 @@ public class FindCommandTest {
         // null -> returns false
         assertFalse(findFirstCommand.equals(null));
 
-        // different application -> returns false
+        // different predicate -> returns false
         assertFalse(findFirstCommand.equals(findSecondCommand));
     }
 
     @Test
-    public void execute_zeroKeywords_noApplicationFound() {
-        String expectedMessage = String.format(MESSAGE_APPLICATIONS_LISTED_OVERVIEW, 0);
-        CompanyNameContainsKeywordsPredicate predicate = preparePredicate(" ");
+    public void execute_zeroKeywords_allApplicationsReturned() {
+        // No filters applied → predicate returns true for all applications
+
+        ApplicationMatchesPredicate predicate =
+                new ApplicationMatchesPredicate(null, null, null,
+                        null, null, null, null, Collections.emptyList());
+
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredApplicationList(predicate);
+
+        String expectedMessage = String.format(MESSAGE_APPLICATIONS_LISTED_OVERVIEW,
+                expectedModel.getFilteredApplicationList().size());
+
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.emptyList(), model.getFilteredApplicationList());
+        assertEquals(expectedModel.getFilteredApplicationList(), model.getFilteredApplicationList());
+    }
+
+    @Test
+    public void execute_nameKeyword_filtered() {
+        ApplicationMatchesPredicate predicate =
+                new ApplicationMatchesPredicate("e", null, null, null, null, null, null,
+                        Collections.emptyList());
+
+        FindCommand command = new FindCommand(predicate);
+        expectedModel.updateFilteredApplicationList(predicate);
+
+        String expectedMessage = String.format(MESSAGE_APPLICATIONS_LISTED_OVERVIEW,
+                expectedModel.getFilteredApplicationList().size());
+
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(expectedModel.getFilteredApplicationList(),
+                model.getFilteredApplicationList());
+    }
+
+    @Test
+    public void execute_roleKeyword_filtered() {
+        ApplicationMatchesPredicate predicate =
+                new ApplicationMatchesPredicate(null, "engineer", null, null, null, null, null,
+                        Collections.emptyList());
+
+        FindCommand command = new FindCommand(predicate);
+        expectedModel.updateFilteredApplicationList(predicate);
+
+        assertCommandSuccess(command, model,
+                String.format(MESSAGE_APPLICATIONS_LISTED_OVERVIEW,
+                        expectedModel.getFilteredApplicationList().size()),
+                expectedModel);
+    }
+
+    @Test
+    public void execute_dateKeyword_filtered() {
+        ApplicationMatchesPredicate predicate =
+                new ApplicationMatchesPredicate(null, null, null, null, null, "2026", null,
+                        Collections.emptyList());
+
+        FindCommand command = new FindCommand(predicate);
+        expectedModel.updateFilteredApplicationList(predicate);
+
+        assertCommandSuccess(command, model,
+                String.format(MESSAGE_APPLICATIONS_LISTED_OVERVIEW,
+                        expectedModel.getFilteredApplicationList().size()),
+                expectedModel);
+    }
+
+    @Test
+    public void execute_statusKeyword_filtered() {
+        ApplicationMatchesPredicate predicate =
+                new ApplicationMatchesPredicate(null, null, null, null, null, null, "pending",
+                        Collections.emptyList());
+
+        FindCommand command = new FindCommand(predicate);
+        expectedModel.updateFilteredApplicationList(predicate);
+
+        assertCommandSuccess(command, model,
+                String.format(MESSAGE_APPLICATIONS_LISTED_OVERVIEW,
+                        expectedModel.getFilteredApplicationList().size()),
+                expectedModel);
+    }
+
+
+    // OPTIONAL FIELDS
+    @Test
+    public void execute_emailKeyword_filtered() {
+        ApplicationMatchesPredicate predicate =
+                new ApplicationMatchesPredicate(null, null, "example", null,
+                        null, null, null, Collections.emptyList());
+
+        FindCommand command = new FindCommand(predicate);
+        expectedModel.updateFilteredApplicationList(predicate);
+
+        assertCommandSuccess(command, model,
+                String.format(MESSAGE_APPLICATIONS_LISTED_OVERVIEW,
+                        expectedModel.getFilteredApplicationList().size()),
+                expectedModel);
+    }
+
+    @Test
+    public void execute_emailEmptyKeyword() {
+        ApplicationMatchesPredicate predicate =
+                new ApplicationMatchesPredicate(null, null, "", null, null, null, null,
+                        Collections.emptyList());
+
+        FindCommand command = new FindCommand(predicate);
+        expectedModel.updateFilteredApplicationList(predicate);
+
+        assertCommandSuccess(command, model,
+                String.format(MESSAGE_APPLICATIONS_LISTED_OVERVIEW,
+                        expectedModel.getFilteredApplicationList().size()),
+                expectedModel);
+    }
+
+    @Test
+    public void execute_websiteKeyword_filtered() {
+        ApplicationMatchesPredicate predicate =
+                new ApplicationMatchesPredicate(null, null, null, "https", null, null, null,
+                        Collections.emptyList());
+
+        FindCommand command = new FindCommand(predicate);
+        expectedModel.updateFilteredApplicationList(predicate);
+
+        assertCommandSuccess(command, model,
+                String.format(MESSAGE_APPLICATIONS_LISTED_OVERVIEW,
+                        expectedModel.getFilteredApplicationList().size()),
+                expectedModel);
+    }
+
+    @Test
+    public void execute_websiteEmptyKeyword() {
+        ApplicationMatchesPredicate predicate =
+                new ApplicationMatchesPredicate(null, null, null, "", null, null, null,
+                        Collections.emptyList());
+
+        FindCommand command = new FindCommand(predicate);
+        expectedModel.updateFilteredApplicationList(predicate);
+
+        assertCommandSuccess(command, model,
+                String.format(MESSAGE_APPLICATIONS_LISTED_OVERVIEW,
+                        expectedModel.getFilteredApplicationList().size()),
+                expectedModel);
+    }
+
+    @Test
+    public void execute_addressKeyword_filtered() {
+        ApplicationMatchesPredicate predicate =
+                new ApplicationMatchesPredicate(null, null, null, null, "clementi", null, null,
+                        Collections.emptyList());
+
+        FindCommand command = new FindCommand(predicate);
+        expectedModel.updateFilteredApplicationList(predicate);
+
+        assertCommandSuccess(command, model,
+                String.format(MESSAGE_APPLICATIONS_LISTED_OVERVIEW,
+                        expectedModel.getFilteredApplicationList().size()),
+                expectedModel);
+    }
+
+    @Test
+    public void execute_addressEmptyKeyword() {
+        ApplicationMatchesPredicate predicate =
+                new ApplicationMatchesPredicate(null, null, null, null, "", null, null,
+                        Collections.emptyList());
+
+        FindCommand command = new FindCommand(predicate);
+        expectedModel.updateFilteredApplicationList(predicate);
+
+        assertCommandSuccess(command, model,
+                String.format(MESSAGE_APPLICATIONS_LISTED_OVERVIEW,
+                        expectedModel.getFilteredApplicationList().size()),
+                expectedModel);
+    }
+
+
+
+    @Test
+    public void execute_tagKeyword_filtered() {
+        ApplicationMatchesPredicate predicate =
+                new ApplicationMatchesPredicate(null, null, null, null, null, null, null,
+                        Collections.singletonList("friend"));
+
+        FindCommand command = new FindCommand(predicate);
+        expectedModel.updateFilteredApplicationList(predicate);
+
+        assertCommandSuccess(command, model,
+                String.format(MESSAGE_APPLICATIONS_LISTED_OVERVIEW,
+                        expectedModel.getFilteredApplicationList().size()),
+                expectedModel);
+    }
+
+    @Test
+    public void execute_tagEmptyKeyword() {
+        ApplicationMatchesPredicate predicate =
+                new ApplicationMatchesPredicate(null, null, null, null, null, null, null,
+                        Collections.singletonList(""));
+
+        FindCommand command = new FindCommand(predicate);
+        expectedModel.updateFilteredApplicationList(predicate);
+
+        assertCommandSuccess(command, model,
+                String.format(MESSAGE_APPLICATIONS_LISTED_OVERVIEW,
+                        expectedModel.getFilteredApplicationList().size()),
+                expectedModel);
+    }
+
+    @Test
+    public void execute_tagMultipleEmptyKeywords() {
+        ApplicationMatchesPredicate predicate =
+                new ApplicationMatchesPredicate(null, null, null, null, null, null, null,
+                        Arrays.asList("", ""));
+
+        FindCommand command = new FindCommand(predicate);
+        expectedModel.updateFilteredApplicationList(predicate);
+
+        assertCommandSuccess(command, model,
+                String.format(MESSAGE_APPLICATIONS_LISTED_OVERVIEW,
+                        expectedModel.getFilteredApplicationList().size()),
+                expectedModel);
+    }
+
+    @Test
+    public void execute_tagOrLogic() {
+        ApplicationMatchesPredicate predicate =
+                new ApplicationMatchesPredicate(null, null, null, null, null, null, null,
+                        Arrays.asList("friend", "colleague"));
+
+        FindCommand command = new FindCommand(predicate);
+        expectedModel.updateFilteredApplicationList(predicate);
+
+        assertCommandSuccess(command, model,
+                String.format(MESSAGE_APPLICATIONS_LISTED_OVERVIEW,
+                        expectedModel.getFilteredApplicationList().size()),
+                expectedModel);
+    }
+
+    @Test
+    public void execute_tagEmptyAndNormalKeyword_ignoresEmpty() {
+        ApplicationMatchesPredicate predicate =
+                new ApplicationMatchesPredicate(null, null, null, null, null, null, null,
+                        Arrays.asList("", "friend"));
+
+        FindCommand command = new FindCommand(predicate);
+        expectedModel.updateFilteredApplicationList(predicate);
+
+        assertCommandSuccess(command, model,
+                String.format(MESSAGE_APPLICATIONS_LISTED_OVERVIEW,
+                        expectedModel.getFilteredApplicationList().size()),
+                expectedModel);
     }
 
     @Test
     public void execute_multipleKeywords_multipleApplicationsFound() {
-        String expectedMessage = String.format(MESSAGE_APPLICATIONS_LISTED_OVERVIEW, 3);
-        CompanyNameContainsKeywordsPredicate predicate = preparePredicate("Kurz Elle Kunz");
+        ApplicationMatchesPredicate predicate =
+                new ApplicationMatchesPredicate("Google", null, null, null, null, null, null,
+                        Arrays.asList("AI"));
+
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredApplicationList(predicate);
+
+        String expectedMessage = String.format(MESSAGE_APPLICATIONS_LISTED_OVERVIEW,
+                expectedModel.getFilteredApplicationList().size());
+
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(CARL, ELLE, FIONA), model.getFilteredApplicationList());
+        assertEquals(expectedModel.getFilteredApplicationList(), model.getFilteredApplicationList());
     }
 
     @Test
     public void toStringMethod() {
-        CompanyNameContainsKeywordsPredicate predicate =
-                new CompanyNameContainsKeywordsPredicate(Arrays.asList("keyword"));
+        ApplicationMatchesPredicate predicate =
+                new ApplicationMatchesPredicate("Grab", null, null,
+                        null, null, null, null, Collections.emptyList());
+
         FindCommand findCommand = new FindCommand(predicate);
         String expected = FindCommand.class.getCanonicalName() + "{predicate=" + predicate + "}";
         assertEquals(expected, findCommand.toString());
-    }
-
-    /**
-     * Parses {@code userInput} into a {@code NameContainsKeywordsPredicate}.
-     */
-    private CompanyNameContainsKeywordsPredicate preparePredicate(String userInput) {
-        return new CompanyNameContainsKeywordsPredicate(Arrays.asList(userInput.split("\\s+")));
     }
 }
