@@ -5,11 +5,12 @@ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailur
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.FindCommand;
-import seedu.address.model.application.CompanyNameContainsKeywordsPredicate;
+import seedu.address.model.application.ApplicationMatchesPredicate;
 
 public class FindCommandParserTest {
 
@@ -21,14 +22,89 @@ public class FindCommandParserTest {
     }
 
     @Test
-    public void parse_validArgs_returnsFindCommand() {
+    public void parse_noPrefix_throwsParseException() {
+        assertParseFailure(parser, "Google",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_namePrefix_returnsFindCommand() {
         // no leading and trailing whitespaces
         FindCommand expectedFindCommand =
-                new FindCommand(new CompanyNameContainsKeywordsPredicate(Arrays.asList("Alice", "Bob")));
-        assertParseSuccess(parser, "Alice Bob", expectedFindCommand);
+                new FindCommand(new ApplicationMatchesPredicate(
+                        "Google", null, null, null,
+                        null, null, null, Collections.emptyList()));
+        assertParseSuccess(parser, "n/Google", expectedFindCommand);
+    }
 
-        // multiple whitespaces between keywords
-        assertParseSuccess(parser, " \n Alice \n \t Bob  \t", expectedFindCommand);
+    @Test
+    public void parse_multiplePrefixes_returnsFindCommand() {
+        FindCommand expected =
+                new FindCommand(new ApplicationMatchesPredicate(
+                        "Google", "Engineer", null, null,
+                        null, null, "Pending", Collections.emptyList()));
+
+        assertParseSuccess(parser, "n/Google r/Engineer s/Pending", expected);
+    }
+
+    @Test
+    public void parse_tagPrefixes_returnsFindCommand() {
+        FindCommand expected =
+                new FindCommand(new ApplicationMatchesPredicate(
+                        null, null, null, null,
+                        null, null, null, Arrays.asList("AI", "ML")));
+
+        assertParseSuccess(parser, "t/AI t/ML", expected);
+    }
+
+    @Test
+    public void parse_emptyNamePrefix_returnsFindCommand() {
+        FindCommand expected =
+                new FindCommand(new ApplicationMatchesPredicate(
+                        "", null, null, null,
+                        null, null, null, Collections.emptyList()));
+
+        assertParseSuccess(parser, "n/", expected);
+    }
+
+    @Test
+    public void parse_emptyEmailPrefix_returnsFindCommand() {
+        FindCommand expected =
+                new FindCommand(new ApplicationMatchesPredicate(
+                        null, null, "", null,
+                        null, null, null, Collections.emptyList()));
+
+        assertParseSuccess(parser, "e/", expected);
+    }
+
+    @Test
+    public void parse_allEmptyPrefixes_returnsFindCommand() {
+        FindCommand expected =
+                new FindCommand(new ApplicationMatchesPredicate(
+                        "", "", "", "", "", "", "",
+                        Collections.singletonList("")));
+
+        assertParseSuccess(parser, "n/ r/ e/ w/ a/ d/ s/ t/", expected);
+    }
+
+    @Test
+    public void parse_emptyTag_returnsFindCommand() {
+        FindCommand expected =
+                new FindCommand(new ApplicationMatchesPredicate(
+                        null, null, null, null,
+                        null, null, null, Collections.singletonList("")));
+
+        assertParseSuccess(parser, "t/", expected);
+    }
+
+    @Test
+    public void parse_tagEmptyAndNormal_returnsFindCommand() {
+        FindCommand expected =
+                new FindCommand(new ApplicationMatchesPredicate(
+                        null, null, null, null,
+                        null, null, null, Arrays.asList("", "AI")));
+
+        assertParseSuccess(parser, "t/ t/AI", expected);
     }
 
 }

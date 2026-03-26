@@ -29,23 +29,27 @@ public class Application {
     private final String notes;
     private final Set<Tag> tags = new HashSet<>();
 
+    public Application(CompanyName companyName, Role role, Email email, Website website,
+                       Address address, Date date, Status status, Set<Tag> tags) {
+        this(companyName, role, email, website, address, date, status, tags, "");
+    }
+
     /**
-     * Every field must be present and not null.
+     * Every field must be present and not null. Notes can be empty.
      */
     public Application(CompanyName companyName, Role role, Email email, Website website,
-                   Address address, Date date, Status status, Set<Tag> tags, String notes) {
-    requireAllNonNull(companyName, role, address, date, status, tags);
-
-    this.companyName = companyName;
-    this.role = role;
-    this.email = email;
-    this.website = website;
-    this.address = address;
-    this.date = date;
-    this.status = status;
-    this.tags = tags;
-    this.notes = notes;
-}
+                       Address address, Date date, Status status, Set<Tag> tags, String notes) {
+        requireAllNonNull(companyName, role, address, date, status, tags);
+        this.companyName = companyName;
+        this.role = role;
+        this.email = email; //can be null
+        this.website = website; //can be null
+        this.address = address;
+        this.date = date;
+        this.status = status;
+        this.notes = notes == null ? "" : notes;
+        this.tags.addAll(tags);
+    }
 
     public CompanyName getCompanyName() {
         return companyName;

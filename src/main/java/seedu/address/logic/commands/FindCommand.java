@@ -2,10 +2,12 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.function.Predicate;
+
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.model.Model;
-import seedu.address.model.application.CompanyNameContainsKeywordsPredicate;
+import seedu.address.model.application.Application;
 
 /**
  * Finds and lists all applications in address book whose name contains any of the argument keywords.
@@ -15,16 +17,21 @@ public class FindCommand extends Command {
 
     public static final String COMMAND_WORD = "find";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all applications whose names contain any of "
-            + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
-            + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
-            + "Example: " + COMMAND_WORD + " alice bob charlie";
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Finds all applications using the given prefixes (case-insensitive, partial match).\n"
+            + "Matching outcome will be displayed as a list with index numbers.\n"
+            + "Format: find prefix/keyword ...\n"
+            + "Example: "
+            + COMMAND_WORD + " n/Grab\n"
+            + COMMAND_WORD + " r/Backend Developer\n"
+            + COMMAND_WORD + " n/Google r/Backend Developer s/Pending";
 
-    private final CompanyNameContainsKeywordsPredicate predicate;
+    private final Predicate<Application> predicate;
 
-    public FindCommand(CompanyNameContainsKeywordsPredicate predicate) {
+    public FindCommand(Predicate<Application> predicate) {
         this.predicate = predicate;
     }
+
 
     @Override
     public CommandResult execute(Model model) {

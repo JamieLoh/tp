@@ -10,12 +10,12 @@ import static seedu.address.testutil.TypicalApplications.BENSON;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
+import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.GuiSettings;
-import seedu.address.model.application.CompanyNameContainsKeywordsPredicate;
+import seedu.address.model.application.ApplicationMatchesPredicate;
 import seedu.address.testutil.AddressBookBuilder;
 
 public class ModelManagerTest {
@@ -119,7 +119,9 @@ public class ModelManagerTest {
 
         // different filteredList -> returns false
         String[] keywords = ALICE.getCompanyName().fullCompanyName.split("\\s+");
-        modelManager.updateFilteredApplicationList(new CompanyNameContainsKeywordsPredicate(Arrays.asList(keywords)));
+        modelManager.updateFilteredApplicationList(
+                new ApplicationMatchesPredicate(keywords[0], null, null, null,
+                        null, null, null, Collections.emptyList()));
         assertFalse(modelManager.equals(new ModelManager(addressBook, userPrefs)));
 
         // resets modelManager to initial state for upcoming tests

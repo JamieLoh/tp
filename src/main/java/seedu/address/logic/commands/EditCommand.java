@@ -107,12 +107,17 @@ public class EditCommand extends Command {
 
         CompanyName updatedName = editApplicationDescriptor.getCompanyName().orElse(applicationToEdit.getCompanyName());
         Role updatedRole = editApplicationDescriptor.getRole().orElse(applicationToEdit.getRole());
-        Email updatedEmail = editApplicationDescriptor.getEmail().orElse(applicationToEdit.getEmail());
         Website updatedWebsite = editApplicationDescriptor.getWebsite().orElse(applicationToEdit.getWebsite());
         Address updatedAddress = editApplicationDescriptor.getAddress().orElse(applicationToEdit.getAddress());
         Date updatedDate = editApplicationDescriptor.getDate().orElse(applicationToEdit.getDate());
         Status updatedStatus = editApplicationDescriptor.getStatus().orElse(applicationToEdit.getStatus());
         Set<Tag> updatedTags = editApplicationDescriptor.getTags().orElse(applicationToEdit.getTags());
+
+        //Optional Fields
+        Email updatedEmail = applicationToEdit.getEmail();
+        if (editApplicationDescriptor.isEmailEdited()) {
+            updatedEmail = editApplicationDescriptor.getEmail().orElse(null);
+        }
 
         return new Application(updatedName, updatedRole, updatedEmail,
                 updatedWebsite, updatedAddress, updatedDate, updatedStatus, updatedTags);
@@ -155,6 +160,7 @@ public class EditCommand extends Command {
         private Date date;
         private Status status;
         private Set<Tag> tags;
+        private boolean isEmailEdited = false;
 
         public EditApplicationDescriptor() {}
 
@@ -165,19 +171,27 @@ public class EditCommand extends Command {
         public EditApplicationDescriptor(EditApplicationDescriptor toCopy) {
             setCompanyName(toCopy.companyName);
             setRole(toCopy.role);
-            setEmail(toCopy.email);
             setWebsite(toCopy.website);
             setAddress(toCopy.address);
             setDate(toCopy.date);
             setStatus(toCopy.status);
             setTags(toCopy.tags);
+
+            if (toCopy.isEmailEdited) {
+                setEmail(toCopy.email);
+            }
         }
 
         /**
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(companyName, role, email, website, address, date, status, tags);
+            return CollectionUtil.isAnyNonNull(companyName, role, email, website, address, date, status, tags)
+                    || isEmailEdited;
+        }
+
+        public boolean isEmailEdited() {
+            return isEmailEdited;
         }
 
         public void setCompanyName(CompanyName name) {
@@ -198,6 +212,7 @@ public class EditCommand extends Command {
 
         public void setEmail(Email email) {
             this.email = email;
+            isEmailEdited = true;
         }
 
         public Optional<Email> getEmail() {

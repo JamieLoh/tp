@@ -8,8 +8,7 @@ import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_APPLICATION;
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +24,7 @@ import seedu.address.logic.commands.OpenCommand;
 import seedu.address.logic.commands.SummaryCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.application.Application;
-import seedu.address.model.application.CompanyNameContainsKeywordsPredicate;
+import seedu.address.model.application.ApplicationMatchesPredicate;
 import seedu.address.testutil.ApplicationBuilder;
 import seedu.address.testutil.ApplicationUtil;
 import seedu.address.testutil.EditApplicationDescriptorBuilder;
@@ -72,10 +71,51 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_find() throws Exception {
-        List<String> keywords = Arrays.asList("foo", "bar", "baz");
+        FindCommand command = (FindCommand) parser.parseCommand("find n/Google");
+
+        ApplicationMatchesPredicate expectedPredicate = new ApplicationMatchesPredicate(
+                "Google", null, null, null,
+                null, null, null, Collections.emptyList());
+
+        assertEquals(new FindCommand(expectedPredicate), command);
+    }
+
+    @Test
+    public void parseCommand_find_multiplePrefixes() throws Exception {
         FindCommand command = (FindCommand) parser.parseCommand(
-                FindCommand.COMMAND_WORD + " " + keywords.stream().collect(Collectors.joining(" ")));
-        assertEquals(new FindCommand(new CompanyNameContainsKeywordsPredicate(keywords)), command);
+                "find n/Google r/Engineer s/Pending");
+
+        ApplicationMatchesPredicate expectedPredicate =
+                new ApplicationMatchesPredicate(
+                        "Google", "Engineer", null, null,
+                        null, null, "Pending", Collections.emptyList());
+
+        assertEquals(new FindCommand(expectedPredicate), command);
+    }
+
+    @Test
+    public void parseCommand_find_tagPrefix() throws Exception {
+        FindCommand command = (FindCommand) parser.parseCommand(
+                "find t/AI t/Python");
+
+        ApplicationMatchesPredicate expectedPredicate =
+                new ApplicationMatchesPredicate(
+                        null, null, null, null,
+                        null, null, null, Arrays.asList("AI", "Python"));
+
+        assertEquals(new FindCommand(expectedPredicate), command);
+    }
+
+    @Test
+    public void parseCommand_find_emptyPrefix() throws Exception {
+        FindCommand command = (FindCommand) parser.parseCommand("find e/");
+
+        ApplicationMatchesPredicate expectedPredicate =
+                new ApplicationMatchesPredicate(
+                        null, null, "", null,
+                        null, null, null, Collections.emptyList());
+
+        assertEquals(new FindCommand(expectedPredicate), command);
     }
 
     @Test
