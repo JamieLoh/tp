@@ -42,6 +42,10 @@ public class NotesWindow extends UiPart<Stage> {
      */
     public NotesWindow(Stage root) {
         super(FXML, root);
+        root.setMinWidth(500);
+        root.setMinHeight(400);
+        root.setWidth(500);
+        root.setHeight(400);
     }
 
     /**

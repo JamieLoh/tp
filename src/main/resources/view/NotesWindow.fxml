@@ -17,7 +17,7 @@
         <URL value="@NotesWindow.css" />
       </stylesheets>
 
-      <VBox alignment="CENTER" fx:id="notesContainer" spacing="10">
+      <VBox alignment="TOP_CENTER" fx:id="notesContainer" spacing="10">
         <children>
           <!-- Read-only view -->
           <ScrollPane fitToWidth="true" pannable="true" hbarPolicy="NEVER" fx:id="viewPane">
