@@ -34,6 +34,7 @@ public class MainWindow extends UiPart<Stage> {
     private ApplicationListPanel applicationListPanel;
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
+    private NotesWindow notesWindow;
 
     @FXML
     private StackPane commandBoxPlaceholder;
@@ -66,6 +67,7 @@ public class MainWindow extends UiPart<Stage> {
         setAccelerators();
 
         helpWindow = new HelpWindow();
+        notesWindow = new NotesWindow();
     }
 
     public Stage getPrimaryStage() {
@@ -147,6 +149,32 @@ public class MainWindow extends UiPart<Stage> {
         }
     }
 
+    /**
+     * Opens the notes window in read-only mode for the selected application.
+     */
+    private void handleShowNotes() {
+        seedu.address.model.application.Application app = logic.getSelectedNotesApplication();
+        notesWindow.setViewMode(app.getNotes());
+        if (!notesWindow.isShowing()) {
+            notesWindow.show();
+        } else {
+            notesWindow.focus();
+        }
+    }
+
+    /**
+     * Opens the notes window in edit mode for the selected application.
+     */
+    private void handleEditNotes() {
+        seedu.address.model.application.Application app = logic.getSelectedNotesApplication();
+        notesWindow.setEditMode(app.getNotes(), notes -> logic.saveApplicationNotes(notes));
+        if (!notesWindow.isShowing()) {
+            notesWindow.show();
+        } else {
+            notesWindow.focus();
+        }
+    }
+
     void show() {
         primaryStage.show();
     }
@@ -160,6 +188,7 @@ public class MainWindow extends UiPart<Stage> {
                 (int) primaryStage.getX(), (int) primaryStage.getY());
         logic.setGuiSettings(guiSettings);
         helpWindow.hide();
+        notesWindow.hide();
         primaryStage.hide();
     }
 
@@ -180,6 +209,14 @@ public class MainWindow extends UiPart<Stage> {
 
             if (commandResult.isShowHelp()) {
                 handleHelp();
+            }
+
+            if (commandResult.isShowNote()) {
+                handleShowNotes();
+            }
+
+            if (commandResult.isEditNote()) {
+                handleEditNotes();
             }
 
             if (commandResult.isExit()) {

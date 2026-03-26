@@ -22,6 +22,7 @@ public class ModelManager implements Model {
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Application> filteredApplications;
+    private Application selectedNotesApplication;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -109,6 +110,42 @@ public class ModelManager implements Model {
         requireAllNonNull(target, editedApplication);
 
         addressBook.setApplication(target, editedApplication);
+    }
+
+    @Override
+    public void editApplicationNotes(Application target) {
+        requireNonNull(target);
+        this.selectedNotesApplication = target;
+    }
+
+    @Override
+    public void viewApplicationNotes(Application target) {
+        requireNonNull(target);
+        this.selectedNotesApplication = target;
+    }
+
+    @Override
+    public Application getSelectedNotesApplication() {
+        return selectedNotesApplication;
+    }
+
+    @Override
+    public void saveApplicationNotes(String notes) {
+        requireAllNonNull(notes, selectedNotesApplication);
+
+        Application updatedApplication = new Application(
+                selectedNotesApplication.getCompanyName(),
+                selectedNotesApplication.getRole(),
+                selectedNotesApplication.getEmail(),
+                selectedNotesApplication.getWebsite(),
+                selectedNotesApplication.getAddress(),
+                selectedNotesApplication.getDate(),
+                selectedNotesApplication.getStatus(),
+                selectedNotesApplication.getTags(),
+                notes
+        );
+        addressBook.setApplication(selectedNotesApplication, updatedApplication);
+        selectedNotesApplication = updatedApplication;
     }
 
     //=========== Filtered Application List Accessors =============================================================

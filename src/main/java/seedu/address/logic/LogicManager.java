@@ -85,4 +85,19 @@ public class LogicManager implements Logic {
     public void setGuiSettings(GuiSettings guiSettings) {
         model.setGuiSettings(guiSettings);
     }
+
+    @Override
+    public Application getSelectedNotesApplication() {
+        return model.getSelectedNotesApplication();
+    }
+
+    @Override
+    public void saveApplicationNotes(String notes) {
+        model.saveApplicationNotes(notes);
+        try {
+            storage.saveAddressBook(model.getAddressBook());
+        } catch (IOException ioe) {
+            logger.warning("Failed to save address book after notes update: " + ioe.getMessage());
+        }
+    }
 }

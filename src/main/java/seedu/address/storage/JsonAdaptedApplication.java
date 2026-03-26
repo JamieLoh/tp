@@ -34,6 +34,7 @@ class JsonAdaptedApplication {
     private final String date;
     private final String address;
     private final String status;
+    private final String notes;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
 
     /**
@@ -43,7 +44,7 @@ class JsonAdaptedApplication {
     public JsonAdaptedApplication(@JsonProperty("companyName") String companyName, @JsonProperty("role") String role,
                                   @JsonProperty("email") String email, @JsonProperty("website") String website,
                                   @JsonProperty("address") String address, @JsonProperty("date") String date,
-                                  @JsonProperty("status") String status,
+                                  @JsonProperty("status") String status, @JsonProperty("notes") String notes,
                                   @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.companyName = companyName;
         this.role = role;
@@ -52,6 +53,7 @@ class JsonAdaptedApplication {
         this.address = address;
         this.date = date;
         this.status = status;
+        this.notes = notes;
         if (tags != null) {
             this.tags.addAll(tags);
         }
@@ -68,6 +70,7 @@ class JsonAdaptedApplication {
         address = source.getAddress().value;
         date = source.getDate().value;
         status = source.getStatus().toString();
+        notes = source.getNotes();
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
@@ -143,9 +146,12 @@ class JsonAdaptedApplication {
         }
         final Status modelStatus = new Status(status);
 
+        final String modelNotes = notes == null ? "" : notes;
+
         final Set<Tag> modelTags = new HashSet<>(applicationTags);
         return new Application(
-                modelName, modelRole, modelEmail, modelWebsite, modelAddress, modelDate, modelStatus, modelTags
+                modelName, modelRole, modelEmail, modelWebsite, modelAddress, modelDate, modelStatus,
+                modelTags, modelNotes
         );
     }
 

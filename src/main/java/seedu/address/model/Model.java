@@ -85,4 +85,27 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredApplicationList(Predicate<Application> predicate);
+
+    /**
+     * Selects the target application for editing notes.
+     * @param target the target application.
+     */
+    void editApplicationNotes(Application target);
+
+    /**
+     * Selects the target application for viewing notes.
+     * @param target the target application.
+     */
+    void viewApplicationNotes(Application target);
+
+    /**
+     * Returns the application whose notes are currently being viewed or edited.
+     */
+    Application getSelectedNotesApplication();
+
+    /**
+     * Saves the given notes to the currently selected application.
+     * Replaces the application with a new one containing the updated notes.
+     */
+    void saveApplicationNotes(String notes);
 }

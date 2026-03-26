@@ -12,20 +12,14 @@ import seedu.address.commons.util.ToStringBuilder;
 public class CommandResult {
 
     private final String feedbackToUser;
-
-    /** Help information should be shown to the user. */
-    private final boolean showHelp;
-
-    /** The application should exit. */
-    private final boolean exit;
+    private final UiAction uiAction;
 
     /**
      * Constructs a {@code CommandResult} with the specified fields.
      */
-    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit) {
+    public CommandResult(String feedbackToUser, UiAction uiAction) {
         this.feedbackToUser = requireNonNull(feedbackToUser);
-        this.showHelp = showHelp;
-        this.exit = exit;
+        this.uiAction = requireNonNull(uiAction);
     }
 
     /**
@@ -33,19 +27,31 @@ public class CommandResult {
      * and other fields set to their default value.
      */
     public CommandResult(String feedbackToUser) {
-        this(feedbackToUser, false, false);
+        this(feedbackToUser, UiAction.NONE);
     }
 
     public String getFeedbackToUser() {
         return feedbackToUser;
     }
 
+    public UiAction getUiAction() {
+        return uiAction;
+    }
+
     public boolean isShowHelp() {
-        return showHelp;
+        return uiAction == UiAction.SHOW_HELP;
     }
 
     public boolean isExit() {
-        return exit;
+        return uiAction == UiAction.EXIT;
+    }
+
+    public boolean isShowNote() {
+        return uiAction == UiAction.SHOW_NOTE;
+    }
+
+    public boolean isEditNote() {
+        return uiAction == UiAction.EDIT_NOTE;
     }
 
     @Override
@@ -61,21 +67,19 @@ public class CommandResult {
 
         CommandResult otherCommandResult = (CommandResult) other;
         return feedbackToUser.equals(otherCommandResult.feedbackToUser)
-                && showHelp == otherCommandResult.showHelp
-                && exit == otherCommandResult.exit;
+                && uiAction == otherCommandResult.uiAction;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(feedbackToUser, showHelp, exit);
+        return Objects.hash(feedbackToUser, uiAction);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
                 .add("feedbackToUser", feedbackToUser)
-                .add("showHelp", showHelp)
-                .add("exit", exit)
+                .add("uiAction", uiAction)
                 .toString();
     }
 

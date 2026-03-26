@@ -26,6 +26,7 @@ public class Application {
     private final Address address;
     private final Date date;
     private final Status status;
+    private final String notes;
     private final Set<Tag> tags = new HashSet<>();
 
     /**
@@ -33,6 +34,14 @@ public class Application {
      */
     public Application(CompanyName companyName, Role role, Email email, Website website,
                        Address address, Date date, Status status, Set<Tag> tags) {
+        this(companyName, role, email, website, address, date, status, tags, "");
+    }
+
+    /**
+     * Every field must be present and not null. Notes can be empty.
+     */
+    public Application(CompanyName companyName, Role role, Email email, Website website,
+                       Address address, Date date, Status status, Set<Tag> tags, String notes) {
         requireAllNonNull(companyName, role, website, address, date, status, tags);
         this.companyName = companyName;
         this.role = role;
@@ -41,6 +50,7 @@ public class Application {
         this.address = address;
         this.date = date;
         this.status = status;
+        this.notes = notes == null ? "" : notes;
         this.tags.addAll(tags);
     }
 
@@ -70,6 +80,10 @@ public class Application {
 
     public Status getStatus() {
         return status;
+    }
+
+    public String getNotes() {
+        return notes;
     }
 
     /**
@@ -117,13 +131,14 @@ public class Application {
                 && address.equals(otherApplication.address)
                 && date.equals(otherApplication.date)
                 && status.equals(otherApplication.status)
+                && notes.equals(otherApplication.notes)
                 && tags.equals(otherApplication.tags);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(companyName, role, email, website, address, date, status, tags);
+        return Objects.hash(companyName, role, email, website, address, date, status, notes, tags);
     }
 
     @Override

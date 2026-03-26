@@ -47,4 +47,14 @@ public interface Logic {
      * Set the user prefs' GUI settings.
      */
     void setGuiSettings(GuiSettings guiSettings);
+
+    /**
+     * Returns the application currently selected for notes viewing or editing.
+     */
+    Application getSelectedNotesApplication();
+
+    /**
+     * Saves the given notes to the currently selected application.
+     */
+    void saveApplicationNotes(String notes);
 }
