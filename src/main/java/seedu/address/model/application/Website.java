@@ -3,6 +3,9 @@ package seedu.address.model.application;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 /**
  * Represents an Application's website in the address book.
  * Guarantees: immutable; is valid as declared in {@link #isValidWebsite(String)}
@@ -10,7 +13,8 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class Website {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Websites should only contain alphanumeric characters and it should not be blank";
+            "Websites should be valid domain names or URLs, such as "
+                    + "example.com or https://example.com";
 
     public final String websiteName;
 
@@ -29,7 +33,25 @@ public class Website {
      * Returns true if a given string is a valid website.
      */
     public static boolean isValidWebsite(String test) {
-        return test != null && !test.trim().isEmpty();
+        requireNonNull(test);
+
+        if (test.isBlank()) {
+            return false;
+        }
+
+        String url = test.trim();
+
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            url = "https://" + url;
+        }
+
+        try {
+            URI uri = new URI(url);
+            String host = uri.getHost();
+            return host != null && host.contains(".");
+        } catch (URISyntaxException e) {
+            return false;
+        }
     }
 
 
