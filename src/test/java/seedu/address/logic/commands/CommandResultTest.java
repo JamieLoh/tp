@@ -53,6 +53,18 @@ public class CommandResultTest {
     }
 
     @Test
+    public void isShowNote() {
+        assertFalse(new CommandResult("feedback").isShowNote());
+        assertTrue(new CommandResult("feedback", UiAction.SHOW_NOTE).isShowNote());
+    }
+
+    @Test
+    public void isEditNote() {
+        assertFalse(new CommandResult("feedback").isEditNote());
+        assertTrue(new CommandResult("feedback", UiAction.EDIT_NOTE).isEditNote());
+    }
+
+    @Test
     public void toStringMethod() {
         CommandResult commandResult = new CommandResult("feedback");
         String expected = CommandResult.class.getCanonicalName() + "{feedbackToUser="

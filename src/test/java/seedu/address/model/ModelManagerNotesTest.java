@@ -1,6 +1,7 @@
 package seedu.address.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static seedu.address.testutil.TypicalApplications.getTypicalAddressBook;
 
@@ -95,5 +96,35 @@ public class ModelManagerNotesTest {
     public void applicationBuilder_defaultNotes_isEmpty() {
         Application app = new ApplicationBuilder().build();
         assertEquals("", app.getNotes());
+    }
+
+    @Test
+    public void application_nullNotes_defaultsToEmpty() {
+        Application app = new Application(
+                new seedu.address.model.application.CompanyName("Google"),
+                new seedu.address.model.application.Role("Engineer"),
+                null,
+                new seedu.address.model.application.Website("https://google.com"),
+                new seedu.address.model.application.Address("123 Street"),
+                new seedu.address.model.application.Date("01-01-2026"),
+                new seedu.address.model.application.Status("Pending"),
+                new java.util.HashSet<>(),
+                null
+        );
+        assertEquals("", app.getNotes());
+    }
+
+    @Test
+    public void application_equalsWithDifferentNotes_returnsFalse() {
+        Application app1 = new ApplicationBuilder().withNotes("notes A").build();
+        Application app2 = new ApplicationBuilder().withNotes("notes B").build();
+        assertFalse(app1.equals(app2));
+    }
+
+    @Test
+    public void application_equalsWithSameNotes_returnsTrue() {
+        Application app1 = new ApplicationBuilder().withNotes("same").build();
+        Application app2 = new ApplicationBuilder().withNotes("same").build();
+        assertEquals(app1, app2);
     }
 }

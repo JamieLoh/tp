@@ -101,6 +101,48 @@ public class LogicManagerTest {
         assertThrows(UnsupportedOperationException.class, () -> logic.getFilteredApplicationList().remove(0));
     }
 
+    @Test
+    public void getSelectedNotesApplication_noSelection_returnsNull() {
+        assertEquals(null, logic.getSelectedNotesApplication());
+    }
+
+    @Test
+    public void saveApplicationNotes_validNotes_success() throws Exception {
+        Application application = new ApplicationBuilder().build();
+        model.addApplication(application);
+        model.editApplicationNotes(application);
+
+        logic.saveApplicationNotes("test notes");
+
+        Application updated = logic.getSelectedNotesApplication();
+        assertEquals("test notes", updated.getNotes());
+    }
+
+    @Test
+    public void saveApplicationNotes_storageThrowsIoException_notesSavedToModel() {
+        JsonAddressBookStorage addressBookStorage = new JsonAddressBookStorage(
+                temporaryFolder.resolve("ioExceptionAddressBook.json")) {
+            @Override
+            public void saveAddressBook(ReadOnlyAddressBook addressBook, Path filePath) throws IOException {
+                throw new IOException("simulated IO error");
+            }
+        };
+        JsonUserPrefsStorage userPrefsStorage =
+                new JsonUserPrefsStorage(temporaryFolder.resolve("ioExceptionUserPrefs.json"));
+        StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage);
+        Logic ioExceptionLogic = new LogicManager(model, storage);
+
+        Application application = new ApplicationBuilder().build();
+        model.addApplication(application);
+        model.editApplicationNotes(application);
+
+        // Should not throw, just log the warning
+        ioExceptionLogic.saveApplicationNotes("notes with io error");
+
+        // Notes should still be updated in the model even though storage failed
+        assertEquals("notes with io error", model.getSelectedNotesApplication().getNotes());
+    }
+
     /**
      * Executes the command and confirms that
      * - no exceptions are thrown <br>
