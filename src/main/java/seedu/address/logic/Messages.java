@@ -43,10 +43,9 @@ public class Messages {
 
         appendIfPresent(builder, "Email", application.getEmail());
         appendIfPresent(builder, "Website", application.getWebsite());
+        appendIfPresent(builder, "Address", application.getWebsite());
 
-        builder.append("; Address: ")
-                .append(application.getAddress())
-                .append("; Date: ")
+        builder.append("; Date: ")
                 .append(application.getDate())
                 .append("; Status: ")
                 .append(application.getStatus())

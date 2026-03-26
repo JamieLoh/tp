@@ -73,8 +73,7 @@ public class EditApplicationDescriptorTest {
         EditCommand.EditApplicationDescriptor editApplicationDescriptor = new EditCommand.EditApplicationDescriptor();
         String expected = EditCommand.EditApplicationDescriptor.class.getCanonicalName() + "{companyName="
                 + editApplicationDescriptor.getCompanyName().orElse(null) + ", role="
-                + editApplicationDescriptor.getRole().orElse(null) + ", address="
-                + editApplicationDescriptor.getAddress().orElse(null) + ", date="
+                + editApplicationDescriptor.getRole().orElse(null) + ", date="
                 + editApplicationDescriptor.getDate().orElse(null) + ", status="
                 + editApplicationDescriptor.getStatus().orElse(null) + ", tags="
                 + editApplicationDescriptor.getTags().orElse(null) + "}";

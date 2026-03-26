@@ -14,6 +14,7 @@ import static seedu.address.testutil.TypicalApplications.ALICE;
 import static seedu.address.testutil.TypicalApplications.BOB;
 import static seedu.address.testutil.TypicalApplications.JETSTAR;
 import static seedu.address.testutil.TypicalApplications.JETTY;
+import static seedu.address.testutil.TypicalApplications.LIHO;
 
 import org.junit.jupiter.api.Test;
 
@@ -119,10 +120,10 @@ public class ApplicationTest {
     public void toStringMethod() {
         String expected = Application.class.getCanonicalName()
                 + "{companyName=" + ALICE.getCompanyName() + ", role=" + ALICE.getRole()
-                + ", address=" + ALICE.getAddress() + ", date=" + ALICE.getDate()
+                + ", date=" + ALICE.getDate()
                 + ", status=" + ALICE.getStatus() + ", tags=" + ALICE.getTags()
-                + ", email=" + ALICE.getEmail()
-                + ", website=" + ALICE.getWebsite() + "}";
+                + ", email=" + ALICE.getEmail() + ", website=" + ALICE.getWebsite()
+                + ", address=" + ALICE.getAddress() + "}";
         assertEquals(expected, ALICE.toString());
     }
 
@@ -130,9 +131,12 @@ public class ApplicationTest {
     public void toStringMethod_emailAbsent() {
         String expected = Application.class.getCanonicalName()
                 + "{companyName=" + JETSTAR.getCompanyName() + ", role=" + JETSTAR.getRole()
-                + ", address=" + JETSTAR.getAddress() + ", date=" + JETSTAR.getDate()
-                + ", status=" + JETSTAR.getStatus() + ", tags=" + JETSTAR.getTags()
-                + ", website=" + JETSTAR.getWebsite() + "}";
+                + ", date=" + JETSTAR.getDate()
+                + ", status=" + JETSTAR.getStatus()
+                + ", tags=" + JETSTAR.getTags()
+                + ", website=" + JETSTAR.getWebsite()
+                + ", address=" + JETSTAR.getAddress()
+                + "}";
         assertEquals(expected, JETSTAR.toString());
     }
 
@@ -140,10 +144,23 @@ public class ApplicationTest {
     public void toStringMethod_websiteAbsent() {
         String expected = Application.class.getCanonicalName()
                 + "{companyName=" + JETTY.getCompanyName() + ", role=" + JETTY.getRole()
-                + ", address=" + JETTY.getAddress() + ", date=" + JETTY.getDate()
+                + ", date=" + JETTY.getDate()
                 + ", status=" + JETTY.getStatus() + ", tags=" + JETTY.getTags()
-                + ", email=" + JETTY.getEmail() + "}";
+                + ", email=" + JETTY.getEmail() + ", address=" + JETTY.getAddress() + "}";
         assertEquals(expected, JETTY.toString());
+    }
+
+    @Test
+    public void toStringMethod_addressAbsent() {
+        String expected = Application.class.getCanonicalName()
+                + "{companyName=" + LIHO.getCompanyName() + ", role=" + LIHO.getRole()
+                + ", date=" + LIHO.getDate()
+                + ", status=" + LIHO.getStatus()
+                + ", tags=" + LIHO.getTags()
+                + ", email=" + LIHO.getEmail()
+                + ", website=" + LIHO.getWebsite()
+                + "}";
+        assertEquals(expected, LIHO.toString());
     }
 
     @Test

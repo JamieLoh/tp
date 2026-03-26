@@ -87,7 +87,11 @@ public class ApplicationBuilder {
      * Sets the {@code Address} of the {@code Application} that we are building.
      */
     public ApplicationBuilder withAddress(String address) {
-        this.address = new Address(address);
+        if (address == null) {
+            this.address = null;
+        } else {
+            this.address = new Address(address);
+        }
         return this;
     }
 

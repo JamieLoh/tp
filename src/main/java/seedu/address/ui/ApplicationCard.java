@@ -56,7 +56,7 @@ public class ApplicationCard extends UiPart<Region> {
         id.setText(displayedIndex + ". ");
         companyName.setText(application.getCompanyName().fullCompanyName);
         role.setText(application.getRole().value);
-        address.setText(application.getAddress().value);
+        address.setText(application.getAddress() == null ? "" : application.getAddress().value);
         email.setText(application.getEmail() == null ? "" : application.getEmail().value);
         website.setText(application.getWebsite() == null ? "" : application.getWebsite().websiteName);
         date.setText(application.getDate().value);

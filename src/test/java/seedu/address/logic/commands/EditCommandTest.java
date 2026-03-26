@@ -24,6 +24,7 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.application.Address;
 import seedu.address.model.application.Application;
 import seedu.address.model.application.Email;
 import seedu.address.model.application.Website;
@@ -209,6 +210,25 @@ public class EditCommandTest {
         EditCommand command = new EditCommand(index, descriptor);
         String result = command.toString();
         assertFalse(result.contains("email="));
+    }
+
+    @Test
+    public void toString_addressPresent_descriptorIncludesAddress() {
+        Index index = Index.fromOneBased(1);
+        EditCommand.EditApplicationDescriptor descriptor = new EditCommand.EditApplicationDescriptor();
+        descriptor.setAddress(new Address("5 Shenton Way"));
+        EditCommand editCommand = new EditCommand(index, descriptor);
+        String result = editCommand.toString();
+        assertTrue(result.contains("address=5 Shenton Way"));
+    }
+
+    @Test
+    public void toString_addressAbsent_descriptorOmitsAddress() {
+        Index index = Index.fromOneBased(1);
+        EditCommand.EditApplicationDescriptor descriptor = new EditCommand.EditApplicationDescriptor();
+        EditCommand command = new EditCommand(index, descriptor);
+        String result = command.toString();
+        assertFalse(result.contains("address="));
     }
 
     @Test

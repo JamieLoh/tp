@@ -73,6 +73,10 @@ public class TypicalApplications {
             .withName("Jetstar").withRole("Embedded Systems Engineer")
             .withEmail("jetty@example.com").withWebsite(null)
             .withAddress("Changi Airport").withDate("09-01-2026").build();
+    public static final Application LIHO = new ApplicationBuilder()
+            .withName("Liho").withRole("Cashier")
+            .withEmail("liho@example.com").withWebsite("https://liho.com")
+            .withAddress(null).withDate("09-01-2026").build();
 
     // Manually added - Application's details found in {@code CommandTestUtil}
     public static final Application AMY = new ApplicationBuilder()
