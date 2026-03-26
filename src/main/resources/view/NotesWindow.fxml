@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.Priority?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.TextFlow?>
 <?import javafx.stage.Stage?>
@@ -20,7 +21,9 @@
       <VBox alignment="TOP_CENTER" fx:id="notesContainer" spacing="10">
         <children>
           <!-- Read-only view -->
-          <ScrollPane fitToWidth="true" pannable="true" hbarPolicy="NEVER" fx:id="viewPane">
+          <ScrollPane fitToWidth="true" pannable="true"
+                       hbarPolicy="NEVER" fx:id="viewPane"
+                       VBox.vgrow="ALWAYS">
             <content>
               <TextFlow fx:id="notesMessage" lineSpacing="4.0">
                 <padding>
