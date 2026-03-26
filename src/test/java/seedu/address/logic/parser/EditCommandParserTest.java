@@ -56,6 +56,7 @@ import seedu.address.testutil.EditApplicationDescriptorBuilder;
 public class EditCommandParserTest {
 
     private static final String TAG_EMPTY = " " + PREFIX_TAG;
+    private static final String EMAIL_EMPTY = " " + PREFIX_EMAIL;
 
     private static final String MESSAGE_INVALID_FORMAT =
             String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE);
@@ -229,6 +230,21 @@ public class EditCommandParserTest {
         String userInput = targetIndex.getOneBased() + TAG_EMPTY;
 
         EditApplicationDescriptor descriptor = new EditApplicationDescriptorBuilder().withTags().build();
+        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_emptyEmailField_success() {
+        Index targetIndex = INDEX_FIRST_APPLICATION;
+
+        String userInput = targetIndex.getOneBased() + EMAIL_EMPTY;
+
+        EditApplicationDescriptor descriptor = new EditApplicationDescriptorBuilder()
+                .withEmail(null)
+                .build();
+
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);

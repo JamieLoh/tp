@@ -66,7 +66,11 @@ public class EditApplicationDescriptorBuilder {
      * Sets the {@code Email} of the {@code EditApplicationDescriptor} that we are building.
      */
     public EditApplicationDescriptorBuilder withEmail(String email) {
-        descriptor.setEmail(new Email(email));
+        if (email == null) {
+            descriptor.setEmail(null);
+        } else {
+            descriptor.setEmail(new Email(email));
+        }
         return this;
     }
 
