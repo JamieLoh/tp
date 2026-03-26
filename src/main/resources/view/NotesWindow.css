@@ -1,0 +1,26 @@
+#notesMessage {
+    -fx-text-fill: white;
+}
+
+#notesMessage Text {
+    -fx-fill: white;
+}
+
+#notesContainer {
+    -fx-background-color: derive(#1d1d1d, 20%);
+}
+
+#viewPane {
+    -fx-background: derive(#1d1d1d, 20%);
+    -fx-background-color: derive(#1d1d1d, 20%);
+}
+
+#viewPane .viewport {
+    -fx-background-color: derive(#1d1d1d, 20%);
+}
+
+#notesTextArea {
+    -fx-control-inner-background: derive(#1d1d1d, 30%);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}

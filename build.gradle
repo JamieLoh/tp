@@ -96,6 +96,10 @@ dependencies {
     testImplementation 'org.testfx:openjfx-monocle:17.0.10'
 }
 
+run {
+    enableAssertions = true
+}
+
 shadowJar {
     archiveFileName = 'addressbook.jar'
 }

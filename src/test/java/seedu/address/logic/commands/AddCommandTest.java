@@ -167,6 +167,26 @@ public class AddCommandTest {
         public void updateFilteredApplicationList(Predicate<Application> predicate) {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public void editApplicationNotes(Application target) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void viewApplicationNotes(Application target) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Application getSelectedNotesApplication() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void saveApplicationNotes(String notes) {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**
