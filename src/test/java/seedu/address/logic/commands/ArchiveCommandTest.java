@@ -60,9 +60,9 @@ public class ArchiveCommandTest {
         String expectedMessage = String.format(ArchiveCommand.MESSAGE_ARCHIVE_APPLICATION_SUCCESS,
                 Messages.format(expectedArchivedApplication));
 
-        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(model.getAddressBook(), model.getUserPrefs());
         expectedModel.setApplication(applicationToArchive, expectedArchivedApplication);
-        showNoApplication(expectedModel);
+        expectedModel.updateFilteredApplicationList(Model.PREDICATE_SHOW_UNARCHIVED_APPLICATIONS);
 
         assertCommandSuccess(archiveCommand, model, expectedMessage, expectedModel);
     }
@@ -89,15 +89,26 @@ public class ArchiveCommandTest {
 
     @Test
     public void execute_alreadyArchived_returnsAlreadyArchivedMessage() {
+        model.updateFilteredApplicationList(Model.PREDICATE_SHOW_ALL_APPLICATIONS);
+
         Application applicationToArchive = model.getFilteredApplicationList()
                 .get(INDEX_FIRST_APPLICATION.getZeroBased());
+
+        Model expectedModel = new ModelManager(model.getAddressBook(), model.getUserPrefs());
+        expectedModel.updateFilteredApplicationList(Model.PREDICATE_SHOW_ALL_APPLICATIONS);
+        Application expectedApplicationToArchive = expectedModel.getFilteredApplicationList()
+                .get(INDEX_FIRST_APPLICATION.getZeroBased());
+
         Application archivedApplication = getArchivedVersion(applicationToArchive);
+        Application expectedArchivedApplication = getArchivedVersion(expectedApplicationToArchive);
+
         model.setApplication(applicationToArchive, archivedApplication);
+        expectedModel.setApplication(expectedApplicationToArchive, expectedArchivedApplication);
 
         ArchiveCommand archiveCommand = new ArchiveCommand(INDEX_FIRST_APPLICATION);
 
-        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        assertCommandSuccess(archiveCommand, model, ArchiveCommand.MESSAGE_APPLICATION_ALREADY_ARCHIVED, expectedModel);
+        assertCommandSuccess(archiveCommand, model,
+                ArchiveCommand.MESSAGE_APPLICATION_ALREADY_ARCHIVED, expectedModel);
     }
 
     @Test
