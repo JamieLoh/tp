@@ -35,6 +35,7 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredApplications = new FilteredList<>(this.addressBook.getApplicationList());
+        filteredApplications.setPredicate(PREDICATE_SHOW_UNARCHIVED_APPLICATIONS);
     }
 
     public ModelManager() {
@@ -102,7 +103,7 @@ public class ModelManager implements Model {
     @Override
     public void addApplication(Application application) {
         addressBook.addApplication(application);
-        updateFilteredApplicationList(PREDICATE_SHOW_ALL_APPLICATIONS);
+        updateFilteredApplicationList(PREDICATE_SHOW_UNARCHIVED_APPLICATIONS);
     }
 
     @Override

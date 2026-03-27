@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.application.Application;
+import seedu.address.model.tag.Tag;
 
 /**
  * The API of the Model component.
@@ -13,6 +14,9 @@ import seedu.address.model.application.Application;
 public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Application> PREDICATE_SHOW_ALL_APPLICATIONS = unused -> true;
+    Tag ARCHIVED_TAG = new Tag("archived");
+    Predicate<Application> PREDICATE_SHOW_UNARCHIVED_APPLICATIONS =
+            application -> !application.getTags().contains(ARCHIVED_TAG);
 
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.

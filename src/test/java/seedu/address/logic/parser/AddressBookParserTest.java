@@ -13,6 +13,7 @@ import java.util.Collections;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.ArchiveCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
@@ -51,6 +52,13 @@ public class AddressBookParserTest {
         DeleteCommand command = (DeleteCommand) parser.parseCommand(
                 DeleteCommand.COMMAND_WORD + " " + INDEX_FIRST_APPLICATION.getOneBased());
         assertEquals(new DeleteCommand(INDEX_FIRST_APPLICATION), command);
+    }
+
+    @Test
+    public void parseCommand_archive() throws Exception {
+        ArchiveCommand command = (ArchiveCommand) parser.parseCommand(
+                ArchiveCommand.COMMAND_WORD + " " + INDEX_FIRST_APPLICATION.getOneBased());
+        assertEquals(new ArchiveCommand(INDEX_FIRST_APPLICATION), command);
     }
 
     @Test
