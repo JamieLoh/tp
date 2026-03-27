@@ -32,7 +32,8 @@ public class UnarchiveCommandTest {
     @Test
     public void execute_validIndexFilteredList_success() {
         model.updateFilteredApplicationList(Model.PREDICATE_SHOW_ALL_APPLICATIONS);
-        Application applicationToArchive = model.getFilteredApplicationList().get(INDEX_FIRST_APPLICATION.getZeroBased());
+        Application applicationToArchive = model.getFilteredApplicationList()
+                .get(INDEX_FIRST_APPLICATION.getZeroBased());
         Application archivedApplication = getArchivedVersion(applicationToArchive);
         model.setApplication(applicationToArchive, archivedApplication);
 
@@ -58,7 +59,8 @@ public class UnarchiveCommandTest {
     @Test
     public void execute_invalidIndexFilteredList_throwsCommandException() {
         model.updateFilteredApplicationList(Model.PREDICATE_SHOW_ALL_APPLICATIONS);
-        Application applicationToArchive = model.getFilteredApplicationList().get(INDEX_FIRST_APPLICATION.getZeroBased());
+        Application applicationToArchive = model.getFilteredApplicationList()
+                .get(INDEX_FIRST_APPLICATION.getZeroBased());
         Application archivedApplication = getArchivedVersion(applicationToArchive);
         model.setApplication(applicationToArchive, archivedApplication);
 
