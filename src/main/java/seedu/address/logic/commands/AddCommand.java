@@ -27,22 +27,22 @@ public class AddCommand extends Command {
             + "Parameters: "
             + PREFIX_NAME + "COMPANY_NAME "
             + PREFIX_ROLE + "ROLE "
-            + PREFIX_EMAIL + "EMAIL "
-            + PREFIX_WEBSITE + "WEBSITE "
-            + PREFIX_ADDRESS + "ADDRESS "
             + PREFIX_DATE + "DATE "
             + PREFIX_STATUS + "STATUS "
+            + "[" + PREFIX_EMAIL + "EMAIL] "
+            + "[" + PREFIX_WEBSITE + "WEBSITE] "
+            + "[" + PREFIX_ADDRESS + "ADDRESS] "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "Grab "
             + PREFIX_ROLE + "Backend Developer Intern "
+            + PREFIX_DATE + "01-03-2026 "
+            + PREFIX_STATUS + "Pending "
             + PREFIX_EMAIL + "johnd@example.com "
             + PREFIX_WEBSITE + "https://johndoe.example.com "
             + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 "
-            + PREFIX_DATE + "01-03-2026 "
-            + PREFIX_STATUS + "Pending "
-            + PREFIX_TAG + "friends "
-            + PREFIX_TAG + "owesMoney";
+            + PREFIX_TAG + "InterviewRound2 "
+            + PREFIX_TAG + "BigTech";
 
     public static final String MESSAGE_SUCCESS = "New application added: %1$s";
     public static final String MESSAGE_DUPLICATE_APPLICATION = "This application already exists in the address book";
