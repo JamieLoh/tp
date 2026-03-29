@@ -110,23 +110,39 @@ Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st application to be `91234567` and `johndoe@example.com` respectively.
 *  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd application to be `Betsy Crower` and clears all existing tags.
 
-### Locating applications by name: `find`
+### Locating applications: `find`
 
-Finds applications whose names contain any of the given keywords.
+Finds applications that match the specified keywords.
 
-Format: `find KEYWORD [MORE_KEYWORDS]`
+Format: `find [n/NAME] [r/ROLE] [e/EMAIL] [w/WEBSITE] [a/ADDRESS] [d/DATE] [s/STATUS] [t/TAG]...`
 
-* The search is case-insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Only the name is searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search).
-  e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+* All fields are optional. At least one field must be provided.
+* The search is case-insensitive. 
+  e.g `find n/google` will match `Google`.
+* Partial matching is supported. 
+  e.g. `find n/goog` will match `Google`.
+* Multiple fields are combined using **AND** logic.
+  e.g. `find n/Google r/Backend Developer` returns applications that match both name and role.
+* For tags, multiple keywords are combined using **OR** logic.
+  e.g. `find t/backend developer t/frontend developer` returns applications that match either tag.
+* For optional fields (`email`, `website`, `address`): 
+  Using an empty prefix (e.g. e/) matches applications with no value for that field.
 
 Examples:
-* `find John` returns `john` and `John Doe`
-* `find alex david` returns `Alex Yeoh`, `David Li`<br>
-  ![result for 'find alex david'](images/findAlexDavidResult.png)
+* `find n/google`
+  Returns applications with company names containing "google"
+* `find r/intern s/applied`
+  Returns applications with role containing "intern" and status containing "applied"
+* `find e/gmail`
+  Returns applications with email containing "gmail"
+* `find e/`
+  Returns applications that have no email
+* `find t/oa t/fintech`
+  Returns applications tagged with either "oa" or "fintech"
+<br>
+<br>
+![find result for 'find t/oa t/fintech'](images/findOaFintech.png)
+
 
 ### Deleting a application : `delete`
 
@@ -195,6 +211,6 @@ Action | Format, Examples
 **Clear** | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Find** | `find prefix/keyword ...`<br> e.g., `find n/google`
 **List** | `list`
 **Help** | `help`
