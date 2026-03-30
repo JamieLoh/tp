@@ -28,10 +28,13 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_ROLE_FRONTEND_D
 import static seedu.address.logic.commands.CommandTestUtil.VALID_STATUS_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_WEBSITE_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.WEBSITE_DESC_AMY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_WEBSITE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_APPLICATION;
@@ -44,7 +47,6 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditApplicationDescriptor;
-import seedu.address.model.application.Address;
 import seedu.address.model.application.CompanyName;
 import seedu.address.model.application.Date;
 import seedu.address.model.application.Email;
@@ -57,6 +59,8 @@ public class EditCommandParserTest {
 
     private static final String TAG_EMPTY = " " + PREFIX_TAG;
     private static final String EMAIL_EMPTY = " " + PREFIX_EMAIL;
+    private static final String WEBSITE_EMPTY = " " + PREFIX_WEBSITE;
+    private static final String ADDRESS_EMPTY = " " + PREFIX_ADDRESS;
 
     private static final String MESSAGE_INVALID_FORMAT =
             String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE);
@@ -95,7 +99,6 @@ public class EditCommandParserTest {
         assertParseFailure(parser, "1" + INVALID_COMPANY_NAME_DESC, CompanyName.MESSAGE_CONSTRAINTS); // invalid name
         assertParseFailure(parser, "1" + INVALID_ROLE_DESC, Role.MESSAGE_CONSTRAINTS); // invalid role
         assertParseFailure(parser, "1" + INVALID_EMAIL_DESC, Email.MESSAGE_CONSTRAINTS); // invalid email
-        assertParseFailure(parser, "1" + INVALID_ADDRESS_DESC, Address.MESSAGE_CONSTRAINTS); // invalid address
         assertParseFailure(parser, "1" + INVALID_DATE_DESC, Date.MESSAGE_CONSTRAINTS); // invalid date
         assertParseFailure(parser, "1" + INVALID_STATUS_DESC, Status.MESSAGE_CONSTRAINTS); // invalid status
         assertParseFailure(parser, "1" + INVALID_TAG_DESC, Tag.MESSAGE_CONSTRAINTS); // invalid tag
@@ -119,13 +122,14 @@ public class EditCommandParserTest {
     public void parse_allFieldsSpecified_success() {
         Index targetIndex = INDEX_SECOND_APPLICATION;
         String userInput = targetIndex.getOneBased() + ROLE_DESC_BACKEND_DEVELOPER + TAG_DESC_HUSBAND
-                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + DATE_DESC_AMY + STATUS_DESC_AMY
+                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + DATE_DESC_AMY + STATUS_DESC_AMY + WEBSITE_DESC_AMY
                 + NAME_DESC_AMY + TAG_DESC_FRIEND;
 
         EditApplicationDescriptor descriptor = new EditApplicationDescriptorBuilder()
                 .withName(VALID_COMPANY_NAME_AMAZON)
                 .withRole(VALID_ROLE_BACKEND_DEVELOPER).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
                 .withDate(VALID_DATE_AMY).withStatus(VALID_STATUS_AMY)
+                .withWebsite((VALID_WEBSITE_AMY))
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
@@ -243,6 +247,36 @@ public class EditCommandParserTest {
 
         EditApplicationDescriptor descriptor = new EditApplicationDescriptorBuilder()
                 .withEmail(null)
+                .build();
+
+        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_emptyWebsiteField_success() {
+        Index targetIndex = INDEX_FIRST_APPLICATION;
+
+        String userInput = targetIndex.getOneBased() + WEBSITE_EMPTY;
+
+        EditApplicationDescriptor descriptor = new EditApplicationDescriptorBuilder()
+                .withWebsite(null)
+                .build();
+
+        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_emptyAddressField_success() {
+        Index targetIndex = INDEX_FIRST_APPLICATION;
+
+        String userInput = targetIndex.getOneBased() + ADDRESS_EMPTY;
+
+        EditApplicationDescriptor descriptor = new EditApplicationDescriptorBuilder()
+                .withAddress(null)
                 .build();
 
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);

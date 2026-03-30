@@ -68,10 +68,22 @@ public class EditCommandParser implements Parser<EditCommand> {
             }
         }
         if (argMultimap.getValue(PREFIX_WEBSITE).isPresent()) {
-            editApplicationDescriptor.setWebsite(ParserUtil.parseWebsite(argMultimap.getValue(PREFIX_WEBSITE).get()));
+            String websiteValue = argMultimap.getValue(PREFIX_WEBSITE).get();
+
+            if (websiteValue.isEmpty()) {
+                editApplicationDescriptor.setWebsite(null);
+            } else {
+                editApplicationDescriptor.setWebsite(ParserUtil.parseWebsite(websiteValue));
+            }
         }
         if (argMultimap.getValue(PREFIX_ADDRESS).isPresent()) {
-            editApplicationDescriptor.setAddress(ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get()));
+            String addressValue = argMultimap.getValue(PREFIX_ADDRESS).get();
+
+            if (addressValue.isEmpty()) {
+                editApplicationDescriptor.setAddress(null);
+            } else {
+                editApplicationDescriptor.setAddress(ParserUtil.parseAddress(addressValue));
+            }
         }
         if (argMultimap.getValue(PREFIX_DATE).isPresent()) {
             editApplicationDescriptor.setDate(ParserUtil.parseDate(argMultimap.getValue(PREFIX_DATE).get()));

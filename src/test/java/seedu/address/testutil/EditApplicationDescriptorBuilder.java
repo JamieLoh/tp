@@ -78,7 +78,11 @@ public class EditApplicationDescriptorBuilder {
      * Sets the {@code Website} of the {@code EditApplicationDescriptor} that we are building.
      */
     public EditApplicationDescriptorBuilder withWebsite(String website) {
-        descriptor.setWebsite(new Website(website));
+        if (website == null) {
+            descriptor.setWebsite(null);
+        } else {
+            descriptor.setWebsite(new Website(website));
+        }
         return this;
     }
 
@@ -86,7 +90,11 @@ public class EditApplicationDescriptorBuilder {
      * Sets the {@code Address} of the {@code EditApplicationDescriptor} that we are building.
      */
     public EditApplicationDescriptorBuilder withAddress(String address) {
-        descriptor.setAddress(new Address(address));
+        if (address == null) {
+            descriptor.setAddress(null);
+        } else {
+            descriptor.setAddress(new Address(address));
+        }
         return this;
     }
 

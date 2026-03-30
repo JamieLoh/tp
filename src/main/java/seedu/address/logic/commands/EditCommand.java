@@ -107,8 +107,7 @@ public class EditCommand extends Command {
 
         CompanyName updatedName = editApplicationDescriptor.getCompanyName().orElse(applicationToEdit.getCompanyName());
         Role updatedRole = editApplicationDescriptor.getRole().orElse(applicationToEdit.getRole());
-        Website updatedWebsite = editApplicationDescriptor.getWebsite().orElse(applicationToEdit.getWebsite());
-        Address updatedAddress = editApplicationDescriptor.getAddress().orElse(applicationToEdit.getAddress());
+        //Address updatedAddress = editApplicationDescriptor.getAddress().orElse(applicationToEdit.getAddress());
         Date updatedDate = editApplicationDescriptor.getDate().orElse(applicationToEdit.getDate());
         Status updatedStatus = editApplicationDescriptor.getStatus().orElse(applicationToEdit.getStatus());
         Set<Tag> updatedTags = editApplicationDescriptor.getTags().orElse(applicationToEdit.getTags());
@@ -117,6 +116,16 @@ public class EditCommand extends Command {
         Email updatedEmail = applicationToEdit.getEmail();
         if (editApplicationDescriptor.isEmailEdited()) {
             updatedEmail = editApplicationDescriptor.getEmail().orElse(null);
+        }
+
+        Website updatedWebsite = applicationToEdit.getWebsite();
+        if (editApplicationDescriptor.isWebsiteEdited()) {
+            updatedWebsite = editApplicationDescriptor.getWebsite().orElse(null);
+        }
+
+        Address updatedAddress = applicationToEdit.getAddress();
+        if (editApplicationDescriptor.isAddressEdited()) {
+            updatedAddress = editApplicationDescriptor.getAddress().orElse(null);
         }
 
         return new Application(updatedName, updatedRole, updatedEmail,
@@ -161,6 +170,8 @@ public class EditCommand extends Command {
         private Status status;
         private Set<Tag> tags;
         private boolean isEmailEdited = false;
+        private boolean isWebsiteEdited = false;
+        private boolean isAddressEdited = false;
 
         public EditApplicationDescriptor() {}
 
@@ -171,14 +182,18 @@ public class EditCommand extends Command {
         public EditApplicationDescriptor(EditApplicationDescriptor toCopy) {
             setCompanyName(toCopy.companyName);
             setRole(toCopy.role);
-            setWebsite(toCopy.website);
-            setAddress(toCopy.address);
             setDate(toCopy.date);
             setStatus(toCopy.status);
             setTags(toCopy.tags);
 
             if (toCopy.isEmailEdited) {
                 setEmail(toCopy.email);
+            }
+            if (toCopy.isWebsiteEdited) {
+                setWebsite(toCopy.website);
+            }
+            if (toCopy.isAddressEdited) {
+                setAddress(toCopy.address);
             }
         }
 
@@ -187,11 +202,21 @@ public class EditCommand extends Command {
          */
         public boolean isAnyFieldEdited() {
             return CollectionUtil.isAnyNonNull(companyName, role, email, website, address, date, status, tags)
-                    || isEmailEdited;
+                    || isEmailEdited
+                    || isWebsiteEdited
+                    || isAddressEdited;
         }
 
         public boolean isEmailEdited() {
             return isEmailEdited;
+        }
+
+        public boolean isWebsiteEdited() {
+            return isWebsiteEdited;
+        }
+
+        public boolean isAddressEdited() {
+            return isAddressEdited;
         }
 
         public void setCompanyName(CompanyName name) {
@@ -221,6 +246,7 @@ public class EditCommand extends Command {
 
         public void setWebsite(Website website) {
             this.website = website;
+            isWebsiteEdited = true;
         }
 
         public Optional<Website> getWebsite() {
@@ -229,6 +255,7 @@ public class EditCommand extends Command {
 
         public void setAddress(Address address) {
             this.address = address;
+            isAddressEdited = true;
         }
 
         public Optional<Address> getAddress() {
@@ -305,7 +332,6 @@ public class EditCommand extends Command {
             if (website != null) {
                 builder.add("website", website);
             }
-
             if (address != null) {
                 builder.add("address", address);
             }
