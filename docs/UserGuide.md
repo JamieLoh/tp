@@ -201,6 +201,28 @@ Examples:
 * `find t/archived`
 * `unarchive 1` restores the 1st archived application.
 
+### Viewing application summary : `Summary`
+
+Displays a summary of your job application statistics in a pop-up window.
+
+There are 2 ways to open the Application Summary:
+1. **Command:** Type `summary` in the command box and press Enter.
+2. **Menu bar:** Click `Summary` in the top menu bar.
+
+Format: `summary`
+
+* Shows the total number of active (non-archived) applications.
+* Breaks down active applications by status: `Pending`, `Offered`, and `Rejected`.
+* Calculates your `Success Rate`: the percentage of decided applications (Offered + Rejected) that resulted in an
+offer. Displays `0.0` if no decisions have been made yet.
+* Also shows the count of `Archived` applications separately.
+
+![summary window](images/Summary.png)
+
+Examples:
+* `summary` opens the Summary window showing your application statistics.
+* Clicking **Summary** in the menu bar opens the same Summary window.
+
 ### Clearing all entries : `clear`
 
 Clears all entries from the address book.
@@ -259,3 +281,4 @@ Action | Format, Examples
 **Unarchive** | `unarchive INDEX`<br> e.g., `unarchive 1`
 **List** | `list`
 **Help** | `help`
+**Summary** | `summary`
