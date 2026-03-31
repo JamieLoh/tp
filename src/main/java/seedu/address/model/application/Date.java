@@ -10,7 +10,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class Date {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Date should be in DD-MM-YYYY format, and it should not be blank";
+            "Date should be a valid calendar date in DD-MM-YYYY format, and it should not be blank";
 
     public static final String VALIDATION_REGEX = "\\d{2}-\\d{2}-\\d{4}";
 
@@ -34,7 +34,35 @@ public class Date {
         if (test == null) {
             return false;
         }
-        return test.matches(VALIDATION_REGEX);
+        // Check if the date matches the format DD-MM-YYYY
+        if (!test.matches(VALIDATION_REGEX)) {
+            return false;
+        }
+        // Check if the date is a valid calendar date
+        return isValidCalendarDate(test);
+    }
+
+    /**
+     * Returns true if the given date string represents a valid calendar date.
+     * Assumes the input is in the format DD-MM-YYYY and has already been validated against the regex.
+     */
+    private static boolean isValidCalendarDate(String test) {
+        String[] parts = test.split("-");
+        int day = Integer.parseInt(parts[0]);
+        int month = Integer.parseInt(parts[1]);
+        int year = Integer.parseInt(parts[2]);
+        if (month < 1 || month > 12) {
+            return false;
+        }
+        int[] daysInMonth = {31, (isLeapYear(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        return day >= 1 && day <= daysInMonth[month - 1];
+    }
+
+    /**
+     * Returns true if the given year is a leap year.
+     */
+    private static boolean isLeapYear(int year) {
+        return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
     }
 
     @Override

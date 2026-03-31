@@ -129,7 +129,7 @@ public class ApplicationMatchesPredicateTest {
                         null, "06-03-2026", null, Collections.emptyList());
 
         assertFalse(predicate.test(new ApplicationBuilder()
-                .withDate("03-26-2025").build()));
+                .withDate("02-03-2025").build()));
     }
 
     @Test

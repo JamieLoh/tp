@@ -68,4 +68,44 @@ public class DateTest {
         assertTrue(Date.isValidDate("31-12-2025"));
         assertTrue(Date.isValidDate("15-06-2024"));
     }
+
+    @Test
+    public void isValidDate_invalidCalendarDates() {
+        // invalid days for given months
+        assertFalse(Date.isValidDate("31-04-2026")); // April has 30 days
+        assertFalse(Date.isValidDate("31-06-2026"));
+        assertFalse(Date.isValidDate("31-09-2026"));
+        assertFalse(Date.isValidDate("31-11-2026"));
+
+        // February cases
+        assertFalse(Date.isValidDate("30-02-2026"));
+        assertFalse(Date.isValidDate("31-02-2026"));
+    }
+
+    @Test
+    public void isValidDate_leapYear() {
+        // valid leap year
+        assertTrue(Date.isValidDate("29-02-2024")); // 2024 is leap year
+
+        // invalid non-leap year
+        assertFalse(Date.isValidDate("29-02-2023"));
+
+        // century rules
+        assertFalse(Date.isValidDate("29-02-1900")); // not leap
+        assertTrue(Date.isValidDate("29-02-2000")); // leap
+    }
+
+    @Test
+    public void isValidDate_invalidMonth() {
+        // month out of range
+        assertFalse(Date.isValidDate("01-00-2026"));
+        assertFalse(Date.isValidDate("01-13-2026"));
+    }
+
+    @Test
+    public void isValidDate_invalidDay() {
+        // day out of range
+        assertFalse(Date.isValidDate("00-01-2026"));
+        assertFalse(Date.isValidDate("32-01-2026"));
+    }
 }

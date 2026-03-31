@@ -43,14 +43,20 @@ public class Messages {
 
         appendIfPresent(builder, "Email", application.getEmail());
         appendIfPresent(builder, "Website", application.getWebsite());
-        appendIfPresent(builder, "Address", application.getWebsite());
+        appendIfPresent(builder, "Address", application.getAddress());
 
         builder.append("; Date: ")
                 .append(application.getDate())
                 .append("; Status: ")
-                .append(application.getStatus())
-                .append("; Tags: ");
-        application.getTags().forEach(builder::append);
+                .append(application.getStatus());
+
+        appendIfPresent(builder,
+                "Tags",
+                application.getTags().isEmpty()
+                        ? null
+                        : application.getTags().stream()
+                        .map(tag -> tag.tagName)
+                        .collect(Collectors.joining(", ")));
         return builder.toString();
     }
 
