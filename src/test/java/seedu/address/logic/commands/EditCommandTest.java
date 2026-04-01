@@ -11,6 +11,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.showApplicationAtIndex;
+import static seedu.address.model.Model.ARCHIVED_TAG;
 import static seedu.address.testutil.TypicalApplications.getTypicalAddressBook;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_APPLICATION;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_APPLICATION;
@@ -103,11 +104,86 @@ public class EditCommandTest {
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_APPLICATION_SUCCESS,
                 Messages.format(editedApplication));
 
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        expectedModel.setApplication(model.getFilteredApplicationList().get(0), editedApplication);
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), model.getUserPrefs());
+        showApplicationAtIndex(expectedModel, INDEX_FIRST_APPLICATION);
+
+        Application applicationToEditInExpectedModel = expectedModel.getFilteredApplicationList()
+                .get(INDEX_FIRST_APPLICATION.getZeroBased());
+        expectedModel.setApplication(applicationToEditInExpectedModel, editedApplication);
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
+
+    @Test
+    public void execute_editAddsArchivedTagOnUnarchivedFilter_applicationRemovedFromList() {
+        Application applicationInFilteredList = model.getFilteredApplicationList()
+                .get(INDEX_FIRST_APPLICATION.getZeroBased());
+        Application editedApplication = new ApplicationBuilder(applicationInFilteredList).withTags("archived").build();
+        EditApplicationDescriptor descriptor = new EditApplicationDescriptorBuilder().withTags("archived").build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_APPLICATION, descriptor);
+
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_APPLICATION_SUCCESS,
+                Messages.format(editedApplication));
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        expectedModel.setApplication(applicationInFilteredList, editedApplication);
+        expectedModel.updateFilteredApplicationList(Model.PREDICATE_SHOW_UNARCHIVED_APPLICATIONS);
+
+        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+        assertFalse(model.getFilteredApplicationList().contains(editedApplication));
+    }
+
+    @Test
+    public void execute_viewingArchivedOnly_keepsArchivedOnlyFilter() {
+        Model archivedOnlyModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        Application firstUnarchivedApplication = archivedOnlyModel.getFilteredApplicationList().get(0);
+        archivedOnlyModel.setApplication(firstUnarchivedApplication,
+                new ApplicationBuilder(firstUnarchivedApplication).withTags("archived").build());
+        archivedOnlyModel.updateFilteredApplicationList(application -> application.getTags().contains(ARCHIVED_TAG));
+
+        Application archivedApplication = archivedOnlyModel.getFilteredApplicationList()
+                .get(INDEX_FIRST_APPLICATION.getZeroBased());
+        Application editedApplication = new ApplicationBuilder(archivedApplication).withRole("Updated Role").build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_APPLICATION,
+                new EditApplicationDescriptorBuilder().withRole("Updated Role").build());
+
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_APPLICATION_SUCCESS,
+                Messages.format(editedApplication));
+
+        Model expectedModel = new ModelManager(new AddressBook(archivedOnlyModel.getAddressBook()), new UserPrefs());
+        expectedModel.updateFilteredApplicationList(application -> application.getTags().contains(ARCHIVED_TAG));
+        expectedModel.setApplication(archivedApplication, editedApplication);
+        expectedModel.updateFilteredApplicationList(expectedModel.getFilteredApplicationListPredicate());
+
+        assertCommandSuccess(editCommand, archivedOnlyModel, expectedMessage, expectedModel);
+        assertTrue(archivedOnlyModel.getFilteredApplicationList().stream()
+                .allMatch(application -> application.getTags().contains(ARCHIVED_TAG)));
+    }
+
+    @Test
+    public void execute_filteredListEdit_doesNotResetToShowAllApplications() {
+        showApplicationAtIndex(model, INDEX_FIRST_APPLICATION);
+        int filteredSizeBeforeEdit = model.getFilteredApplicationList().size();
+
+        Application applicationInFilteredList = model.getFilteredApplicationList()
+                .get(INDEX_FIRST_APPLICATION.getZeroBased());
+        Application editedApplication = new ApplicationBuilder(applicationInFilteredList)
+                .withRole("Principal Engineer").build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_APPLICATION,
+                new EditApplicationDescriptorBuilder().withRole("Principal Engineer").build());
+
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_APPLICATION_SUCCESS,
+                Messages.format(editedApplication));
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        showApplicationAtIndex(expectedModel, INDEX_FIRST_APPLICATION);
+        expectedModel.setApplication(applicationInFilteredList, editedApplication);
+        expectedModel.updateFilteredApplicationList(expectedModel.getFilteredApplicationListPredicate());
+
+        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+        assertEquals(filteredSizeBeforeEdit, model.getFilteredApplicationList().size());
+    }
+
 
     @Test
     public void execute_duplicateApplicationUnfilteredList_failure() {

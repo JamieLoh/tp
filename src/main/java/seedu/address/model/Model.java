@@ -84,6 +84,9 @@ public interface Model {
     /** Returns an unmodifiable view of the filtered application list */
     ObservableList<Application> getFilteredApplicationList();
 
+    /** Returns the current predicate used by the filtered application list. */
+    Predicate<Application> getFilteredApplicationListPredicate();
+
     /**
      * Updates the filter of the filtered application list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.

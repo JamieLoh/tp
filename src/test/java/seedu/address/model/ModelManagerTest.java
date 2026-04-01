@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_APPLICATIONS;
+import static seedu.address.model.Model.PREDICATE_SHOW_UNARCHIVED_APPLICATIONS;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalApplications.ALICE;
 import static seedu.address.testutil.TypicalApplications.BENSON;
@@ -92,6 +93,15 @@ public class ModelManagerTest {
     public void getFilteredApplicationList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, ()
                 -> modelManager.getFilteredApplicationList().remove(0));
+    }
+
+    @Test
+    public void getFilteredApplicationListPredicate_tracksLatestPredicate() {
+        assertEquals(PREDICATE_SHOW_UNARCHIVED_APPLICATIONS, modelManager.getFilteredApplicationListPredicate());
+
+        modelManager.updateFilteredApplicationList(PREDICATE_SHOW_ALL_APPLICATIONS);
+
+        assertEquals(PREDICATE_SHOW_ALL_APPLICATIONS, modelManager.getFilteredApplicationListPredicate());
     }
 
     @Test

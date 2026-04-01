@@ -22,6 +22,7 @@ public class ModelManager implements Model {
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Application> filteredApplications;
+    private Predicate<Application> currentApplicationPredicate;
     private Application selectedNotesApplication;
 
     /**
@@ -35,7 +36,8 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredApplications = new FilteredList<>(this.addressBook.getApplicationList());
-        filteredApplications.setPredicate(PREDICATE_SHOW_UNARCHIVED_APPLICATIONS);
+        currentApplicationPredicate = PREDICATE_SHOW_UNARCHIVED_APPLICATIONS;
+        filteredApplications.setPredicate(currentApplicationPredicate);
     }
 
     public ModelManager() {
@@ -147,6 +149,7 @@ public class ModelManager implements Model {
         );
         addressBook.setApplication(selectedNotesApplication, updatedApplication);
         selectedNotesApplication = updatedApplication;
+        updateFilteredApplicationList(currentApplicationPredicate);
     }
 
     //=========== Filtered Application List Accessors =============================================================
@@ -161,8 +164,14 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public Predicate<Application> getFilteredApplicationListPredicate() {
+        return currentApplicationPredicate;
+    }
+
+    @Override
     public void updateFilteredApplicationList(Predicate<Application> predicate) {
         requireNonNull(predicate);
+        currentApplicationPredicate = predicate;
         filteredApplications.setPredicate(predicate);
     }
 
