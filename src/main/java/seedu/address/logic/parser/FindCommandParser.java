@@ -15,11 +15,19 @@ import java.util.List;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.application.ApplicationMatchesPredicate;
+import seedu.address.model.application.Date;
+import seedu.address.model.application.Status;
 
 /**
  * Parses input arguments and creates a new FindCommand object
  */
 public class FindCommandParser implements Parser<FindCommand> {
+
+    public static final String MESSAGE_INVALID_DATE =
+            "Date filter keyword must be in DD-MM-YYYY format and be a valid calendar date.";
+
+    public static final String MESSAGE_INVALID_STATUS =
+            "Status filter keyword must be one of: Offered, Pending, or Rejected.";
 
     /**
      * Parses the given {@code String} of arguments in the context of the FindCommand
@@ -69,6 +77,19 @@ public class FindCommandParser implements Parser<FindCommand> {
         String address = argMultimap.getValue(PREFIX_ADDRESS).orElse(null);
         String date = argMultimap.getValue(PREFIX_DATE).orElse(null);
         String status = argMultimap.getValue(PREFIX_STATUS).orElse(null);
+
+        if (date != null && !date.isEmpty()) {
+            if (!Date.isValidDate(date)) {
+                throw new ParseException(MESSAGE_INVALID_DATE);
+            }
+        }
+
+        if (status != null && !status.isEmpty()) {
+            if (!Status.isValidStatus(status)) {
+                throw new ParseException(MESSAGE_INVALID_STATUS);
+            }
+        }
+
         List<String> tags = argMultimap.getAllValues(PREFIX_TAG);
 
         ApplicationMatchesPredicate predicate = new ApplicationMatchesPredicate(

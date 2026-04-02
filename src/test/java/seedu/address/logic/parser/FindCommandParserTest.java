@@ -57,6 +57,10 @@ public class FindCommandParserTest {
         assertParseSuccess(parser, "t/AI t/ML", expected);
     }
 
+    // =========================
+    // Empty values
+    // =========================
+
     @Test
     public void parse_emptyNamePrefix_returnsFindCommand() {
         FindCommand expected =
@@ -107,4 +111,73 @@ public class FindCommandParserTest {
         assertParseSuccess(parser, "t/ t/AI", expected);
     }
 
+    // =========================
+    // Date - Valid
+    // =========================
+
+    @Test
+    public void parse_validDate_returnsFindCommand() {
+        FindCommand expected =
+                new FindCommand(new ApplicationMatchesPredicate(
+                        null, null, null, null,
+                        null, "01-12-2025", null, Collections.emptyList()));
+
+        assertParseSuccess(parser, "d/01-12-2025", expected);
+    }
+
+    // =========================
+    // Date - Invalid
+    // =========================
+
+    @Test
+    public void parse_invalidDateFormat_throwsParseException() {
+        assertParseFailure(parser, "d/1-12-2025",
+                FindCommandParser.MESSAGE_INVALID_DATE);
+    }
+
+    @Test
+    public void parse_invalidCalendarDate_throwsParseException() {
+        assertParseFailure(parser, "d/32-01-2025",
+                FindCommandParser.MESSAGE_INVALID_DATE);
+    }
+
+    @Test
+    public void parse_invalidMonth_throwsParseException() {
+        assertParseFailure(parser, "d/01-13-2025",
+                FindCommandParser.MESSAGE_INVALID_DATE);
+    }
+
+    // =========================
+    // Status - Valid
+    // =========================
+
+    @Test
+    public void parse_validStatus_returnsFindCommand() {
+        FindCommand expected =
+                new FindCommand(new ApplicationMatchesPredicate(
+                        null, null, null, null,
+                        null, null, "pending", Collections.emptyList()));
+
+        assertParseSuccess(parser, "s/Pending", expected);
+    }
+
+    @Test
+    public void parse_validStatusLowerCase_returnsFindCommand() {
+        FindCommand expected =
+                new FindCommand(new ApplicationMatchesPredicate(
+                        null, null, null, null,
+                        null, null, "pending", Collections.emptyList()));
+
+        assertParseSuccess(parser, "s/pending", expected);
+    }
+
+    // =========================
+    // Status - Invalid (EP)
+    // =========================
+
+    @Test
+    public void parse_invalidStatus_throwsParseException() {
+        assertParseFailure(parser, "s/Waiting",
+                FindCommandParser.MESSAGE_INVALID_STATUS);
+    }
 }

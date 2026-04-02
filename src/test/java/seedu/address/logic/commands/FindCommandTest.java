@@ -53,6 +53,10 @@ public class FindCommandTest {
         assertFalse(findFirstCommand.equals(findSecondCommand));
     }
 
+    // =========================
+    // No filter
+    // =========================
+
     @Test
     public void execute_zeroKeywords_allApplicationsReturned() {
         // No filters applied → predicate returns true for all applications
@@ -70,6 +74,10 @@ public class FindCommandTest {
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(expectedModel.getFilteredApplicationList(), model.getFilteredApplicationList());
     }
+
+    // =========================
+    // Core fields
+    // =========================
 
     @Test
     public void execute_nameKeyword_filtered() {
@@ -106,7 +114,23 @@ public class FindCommandTest {
     @Test
     public void execute_dateKeyword_filtered() {
         ApplicationMatchesPredicate predicate =
-                new ApplicationMatchesPredicate(null, null, null, null, null, "2026", null,
+                new ApplicationMatchesPredicate(null, null, null, null, null,
+                        "01-01-2026", null, Collections.emptyList());
+
+        FindCommand command = new FindCommand(predicate);
+        expectedModel.updateFilteredApplicationList(predicate);
+
+        assertCommandSuccess(command, model,
+                String.format(MESSAGE_APPLICATIONS_LISTED_OVERVIEW,
+                        expectedModel.getFilteredApplicationList().size()),
+                expectedModel);
+    }
+
+    @Test
+    public void execute_dateExactMatch_filtered() {
+        ApplicationMatchesPredicate predicate =
+                new ApplicationMatchesPredicate(null, null, null, null,
+                        null, "01-03-2026", null,
                         Collections.emptyList());
 
         FindCommand command = new FindCommand(predicate);
@@ -115,6 +139,21 @@ public class FindCommandTest {
         assertCommandSuccess(command, model,
                 String.format(MESSAGE_APPLICATIONS_LISTED_OVERVIEW,
                         expectedModel.getFilteredApplicationList().size()),
+                expectedModel);
+    }
+
+    @Test
+    public void execute_dateNoMatch_noApplicationsFound() {
+        ApplicationMatchesPredicate predicate =
+                new ApplicationMatchesPredicate(null, null, null, null,
+                        null, "31-12-2099", null,
+                        Collections.emptyList());
+
+        FindCommand command = new FindCommand(predicate);
+        expectedModel.updateFilteredApplicationList(predicate);
+
+        assertCommandSuccess(command, model,
+                String.format(MESSAGE_APPLICATIONS_LISTED_OVERVIEW, 0),
                 expectedModel);
     }
 
@@ -133,8 +172,23 @@ public class FindCommandTest {
                 expectedModel);
     }
 
+    @Test
+    public void execute_statusNoMatch_noApplicationsFound() {
+        ApplicationMatchesPredicate predicate =
+                new ApplicationMatchesPredicate(null, null, null, null,
+                        null, null, "offered", Collections.emptyList());
 
-    // OPTIONAL FIELDS
+        FindCommand command = new FindCommand(predicate);
+        expectedModel.updateFilteredApplicationList(predicate);
+
+        assertCommandSuccess(command, model,
+                String.format(MESSAGE_APPLICATIONS_LISTED_OVERVIEW, 0),
+                expectedModel);
+    }
+
+    // =========================
+    // Optional fields
+    // =========================
     @Test
     public void execute_emailKeyword_filtered() {
         ApplicationMatchesPredicate predicate =
@@ -292,6 +346,22 @@ public class FindCommandTest {
         ApplicationMatchesPredicate predicate =
                 new ApplicationMatchesPredicate(null, null, null, null, null, null, null,
                         Arrays.asList("", "friend"));
+
+        FindCommand command = new FindCommand(predicate);
+        expectedModel.updateFilteredApplicationList(predicate);
+
+        assertCommandSuccess(command, model,
+                String.format(MESSAGE_APPLICATIONS_LISTED_OVERVIEW,
+                        expectedModel.getFilteredApplicationList().size()),
+                expectedModel);
+    }
+
+    @Test
+    public void execute_nameAndStatus_filtered() {
+        ApplicationMatchesPredicate predicate =
+                new ApplicationMatchesPredicate("Google", null, null, null,
+                        null, null, "pending",
+                        Collections.emptyList());
 
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredApplicationList(predicate);
