@@ -222,13 +222,13 @@ The earlier keyword (`google`) will be ignored.
 
 Displays all archived applications.
 
-Format: `find t/archived`
+Format: `list archived`
 
 * Shows all applications that are currently archived.
 * You can use the `unarchive INDEX` command on this list to restore applications.
 
 Example:
-* `find t/archived`
+* `list archived`
 
 ### Deleting a application : `delete`
 
@@ -253,8 +253,8 @@ Format: `archive INDEX`
 * Archives the application at the specified `INDEX`.
 * The index refers to the index number shown in the currently displayed application list.
 * Archived applications will not appear in the normal `list` command.
-* Archiving an application does not delete it. The application is tagged as `archived` and hidden from the main list.
-* You can view archived applications using the `find t/archived` command.
+* Archiving an application does not delete it. It sets the application as archived and hides it from the main list.
+* You can view archived applications using the `list archived` command.
 * The index **must be a positive integer** 1, 2, 3, …​
 
 Examples:
@@ -268,12 +268,12 @@ Restores an archived application back to the main application list.
 Format: `unarchive INDEX`
 
 * The `INDEX` refers to the index number shown in the archived applications list.
-* You must first view archived applications (e.g. using `find t/archived`) before using `unarchive`.
+* You must first view archived applications using `list archived` before using `unarchive`.
 * The application will be removed from archived status and will appear in the normal list again.
 * The index **must be a positive integer** 1, 2, 3, …​
 
 Examples:
-* `find t/archived`
+* `list archived`
 * `unarchive 1` restores the 1st archived application.
 
 ### Viewing application summary : `Summary`
