@@ -197,7 +197,12 @@ public class MainWindow extends UiPart<Stage> {
      */
     private void handleEditNotes() {
         seedu.address.model.application.Application app = logic.getSelectedNotesApplication();
-        notesWindow.setEditMode(app.getNotes(), notes -> logic.saveApplicationNotes(notes), app.getCompanyName().toString());
+        notesWindow.setEditMode(
+                app.getNotes(),
+                notes -> logic.saveApplicationNotes(notes),
+                app.getCompanyName().toString()
+        );
+
         if (!notesWindow.isShowing()) {
             notesWindow.show();
         } else {
