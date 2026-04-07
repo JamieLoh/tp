@@ -1,12 +1,9 @@
----
-layout: page
-title: User Guide
----
+# User Guide
 
-AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB3 can get your contact management tasks done faster than traditional GUI apps.
+AddressBook Level 3 (AB3) is a desktop app for managing contacts, optimized for use via a Command Line Interface (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB3 can get your contact management tasks done faster than traditional GUI apps.
 
 * Table of Contents
-{:toc}
+  (Task for Daryl)
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -42,85 +39,85 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 
 ## Features
 
-<div markdown="block" class="alert alert-info">
-
-**:information_source: Notes about the command format:**<br>
+ **Notes about the command format:**
 
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
-  e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
-
+      e.g. in `add n/COMPANY_NAME`, `COMPANY_NAME` is a parameter which can be used as `add n/Google`.
 * Items in square brackets are optional.<br>
-  e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
+      e.g. `n/COMPANY_NAME [e/EMAIL]` can be used as `n/Google e/hr@google.com` or as `n/Google`.
 
 * Items with `…`​ after them can be used multiple times including zero times.<br>
-  e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
+      e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/tech`, `t/tech t/remote` etc.
 
 * Parameters can be in any order.<br>
-  e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
+      e.g. if the command specifies `n/COMPANY_NAME r/ROLE`, `r/ROLE n/COMPANY_NAME` is also acceptable.
 
-* Extraneous parameters for commands that do not take in parameters (such as `help`, `exit` and `clear`) will be ignored.<br>
-  e.g. if the command specifies `help 123`, it will be interpreted as `help`.
+* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
+      e.g. if the command specifies `help 123`, it will be interpreted as `help`.
+
+* Each parameter (except tags) should only appear once in a command. If you accidentally provide duplicates (e.g. `n/Google n/Meta`), the app will flag an error.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
-</div>
 
 ### Viewing help : `help`
 
-Opens the in-app help window that lists the supported HireME commands and their formats.
-
 ![help message](images/helpMessage.png)
 
+Don't remember a command? No worries — `help` opens a window with a quick reference of all available commands and their formats.
+
+In addition, you can also open the same help window from the `Help` menu or with the keyboard shortcut `F1`.
+
 Format: `help`
-
-You can also open the same help window from the `Help` menu or with the keyboard shortcut `F1`.
-
-Example:
-* `help`
-
 
 ### Adding a application: `add`
 
 Adds a new application to HireME.
 
-Format: `add n/COMPANY_NAME r/ROLE d/DATE s/STATUS [e/EMAIL] [w/WEBSITE] [a/ADDRESS] [t/TAG]…​`
+**Parameter details:**
 
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-A application can have any number of tags (including 0)
-</div>
+| Parameter | Prefix | Required | Constraints |
+|-----------|--------|----------|-------------|
+| Company Name | `n/` | Yes | Alphanumeric characters and spaces only |
+| Role | `r/` | Yes | Alphanumeric characters and spaces only |
+| Email | `e/` | No | Must follow `local-part@domain` format |
+| Website | `w/` | Yes | Must be a valid website |
+| Address | `a/` | Yes | Must not be blank |
+| Date | `d/` | Yes | Must be in `DD-MM-YYYY` format |
+| Status | `s/` | Yes | Must be `Offered`, `Pending`, or `Rejected` (case-insensitive) |
+| Tag | `t/` | No | Alphanumeric only, no spaces. Can have multiple tags |
 
-* `n/COMPANY_NAME`, `r/ROLE`, `d/DATE`, and `s/STATUS` are required.
-* `e/EMAIL`, `w/WEBSITE`, `a/ADDRESS`, and `t/TAG` are optional.
-* `DATE` must be in `DD-MM-YYYY` format.
-* `STATUS` must be one of `Pending`, `Offered`, or `Rejected`.
-* The command rejects duplicate applications with the same company name and role.
+> [!TIP]
+> An application can have any number of tags (including 0). Tags are handy for labelling things like `remote`, `onsite`, `highPriority`, etc.
+
+> [!NOTE]
+> Two applications are considered duplicates if they have the same **company name** and **role**. HireME will not allow you to add a duplicate.
 
 Examples:
-* `add n/Grab r/Backend Developer Intern d/01-03-2026 s/Pending e/johnd@example.com w/https://grab.careers a/3 Media Close t/InterviewRound2 t/BigTech`
-* `add n/Stripe r/Software Engineer d/19-02-2026 s/Offered`
+* `add n/Google r/Software Engineer w/https://careers.google.com a/70 Pasir Panjang Rd d/15-03-2026 s/Pending`
+* `add n/Grab r/Backend Developer Intern e/careers@grab.com w/https://grab.com/careers a/3 Media Close d/01-03-2026 s/Pending t/tech t/startup`
 
 ### Listing all applications : `list`
 
-Shows a list of all applications in the address book.
+Shows a list of all your applications in HireME.
 
 Format: `list`
 
 ### Editing a application : `edit`
 
-Edits an existing application in the address book.
+Edits an existing application in HireME. Use this when you need to update details like a new status or corrected information.
 
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
+Format: `edit INDEX [n/COMPANY_NAME] [r/ROLE] [e/EMAIL] [w/WEBSITE] [a/ADDRESS] [d/DATE] [s/STATUS] [t/TAG]…​`
 
 * Edits the application at the specified `INDEX`. The index refers to the index number shown in the displayed application list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
-* Existing values will be updated to the input values.
-* When editing tags, the existing tags of the application will be removed i.e adding of tags is not cumulative.
-* You can remove all the application’s tags by typing `t/` without
-    specifying any tags after it.
+* Existing values will be overwritten by the input values.
+* When editing tags, the existing tags of the application will be **replaced entirely** — editing tags is not cumulative.
+* You can remove all the application's tags by typing `t/` without specifying any tags after it.
 
 Examples:
-*  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st application to be `91234567` and `johndoe@example.com` respectively.
-*  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd application to be `Betsy Crower` and clears all existing tags.
-
+*  `edit 1 s/Offered` Updates the status of the 1st application to `Offered`. Congrats!
+*  `edit 2 r/Backend Developer Intern e/johndoe@example.com` Edits the role and email of the 2nd application.
+*  `edit 3 t/` Clears all existing tags from the 3rd application.
 
 ---
 ### Locating applications: `find`
@@ -243,7 +240,7 @@ Example:
 
 ### Deleting a application : `delete`
 
-Deletes the specified application from the address book.
+Deletes the specified application from HireME.
 
 Format: `delete INDEX`
 
@@ -252,9 +249,8 @@ Format: `delete INDEX`
 * The index **must be a positive integer** 1, 2, 3, …​
 
 Examples:
-* `list` followed by `delete 2` deletes the 2nd application in the address book.
-* `find Betsy` followed by `delete 1` deletes the 1st application in the results of the `find` command.
-
+* `list` followed by `delete 2` deletes the 2nd application in the list.
+* `find n/Google` followed by `delete 1` deletes the 1st application in the results of the `find` command.
 ### Archiving an application : `archive`
 
 Archives the specified application so that it is hidden from the main list but still stored in the system.
@@ -300,7 +296,7 @@ Format: `summary`
 * Shows the total number of active (non-archived) applications.
 * Breaks down active applications by status: `Pending`, `Offered`, and `Rejected`.
 * Calculates your `Success Rate`: the percentage of decided applications (Offered + Rejected) that resulted in an
-offer. Displays `0.0` if no decisions have been made yet.
+offer. Displays `N/A` if no decisions have been made yet.
 * Also shows the count of `Archived` applications separately.
 
 ![summary window](images/Summary.png)
@@ -330,9 +326,12 @@ Examples:
 
 ### Clearing all entries : `clear`
 
-Clears all entries from the address book.
+Clears all application entries from HireME. Useful if you want a fresh start (e.g. new internship cycle).
 
 Format: `clear`
+
+> [!CAUTION]
+> This action is irreversible. All your application data will be permanently deleted.
 
 ### Exiting the program : `exit`
 
@@ -342,27 +341,30 @@ Format: `exit`
 
 ### Saving the data
 
-AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+HireME data is saved to your hard disk automatically after any command that changes the data. There is no need to save manually.
 
 ### Editing the data file
 
-HireME data are saved automatically as a JSON file `[JAR file location]/data/HireME.json`. Advanced users are welcome to update data directly by editing that data file.
+HireME data is saved automatically as a JSON file `[JAR file location]/data/HireME.json`. Advanced users are welcome to update data directly by editing that data file.
 
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
-</div>
-
-### Archiving data files `[coming in v2.0]`
-
-_Details coming soon ..._
+> [!CAUTION]
+> If your changes to the data file make its format invalid, HireME will discard all data and start with an empty data file at the next run. It is recommended to take a backup of the file before editing it. Furthermore, certain edits can cause HireME to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Only edit the data file if you are confident you can update it correctly.
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
+**A**: Install HireME on the other computer and overwrite the empty data file it creates with the file that contains the data from your previous HireME home folder.
+
+**Q**: Can I add two applications to the same company?<br>
+**A**: Yes, as long as the **role** is different. HireME identifies duplicates by the combination of company name and role.
+
+**Q**: Is the email field mandatory?<br>
+**A**: No, email is optional. You can always add it later with the `edit` command.
+
+**Q**: What statuses can I use?<br>
+**A**: The three supported statuses are `Offered`, `Pending`, and `Rejected`. They are case-insensitive, so `pending`, `PENDING`, and `Pending` all work.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -375,16 +377,26 @@ _Details coming soon ..._
 
 ## Command summary
 
-Action | Format, Examples
---------|------------------
-**Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
-**Clear** | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find** | `find prefix/keyword ...`<br> e.g., `find n/google`
-**Archive** | `archive INDEX`<br> e.g., `archive 2`
-**Unarchive** | `unarchive INDEX`<br> e.g., `unarchive 1`
-**List** | `list`
-**Open** | `open INDEX [m/CHOICE_OF_EDIT]`<br> e.g., `open 1 m/true`
-**Help** | `help`
-**Summary** | `summary`
+| Action        | Format | Example |
+|---------------|--------|-|
+| **Add**       | `add n/COMPANY_NAME r/ROLE [e/EMAIL] w/WEBSITE a/ADDRESS d/DATE s/STATUS [t/TAG]…​` | `add n/Google r/Software Engineer w/https://careers.google.com a/70 Pasir Panjang Rd d/15-03-2026 s/Pending t/tech` |
+| **Edit**      | `edit INDEX [n/COMPANY_NAME] [r/ROLE] [e/EMAIL] [w/WEBSITE] [a/ADDRESS] [d/DATE] [s/STATUS] [t/TAG]…​` | `edit 1 s/Offered` |
+| **Delete**    | `delete INDEX` | `delete 3` |
+| **Find**      | `find [n/NAME] [r/ROLE] [e/EMAIL] [w/WEBSITE] [a/ADDRESS] [d/DATE] [s/STATUS] [t/TAG]...` | `find n/Google` |
+| **Archive**   | `archive INDEX` | `archive 2` |
+| **Unarchive** | `unarchive INDEX` | `unarchive 1` |
+| **List**      | `list` | |
+| **Clear**     | `clear` | |
+| **Help**      | `help` | |
+| **Exit**      | `exit` | |
+| **Summary**   | `summary` | |
+
+--------------------------------------------------------------------------------------------------------------------
+
+## Glossary
+
+1. **CLI:** Command Line Interface
+2. **GUI:** Graphical User Interface
+3. **Index:** Position of an item in the displayed list
+4. **Application Status:** Current stage of an internship application (`Pending`, `Rejected`, or `Offered`)
+5. **Tag:** A label attached to an application for categorisation (e.g. `remote`, `tech`, `archived`)
