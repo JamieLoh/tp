@@ -184,7 +184,7 @@ public class MainWindow extends UiPart<Stage> {
      */
     private void handleShowNotes() {
         seedu.address.model.application.Application app = logic.getSelectedNotesApplication();
-        notesWindow.setViewMode(app.getNotes());
+        notesWindow.setViewMode(app.getNotes(), app.getCompanyName().toString());
         if (!notesWindow.isShowing()) {
             notesWindow.show();
         } else {
@@ -197,7 +197,12 @@ public class MainWindow extends UiPart<Stage> {
      */
     private void handleEditNotes() {
         seedu.address.model.application.Application app = logic.getSelectedNotesApplication();
-        notesWindow.setEditMode(app.getNotes(), notes -> logic.saveApplicationNotes(notes));
+        notesWindow.setEditMode(
+                app.getNotes(),
+                notes -> logic.saveApplicationNotes(notes),
+                app.getCompanyName().toString()
+        );
+
         if (!notesWindow.isShowing()) {
             notesWindow.show();
         } else {

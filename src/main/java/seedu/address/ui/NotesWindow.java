@@ -3,6 +3,7 @@ package seedu.address.ui;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 
+import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -10,6 +11,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import seedu.address.commons.core.LogsCenter;
 
 /**
@@ -58,8 +60,8 @@ public class NotesWindow extends UiPart<Stage> {
     /**
      * Sets up the window in read-only mode displaying the given notes.
      */
-    public void setViewMode(String notes) {
-        getRoot().setTitle("Notes (View)");
+    public void setViewMode(String notes, String companyName) {
+        getRoot().setTitle("Notes (View) - " + companyName);
         viewPane.setVisible(true);
         viewPane.setManaged(true);
         notesTextArea.setVisible(false);
@@ -74,9 +76,9 @@ public class NotesWindow extends UiPart<Stage> {
     /**
      * Sets up the window in edit mode with the given notes and save callback.
      */
-    public void setEditMode(String notes, Consumer<String> saveCallback) {
+    public void setEditMode(String notes, Consumer<String> saveCallback, String companyName) {
         this.saveCallback = saveCallback;
-        getRoot().setTitle("Notes (Edit)");
+        getRoot().setTitle("Notes (Edit) - " + companyName);
         viewPane.setVisible(false);
         viewPane.setManaged(false);
         notesTextArea.setVisible(true);
@@ -94,6 +96,17 @@ public class NotesWindow extends UiPart<Stage> {
     private void handleSave() {
         if (saveCallback != null) {
             saveCallback.accept(notesTextArea.getText());
+
+            saveButton.setText("Saved!");
+            saveButton.setDisable(true);
+
+            PauseTransition pause = new PauseTransition(Duration.seconds(1));
+            pause.setOnFinished(event -> {
+                saveButton.setText("Save");
+                saveButton.setDisable(false);
+            });
+
+            pause.play();
             logger.fine("Notes saved.");
         }
     }
