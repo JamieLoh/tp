@@ -136,6 +136,38 @@ public class LogicManagerTest {
     }
 
     @Test
+    public void saveApplicationNotes_applicationEditedAfterSelection_returnsTrue() {
+        Application application = new ApplicationBuilder().build();
+        model.addApplication(application);
+        model.editApplicationNotes(application);
+
+        Application editedApplication = new ApplicationBuilder(application).withStatus("Offered").build();
+        model.setApplication(application, editedApplication);
+
+        assertEquals(true, logic.saveApplicationNotes("notes after edit"));
+
+        Application updated = logic.getSelectedNotesApplication();
+        assertEquals("notes after edit", updated.getNotes());
+        assertEquals(editedApplication.getStatus(), updated.getStatus());
+    }
+
+    @Test
+    public void saveApplicationNotes_applicationArchivedAfterSelection_returnsTrue() {
+        Application application = new ApplicationBuilder().build();
+        model.addApplication(application);
+        model.editApplicationNotes(application);
+
+        Application archivedApplication = new ApplicationBuilder(application).withArchived(true).build();
+        model.setApplication(application, archivedApplication);
+
+        assertEquals(true, logic.saveApplicationNotes("notes after archive"));
+
+        Application updated = logic.getSelectedNotesApplication();
+        assertEquals("notes after archive", updated.getNotes());
+        assertEquals(true, updated.isArchived());
+    }
+
+    @Test
     public void saveApplicationNotes_storageThrowsIoException_notesSavedToModel() {
         JsonAddressBookStorage addressBookStorage = new JsonAddressBookStorage(
                 temporaryFolder.resolve("ioExceptionAddressBook.json")) {
