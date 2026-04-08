@@ -99,7 +99,12 @@ public class ModelManager implements Model {
 
     @Override
     public void deleteApplication(Application target) {
+        requireNonNull(target);
         addressBook.removeApplication(target);
+
+        if (selectedNotesApplication != null && selectedNotesApplication.equals(target)) {
+            selectedNotesApplication = null;
+        }
     }
 
     @Override
@@ -111,8 +116,13 @@ public class ModelManager implements Model {
     @Override
     public void setApplication(Application target, Application editedApplication) {
         requireAllNonNull(target, editedApplication);
-
         addressBook.setApplication(target, editedApplication);
+
+        if (selectedNotesApplication != null && selectedNotesApplication.equals(target)) {
+            selectedNotesApplication = editedApplication;
+        }
+
+        updateFilteredApplicationList(currentApplicationPredicate);
     }
 
     @Override
@@ -148,9 +158,8 @@ public class ModelManager implements Model {
                 notes,
                 selectedNotesApplication.isArchived()
         );
-        addressBook.setApplication(selectedNotesApplication, updatedApplication);
-        selectedNotesApplication = updatedApplication;
-        updateFilteredApplicationList(currentApplicationPredicate);
+
+        setApplication(selectedNotesApplication, updatedApplication);
     }
 
     //=========== Filtered Application List Accessors =============================================================

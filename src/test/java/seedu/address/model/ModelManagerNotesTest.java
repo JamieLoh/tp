@@ -88,6 +88,38 @@ public class ModelManagerNotesTest {
     }
 
     @Test
+    public void saveApplicationNotes_applicationEditedAfterSelection() {
+        Application target = modelManager.getFilteredApplicationList().get(0);
+        modelManager.editApplicationNotes(target);
+
+        Application editedApplication = new ApplicationBuilder(target).withStatus("Offered").build();
+        modelManager.setApplication(target, editedApplication);
+
+        String newNotes = "Offer received after status update";
+        modelManager.saveApplicationNotes(newNotes);
+
+        Application updated = modelManager.getSelectedNotesApplication();
+        assertEquals(newNotes, updated.getNotes());
+        assertEquals(editedApplication.getStatus(), updated.getStatus());
+    }
+
+    @Test
+    public void saveApplicationNotes_applicationArchivedAfterSelection() {
+        Application target = modelManager.getFilteredApplicationList().get(0);
+        modelManager.editApplicationNotes(target);
+
+        Application archivedApplication = new ApplicationBuilder(target).withArchived(true).build();
+        modelManager.setApplication(target, archivedApplication);
+
+        String newNotes = "Archived with final notes";
+        modelManager.saveApplicationNotes(newNotes);
+
+        Application updated = modelManager.getSelectedNotesApplication();
+        assertEquals(newNotes, updated.getNotes());
+        assertEquals(true, updated.isArchived());
+    }
+
+    @Test
     public void applicationBuilder_withNotes_buildsCorrectly() {
         Application app = new ApplicationBuilder().withNotes("test notes").build();
         assertEquals("test notes", app.getNotes());

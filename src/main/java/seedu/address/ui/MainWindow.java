@@ -241,6 +241,8 @@ public class MainWindow extends UiPart<Stage> {
     private CommandResult executeCommand(String commandText) throws CommandException, ParseException {
         try {
             CommandResult commandResult = logic.execute(commandText);
+            Application selectedApp = logic.getSelectedNotesApplication();
+
             logger.info("Result: " + commandResult.getFeedbackToUser());
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
 
@@ -262,6 +264,10 @@ public class MainWindow extends UiPart<Stage> {
 
             if (commandResult.isExit()) {
                 handleExit();
+            }
+
+            if (notesWindow.isShowing() && selectedApp != null) {
+                notesWindow.refreshCompanyName(selectedApp.getCompanyName().toString());
             }
 
             return commandResult;
