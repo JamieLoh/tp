@@ -26,6 +26,7 @@ public class NotesWindow extends UiPart<Stage> {
     private static final String FXML = "NotesWindow.fxml";
 
     private Function<String, Boolean> saveCallback;
+    private boolean isEditMode;
 
     @FXML
     private ScrollPane viewPane;
@@ -63,7 +64,9 @@ public class NotesWindow extends UiPart<Stage> {
      * Sets up the window in read-only mode displaying the given notes.
      */
     public void setViewMode(String notes, String companyName) {
-        getRoot().setTitle("Notes (View) - " + companyName);
+        isEditMode = false;
+        updateTitle(companyName);
+
         viewPane.setVisible(true);
         viewPane.setManaged(true);
         notesTextArea.setVisible(false);
@@ -80,6 +83,9 @@ public class NotesWindow extends UiPart<Stage> {
      */
     public void setEditMode(String notes, Function<String, Boolean> saveCallback, String companyName) {
         this.saveCallback = saveCallback;
+        this.isEditMode = true;
+        updateTitle(companyName);
+
         getRoot().setTitle("Notes (Edit) - " + companyName);
         viewPane.setVisible(false);
         viewPane.setManaged(false);
@@ -90,6 +96,31 @@ public class NotesWindow extends UiPart<Stage> {
         resetSaveButton();
 
         notesTextArea.setText(notes == null ? "" : notes);
+    }
+
+    /**
+     * Updates the notes window title to reflect the current company name.
+     *
+     * @param companyName Name of the application company to display in the window title.
+     */
+    public void refreshCompanyName(String companyName) {
+        this.updateTitle(companyName);
+    }
+
+    /**
+     * Updates the notes window title based on the current mode.
+     * Shows either edit mode or view mode together with the given company name.
+     *
+     * @param companyName Name of the application company to display in the window title.
+     */
+    private void updateTitle(String companyName) {
+        if (isEditMode) {
+            getRoot().setTitle("Notes (Edit) - " + companyName);
+        }
+
+        if (!isEditMode) {
+            getRoot().setTitle("Notes (View) - " + companyName);
+        }
     }
 
     /**
