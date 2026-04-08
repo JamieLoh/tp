@@ -19,6 +19,7 @@ public class OpenCommandParser implements Parser<OpenCommand> {
      */
     public OpenCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_MODIFY);
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_MODIFY);
 
         Index index;
         try {

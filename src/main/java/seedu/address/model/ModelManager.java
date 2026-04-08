@@ -83,7 +83,10 @@ public class ModelManager implements Model {
 
     @Override
     public void setAddressBook(ReadOnlyAddressBook addressBook) {
+        requireNonNull(addressBook);
         this.addressBook.resetData(addressBook);
+        selectedNotesApplication = null;
+        updateFilteredApplicationList(PREDICATE_SHOW_UNARCHIVED_APPLICATIONS);
     }
 
     @Override

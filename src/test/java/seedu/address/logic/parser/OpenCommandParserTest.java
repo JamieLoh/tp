@@ -41,4 +41,12 @@ public class OpenCommandParserTest {
         assertParseFailure(parser, "1 m/invalid",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, OpenCommand.MESSAGE_USAGE));
     }
+
+    @Test
+    public void parse_duplicateModifyPrefixes_throwsParseException() {
+        assertParseFailure(parser, "1 m/true m/false",
+                "Multiple values specified for the following single-valued field(s): m/");
+        assertParseFailure(parser, "1 m/false m/true",
+                "Multiple values specified for the following single-valued field(s): m/");
+    }
 }
