@@ -2,6 +2,7 @@ package seedu.address.ui;
 
 import java.util.logging.Logger;
 
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
@@ -130,6 +131,20 @@ public class MainWindow extends UiPart<Stage> {
 
         CommandBox commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
+
+        logic.getFilteredApplicationList().addListener((ListChangeListener<Application>) change -> {
+            if (summaryWindow.isShowing()) {
+                refreshSummary();
+            }
+        });
+    }
+
+    private void refreshSummary() {
+        try {
+            executeCommand("summary");
+        } catch (CommandException | ParseException e) {
+            logger.info("Failed to auto-refresh summary: " + e.getMessage());
+        }
     }
 
     /**
