@@ -93,15 +93,30 @@ public class LogicManager implements Logic {
 
     @Override
     public boolean saveApplicationNotes(String notes) {
-        Application app = model.getSelectedNotesApplication();
-        if (app == null) {
+        Application originalApplication = model.getSelectedNotesApplication();
+        if (originalApplication == null || !model.hasApplication(originalApplication)) {
             return false;
         }
+
+        Application updatedApplication = new Application(
+                originalApplication.getCompanyName(),
+                originalApplication.getRole(),
+                originalApplication.getEmail(),
+                originalApplication.getWebsite(),
+                originalApplication.getAddress(),
+                originalApplication.getDate(),
+                originalApplication.getStatus(),
+                originalApplication.getTags(),
+                notes,
+                originalApplication.isArchived()
+        );
+
         try {
-            model.saveApplicationNotes(notes);
+            model.setApplication(originalApplication, updatedApplication);
             storage.saveAddressBook(model.getAddressBook());
             return true;
         } catch (IOException ioe) {
+            model.setApplication(updatedApplication, originalApplication);
             logger.warning("Failed to save address book after notes update: " + ioe.getMessage());
             return false;
         }

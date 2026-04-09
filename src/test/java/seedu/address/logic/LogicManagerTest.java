@@ -1,6 +1,7 @@
 package seedu.address.logic;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_APPLICATION_DISPLAYED_INDEX;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
@@ -168,7 +169,7 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void saveApplicationNotes_storageThrowsIoException_notesSavedToModel() {
+    public void saveApplicationNotes_storageThrowsIoException_notesNotSavedToModel() {
         JsonAddressBookStorage addressBookStorage = new JsonAddressBookStorage(
                 temporaryFolder.resolve("ioExceptionAddressBook.json")) {
             @Override
@@ -185,11 +186,9 @@ public class LogicManagerTest {
         model.addApplication(application);
         model.editApplicationNotes(application);
 
-        // Should not throw, just log the warning
-        ioExceptionLogic.saveApplicationNotes("notes with io error");
+        assertFalse(ioExceptionLogic.saveApplicationNotes("notes with io error"));
 
-        // Notes should still be updated in the model even though storage failed
-        assertEquals("notes with io error", model.getSelectedNotesApplication().getNotes());
+        assertEquals("", model.getSelectedNotesApplication().getNotes());
     }
 
     /**

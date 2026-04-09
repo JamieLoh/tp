@@ -166,13 +166,13 @@ public class NotesWindow extends UiPart<Stage> {
      * Show save failure when save is unsuccessful.
      */
     private void showSaveFailure() {
-        getRoot().setTitle("Notes (Edit Unsuccessful)");
-        saveButton.setText("Application deleted");
+        getRoot().setTitle("Notes (Save Failed)");
+        saveButton.setText("Save failed");
         if (!saveButton.getStyleClass().contains("danger")) {
             saveButton.getStyleClass().add("danger");
         }
         saveButton.setDisable(true);
-        logger.warning("Failed to save notes as the application no longer exists.");
+        logger.warning("Failed to save notes.");
     }
 
     /**
