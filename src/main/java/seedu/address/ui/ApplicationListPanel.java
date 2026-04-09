@@ -1,14 +1,11 @@
 package seedu.address.ui;
 
-import java.util.logging.Logger;
-
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
-import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.application.Application;
 
 /**
@@ -17,7 +14,6 @@ import seedu.address.model.application.Application;
 public class ApplicationListPanel extends UiPart<Region> {
     private static final String FXML = "ApplicationListPanel.fxml";
     private static final int NUM_COLUMNS = 2;
-    private final Logger logger = LogsCenter.getLogger(ApplicationListPanel.class);
 
     @FXML
     private GridPane applicationGridPane;

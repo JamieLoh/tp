@@ -11,8 +11,10 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
 
 /**
- * Represents a Application in the address book.
- * Guarantees: details are present and not null, field values are validated, immutable.
+ * Represents an Application in the HireME.
+ * Guarantees: companyName, role, date, status, and tags are present and not null.
+ * Email, website, and address are optional and may be null.
+ * Field values are validated, immutable.
  */
 public class Application {
 
@@ -145,9 +147,9 @@ public class Application {
         Application otherApplication = (Application) other;
         return companyName.equals(otherApplication.companyName)
                 && role.equals(otherApplication.role)
-                && java.util.Objects.equals(email, otherApplication.email)
-                && java.util.Objects.equals(website, otherApplication.website)
-                && java.util.Objects.equals(address, otherApplication.address)
+                && Objects.equals(email, otherApplication.email)
+                && Objects.equals(website, otherApplication.website)
+                && Objects.equals(address, otherApplication.address)
                 && date.equals(otherApplication.date)
                 && status.equals(otherApplication.status)
                 && notes.equals(otherApplication.notes)

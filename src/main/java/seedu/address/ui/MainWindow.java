@@ -26,7 +26,7 @@ public class MainWindow extends UiPart<Stage> {
 
     private static final String FXML = "MainWindow.fxml";
 
-    private final Logger logger = LogsCenter.getLogger(getClass());
+    private static final Logger logger = LogsCenter.getLogger(MainWindow.class);
 
     private Stage primaryStage;
     private Logic logic;

@@ -19,9 +19,9 @@ public class Website {
     public final String websiteName;
 
     /**
-     * Constructs a {@code Name}.
+     * Constructs a {@code Website}.
      *
-     * @param website A valid name.
+     * @param website A valid website.
      */
     public Website(String website) {
         requireNonNull(website);

@@ -106,12 +106,9 @@ public class EditCommand extends Command {
 
         CompanyName updatedName = editApplicationDescriptor.getCompanyName().orElse(applicationToEdit.getCompanyName());
         Role updatedRole = editApplicationDescriptor.getRole().orElse(applicationToEdit.getRole());
-        //Address updatedAddress = editApplicationDescriptor.getAddress().orElse(applicationToEdit.getAddress());
         Date updatedDate = editApplicationDescriptor.getDate().orElse(applicationToEdit.getDate());
         Status updatedStatus = editApplicationDescriptor.getStatus().orElse(applicationToEdit.getStatus());
         Set<Tag> updatedTags = editApplicationDescriptor.getTags().orElse(applicationToEdit.getTags());
-
-        //Optional Fields
         Email updatedEmail = applicationToEdit.getEmail();
         if (editApplicationDescriptor.isEmailEdited()) {
             updatedEmail = editApplicationDescriptor.getEmail().orElse(null);
