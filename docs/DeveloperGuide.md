@@ -640,6 +640,42 @@ Use case ends.
 
 --------------------------------------------------------------------------------------------------------------------
 
+## **Appendix: Effort**
+
+Relative to AB3, this project required moderate effort overall. The team reused the AB3 architecture, command
+framework, storage layer structure, and much of the testing setup, which significantly reduced the baseline effort
+needed to produce a working JavaFX application. However, substantial work was still required to reshape the product
+from a generic contact manager into an internship-application tracker with domain-specific behavior.
+
+The main implementation challenge was not the number of entity types, since HireME still centers around a primary
+`Application` entity, but the amount of product-specific behavior added around that entity. Compared with AB3, the
+project had to support application-specific fields such as `role`, `date`, `status`, `notes`, and archive state;
+field-based filtering through `find`; secondary windows for help, notes, and summary; archived and unarchived list
+views; and summary statistics that distinguish active applications from archived ones. These features required
+coordinated changes across the model, parser, command, UI, storage, and test layers.
+
+The most difficult parts were maintaining consistency across layers and removing inherited AB3 assumptions. A feature
+such as archiving is not just a command change: it also affects model predicates, JSON serialization, UI rendering,
+command semantics, and user/developer documentation. Similarly, the notes and summary features required explicit UI
+action dispatch from commands through `CommandResult` into `MainWindow`, instead of staying within a simple
+single-window list application.
+
+Reuse from AB3 almost certainly accounts for well above 5% of the total project effort. In particular, the project
+reused the overall component architecture, JavaFX application shell, parser-command structure, filtered-list model
+pattern, JSON storage approach, and large parts of the test harness. That reuse reduced effort on infrastructure and
+allowed more time to be spent on adapting the product to the internship-tracking domain. The effort in this project
+therefore went primarily into adaptation and extension rather than building a desktop application framework from
+scratch.
+
+In terms of achievements, the project successfully transformed AB3 into a domain-specific product with a clearer user
+workflow for internship tracking. The codebase now supports active versus archived application views, structured
+application metadata, notes management, summary reporting, and HireME-specific documentation. The work is therefore
+best understood as a meaningful product adaptation on top of AB3, rather than a cosmetic rename of the original code
+base.
+
+
+--------------------------------------------------------------------------------------------------------------------
+
 ## **Appendix: Instructions for manual testing**
 
 Given below are instructions to test the app manually.
