@@ -262,68 +262,111 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
-* Has a need to manage a significant number of internship applications and company contacts
-* Prefers desktop applications over web or mobile application
-* can type fast and prefers keyboard interactions over mouse usage
-* prefers typing to mouse interactions
-* is reasonably comfortable using CLI apps
-* CS Student Looking for employment 
+* Is a Computer Science Student Looking for employment
+* Has a need to manage a significant number of job applications at the same time
+* Prefers a desktop application over a web application or spreadsheet for personal tracking of applications
+* Can type fast and prefers keyboard interactions over mouse usage
+* Is comfortable using command-line interfaces (CLI) and does not mind learning a new set of commands for efficient application management
 
-**Value proposition**: Provide a convenient way to keep track of internship applications and current status. Allow easy access to company information and contact details. Manage applications faster than a typical mouse/GUI driven app. 
 
-- (Company) Store: Name, Address, Website, Contact info
-- (Personal) Store: Date of Application, Current states
-- Interview Info: Tech stack, Interview question/tips
-- Personal Review
-
+**Value proposition**: 
+HireME provides a convenient way to keep track of internship applications and current application status. 
+Allow easy access to company information and contact details. 
+Manage applications faster than a typical mouse/GUI driven app. 
 
 
 ### User stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …                      | I want to …                                                                 | So that I can…                                                   |
-|----------|-----------------------------|-----------------------------------------------------------------------------|------------------------------------------------------------------|
-| `* * *`  | user                        | add new company information (name, personal login details, email, website, address, etc.) | organise my internship applications in one place                 |
-| `* * *`  | user                        | add an application status and application date                             | track the progress of each internship application                |
-| `* * *`  | user                        | view all my job applications and their current statuses                    | easily monitor my overall application progress                   |
-| `* * *`  | user                        | delete a company entry                                                      | remove applications that I no longer need                        |
-| `* * *`  | user                        | update the status of a job application                                      | keep my application records accurate and up to date              |
-| `* * *`  | user                        | get a help message showing available commands                            | refer to instructions when I forget how to use the App. (not necessary needed at this stage maybe) |
+| Priority  | As a … | I want to …                                                                              | So that I can…                                       |
+|-----------|--------|------------------------------------------------------------------------------------------|------------------------------------------------------|
+| `* * *`   | user   | add new company information (name, email, website, address, etc.)                        | organise my internship applications in one place     |
+| `* * *`   | user   | add an application status and application date                                           | track the progress of each internship application    |
+| `* * *`   | user   | delete a company entry                                                                   | remove applications that I no longer need            |
+| `* * *`   | user   | update the status of a job application                                                   | keep my application records accurate and up to date  |
+| `* * *`   | user   | list all my job applications                                                             | easily monitor my overall application progress       |
+| `* * *`   | user   | search for applications by fields such as company name, website, or application status   | find relevant applications quickly                   |
+| `* * *`   | user   | archive an application                                                                   | hide inactive applications without losing the record |
+| `* * *`   | user   | unarchive an application                                                                 | restore an archived application to active tracking   |
+| `* * *`   | user   | open notes for an application                                                            | record or review interview and preparation details   |
+| `* * *`   | user   | view a summary of my applications                                                        | understand my application progress at a glance       |
+| `* * *`   | user   | view help information                                                                    | recall command formats when needed                   |
 
 
 ## Use cases
 
 ### UC01 - Add Application
 
-Main Success Scenario:
+**Main Success Scenario**:
 1. User enters an add command with required parameters (company name, role, status, date).
 2. HireME validates the input parameters.
 3. HireME checks for duplicate applications.
-4. HireME creates a new application entry.
-5. HireME displays a success message: "New application added: COMPANY_NAME".
+4. HireME creates the new application.
+5. HireME displays a success message.
+
 Use case ends.
 
-Extensions:
+**Extensions**:
 
 - 2a. Invalid parameter format detected.
   - 2a1. HireME detects invalid input (e.g., wrong date format, invalid email, invalid status).
   - 2a2. HireME displays an appropriate error message.
-  - 2a3. No application is added. Use case ends.
+  - 2a3. No application is added. 
+  - Use case ends.
 
 - 3a. Duplicate application detected.
-  - 3a1. HireME detects an existing application with the same Company Name and Role.
-  - 3a2. HireME displays: "An application for this job of the same company already exists."
-  - 3a3. No application is added. Use case ends.
+  - 3a1. HireME detects an existing application with the same Company Name and Role (case-insensitive).
+  - 3a2. HireME displays error message: "This application already exists in the HireME."
+  - 3a3. No application is added. 
+  - Use case ends.
 
----
 
-### UC02 - Update Application Status After Receiving an Interview Invitation
+### UC02 - List applications
 
-Preconditions: At least one application exists in HireME.
+**Main success scenario**:
+1. User enters list command to list applications.
+2. HireME retrieves applications based on the requested view.
+3. HireME displays the applications in the current list.
+4. HireME displays a success message indicating the result of the listing operation.
 
-Main Success Scenario:
-1. User requests to view all applications.
+Use case ends.
+
+**Extensions**:
+* 2a. User requests the default list view.
+    * 2a1. HireME shows active (unarchived) applications only.
+    * Use case resumes at step 3.
+* 2b. User requests the archived list view.
+    * 2b1. HireME shows archived applications only.
+    * Use case resumes at step 3.
+* 3a. There are no applications for the requested view.
+    * 3a1. HireME shows an empty list and corresponding message.
+    * Use case ends.
+
+
+### UC03 - Delete application
+
+**Precondition**: At least one application is shown in the current list
+
+**Main success scenario**:
+1. User enters delete command to delete an application by index.
+2. HireME deletes the selected application.
+3. HireME shows a success message.
+
+Use case ends.
+
+**Extensions**:
+* 1a. The given index is invalid.
+    * 1a1. HireME shows an error message.
+    * Use case ends.
+
+
+### UC04 - Edit Application
+
+**Preconditions**: At least one application exists in HireME.
+
+**Main Success Scenario**:
+1. User lists applications.
 2. HireME displays all stored applications.
 3. User selects an application to update.
 4. User specifies the new status for the application.
@@ -343,45 +386,96 @@ Extensions:
 - *a. User cancels the operation at any time.
 <br>  Use case ends.
 
----
+  
+### UC05 - Find applications
 
-### UC03 - List Applications
+**Precondition**: At least one application exists
 
-Main Success Scenario:
-1. User requests to list applications.
-2. HireME retrieves all the saved applications.
-3. HireME displays the full list of applications with their details (company name, role, status, date, etc.).
+**Main success scenario**:
+1. User enters find command with one or more prefixed fields.
+2. HireME applies the matching conditions to the stored applications.
+3. HireME displays the applications that match the search criteria.
+4. HireME shows the number of matching applications.
+
 Use case ends.
 
-Extensions:
+**Extensions**:
+* 1a. No search field is provided.
+    * 1a1. HireME shows an error message.
+    * Use case ends.
+* 3a. No applications match the criteria.
+    * 3a1. HireME shows an empty result list and corresponding feedback.
+    * Use case ends.
 
-- 3a. No applications have been added yet.
-  - 3a1. HireME displays the message "You have not added any applications." Use case ends.
 
-- 3b. An error occurs while loading the application data.
-  - 3b1. HireME displays the message "Error loading list of applications." Use case ends.
+### UC06 - Archive application
 
----
+**Precondition**: At least one active application is shown in the current list
 
-### UC04 - Delete an Application
+**Main success scenario**:
+1. User enters archive command to archive an application by index.
+2. HireME marks the selected application as archived.
+3. HireME updates the displayed list.
+4. HireME shows a success message.
 
-Main Success Scenario:
-1. User requests to list job applications (UC03).
-2. HireME shows a list of job applications.
-3. User requests to delete a specific job application in the list.
-4. HireME deletes the job application.
 Use case ends.
 
-Extensions:
+**Extensions**:
+* 1a. The given index is invalid.
+    * 1a1. HireME shows an error message.
+    * Use case ends.
 
-- 2a. The list is empty. Use case ends.
 
-- 3a. The given index is invalid.
-  - 3a1. HireME shows an error message. Use case resumes at step 2.
+### UC07 - Unarchive application
 
----
+**Precondition**: One or more archived applications are displayed
 
-### UC05 - Open Help
+**Main success scenario**:
+1. User lists archived applications.
+2. HireME shows the archived applications.
+3. User enters a command to unarchive an application by index.
+4. HireME marks the selected application as no longer archived.
+5. HireME shows a success message.
+
+Use case ends.
+
+**Extensions**:
+* 3a. The given index is invalid.
+    * 3a1. HireME shows an error message.
+    * Use case ends.
+
+### UC08 - Open application notes
+
+**Precondition**: At least one application is shown in the current list
+
+**Main success scenario**:
+1. User enters open command to open an application's notes by index.
+2. HireME identifies the selected application.
+3. HireME opens the notes window in view mode or edit mode, depending on the command.
+4. User reads or edits the notes.
+
+Use case ends.
+
+**Extensions**:
+* 1a. The given index is invalid.
+    * 1a1. HireME shows an error message.
+    * Use case ends.
+
+
+### UC09 - View summary
+
+**Precondition**: None
+
+**Main success scenario**:
+1. User requests the application summary using the command or menu option.
+2. HireME computes the relevant statistics.
+3. HireME opens the summary window.
+4. User reviews the summary information.
+
+Use case ends.
+
+
+### UC10 - Open Help
 
 Main Success Scenario:
 1. User requests to view help information (enters help).
@@ -401,18 +495,20 @@ Use case ends.
 - Core tasks should be executable without requiring mouse interaction.
 
 ### Reliability
-- All user data should be saved automatically after a save command is received.
+- Application data should be saved automatically after commands that modify stored data.
+- Invalid user input should not cause the application to crash.
 
 ### Portability
 - The application should work on Windows, macOS, and Linux with Java 17 or above installed.
 - The application should not require an internet connection to function.
+- The application should not depend on external services for core functionality.
 
 ### Maintainability
 - The codebase should follow consistent coding standards so that a new developer can understand and contribute within a reasonable onboarding period.
+- Major features should be documented clearly in the Developer Guide and User Guide.
 
 ### Data Integrity
 - The application should validate all user inputs and reject invalid data with clear error messages without crashing.
-- Duplicate applications sharing the same company name and role should be automatically detected and rejected.
 
 ### Scalability
 - The application should remain functional and responsive with up to 1000 application entries stored.
@@ -421,10 +517,14 @@ Use case ends.
 
 ## Glossary
 
-| Term | Definition |
-|------|------------|
-| Mainstream OS | Windows, Linux, MacOS |
-| Private contact detail | A contact detail that is not meant to be shared with others |
+| Term                 | Definition                                                                     |
+|----------------------|--------------------------------------------------------------------------------|
+| Application          | A single job or internship application record stored in HireME                 |
+| Active application   | An application that is not archived                                            |
+| Archived application | An application kept in storage but hidden from the default list                |
+| Notes                | Free-form text attached to an application for interview or tracking details    |
+| Mainstream OS        | Windows, Linux, MacOS                                                          |
+| Index                | The 1-based number shown beside an application in the currently displayed list |
 
 
 --------------------------------------------------------------------------------------------------------------------
@@ -444,35 +544,363 @@ testers are expected to do more *exploratory* testing.
 
    1. Download the jar file and copy into an empty folder
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+   2. Double-click the jar file to launch the app.<br>
+       Expected: The app launches successfully and shows the main window.
+   3. If the app fails to launch, open the terminal, use `cd` navigate to the folder containing the jar file, and use `java -jar HireME.jar` command to run the application.
+   
 
-1. Saving window preferences
+2. Saving window preferences
 
    1. Resize the window to an optimum size. Move the window to a different location. Close the window.
 
    1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
 
-### Deleting a application
+3. Closing the app
+    1. Click the close button on the window.
+    2. Run the `exit` command in the command box and press Enter.
 
-1. Deleting a application while all applications are being shown
 
-   1. Prerequisites: List all applications using the `list` command. Multiple applications in the list.
+    
+### Adding an application
 
-   1. Test case: `delete 1`<br>
-      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+1. Test case:
+   `add n/Google r/Frontend Engineer d/17-04-2026 s/Pending` <br>
+    
+    Expected:
+   * A new application is added.
+   * A success message containing the added application is shown.
+   * The new application appears in the active list.
 
-   1. Test case: `delete 0`<br>
-      Expected: No application is deleted. Error details shown in the status message. Status bar remains the same.
+2. Test case:
+   `add n/Google r/Frontend Engineer d/17-04-2026 s/Pending` <br>
 
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
+    Expected:
+   * No new application is added.
+   * A duplicate application error is shown.
 
-1. _{ more test cases …​ }_
+3. Test case:
+   `add n/Grab r/Backend Intern d/31-02-2026 s/Pending` <br>
+
+    Expected:
+   * No application is added.
+   * An error message is shown because the date is invalid.
+
+4. Test case:
+   `add n/Stripe r/Analyst d/20-04-2026 s/Waiting` <br>
+
+    Expected:
+   * No application is added.
+   * An error message is shown because the status is invalid.
+
+5. Test case:
+   `add n/Meta r/Backend Intern d/20-04-2026 s/Pending e/not-an-email` <br>
+
+    Expected:
+   * No application is added.
+   * An error message is shown because the email is invalid.
+
+6. Test case:
+   `add n/TikTok r/ML Engineer d/20-04-2026 s/Pending t/AI t/OA` <br>
+
+    Expected:
+   * A new application is added successfully with multiple tags.
+
+
+### Listing applications
+
+#### Listing active applications
+
+1. Test case: `list` <br>
+
+   Expected:
+    * The app shows all active (unarchived) applications.
+    * Archived applications, if any, are hidden. Details about archived applications in the later section.
+
+2. Test case: `list abc` <br>
+
+   Expected:
+    * No list is changed.
+    * An error message is shown.
+   
+
+### Deleting an application
+
+1. Prerequisite: List all active applications using `list`. Ensure multiple applications are shown.
+
+2. Test case: `delete 1` <br>
+   Expected:
+   * The first displayed application is deleted from the list.
+   * A success message is shown.
+
+3. Test case: `delete 0` <br>
+   Expected:
+   * No application is deleted.
+   * An invalid index error is shown.
+
+4. Other incorrect delete commands to try:
+   `delete`
+   `delete x`
+    <br>
+
+    Expected:
+   * Similar to the previous case: no application is deleted and an error message is shown.
+
+
+### Editing an application
+
+1. Prerequisite: Ensure at least one application exists in the current list.
+2. Test case:
+   `edit 1 s/Offered` <br>
+
+    Expected:
+   * The first displayed application is updated.
+   * A success message is shown.
+
+3. Test case:
+   `edit 1 e/` <br>
+
+    Expected:
+   * The first displayed application's email is cleared.
+   * A success message is shown.
+
+4. Test case:
+   `edit 1 t/` <br>
+
+    Expected:
+   * All tags of the first displayed application are removed.
+   * A success message is shown.
+
+5. Test case:
+   `edit 0 s/Rejected` <br>
+
+    Expected:
+   * No application is edited.
+   * An invalid index error is shown.
+
+6. Test case:
+   `edit 1` <br>
+
+    Expected:
+   * No application is edited.
+   * An error message is shown because no fields were provided.
+
+7. Test case:
+   `edit 1 d/32-04-2026` <br>
+
+    Expected:
+   * No application is edited.
+   * An error message is shown because the date is invalid.
+
+
+
+
+
+### Finding applications
+
+Use these test cases after ensuring that there are applications matching the relevant values.
+
+1. Test case:
+   `find n/google` <br>
+
+    Expected:
+   * Applications with company names containing `google` are shown.
+   * Matching is case-insensitive.
+
+2. Test case:
+   `find s/Pending` <br>
+
+    Expected:
+   * Only applications with status `Pending` are shown.
+
+3. Test case:
+   `find n/google r/software` <br>
+
+    Expected:
+   * Only applications matching both company name and role are shown.
+
+4. Test case:
+   `find t/OA t/Fintech` <br>
+
+    Expected:
+   * Applications matching either tag are shown.
+
+5. Test case:
+   `find e/` <br>
+
+    Expected:
+   * Applications with no email are shown.
+
+6. Test case:
+   `find` <br>
+
+    Expected:
+   * No filtering is performed.
+   * An error message is shown because at least one search field is required.
+
+7. Test case:
+   `find xyz` <br>
+
+    Expected:
+   * No filtering is performed.
+   * An error message is shown because no valid prefixed field was provided.
+
+
+### Archiving and unarchiving applications
+
+#### Archiving an application
+
+1. Prerequisite: List active applications using `list`.
+2. Test case:
+   `archive 1` <br>
+
+    Expected:
+   * The first displayed active application is archived.
+   * It disappears from the default active list.
+   * A success message is shown.
+
+3. Test case:
+   `archive 0` <br>
+
+    Expected:
+   * No application is archived.
+   * An invalid index error is shown.
+
+#### Viewing archived applications
+
+1. Test case:
+   `list archived` <br>
+
+    Expected:
+   * Archived applications are shown.
+
+#### Unarchiving an application
+
+1. Prerequisite: Archived applications are currently shown using `list archived`.
+2. Test case:
+   `unarchive 1` <br>
+
+    Expected:
+   * The first displayed archived application is restored to the active list.
+   * A success message is shown.
+
+3. Test case:
+   `unarchive 0` <br>
+
+    Expected:
+   * No application is unarchived.
+   * An invalid index error is shown.
+
+
+### Opening application notes
+
+1. Prerequisite: At least one application is shown in the current list.
+2. Test case:
+   `open 1`
+
+Expected:
+* A notes window opens in view-only mode for the first displayed application.
+
+3. Test case:
+   `open 1 m/true`
+
+Expected:
+* A notes window opens in edit mode for the first displayed application.
+
+4. In the edit-mode notes window, enter some text such as:
+   `Reached OA stage. Review graphs before interview.`
+
+5. Save the notes, close the window, then run:
+   `open 1`
+
+Expected:
+* The saved notes are shown in view-only mode.
+
+6. Test case:
+   `open 0`
+
+Expected:
+* No notes window is opened.
+* An invalid index error is shown.
+
+7. Test case:
+   `open 1 m/yes`
+
+Expected:
+* No notes window is opened.
+* An error message is shown because `m/` only accepts `true` or `false`.
+
+
+### Viewing the summary
+
+1. Test case:
+   `summary`
+
+Expected:
+* A summary window opens.
+* It shows:
+    * total active applications
+    * counts of `Pending`, `Offered`, and `Rejected`
+    * success rate
+    * number of archived applications
+
+2. Test case:
+   Open the same feature from the menu bar.
+
+Expected:
+* The same summary window is shown.
+
+
+### Viewing help
+
+1. Test case:
+   `help`
+
+Expected:
+* A help window opens showing command formats and examples.
+
+2. Test case:
+   Press `F1`.
+
+Expected:
+* The help window opens.
+
+
+### Clearing all entries
+
+1. Prerequisite: Ensure that there are applications in the list.
+2. Test case:
+   `clear`
+
+Expected:
+* All applications are deleted.
+* The list becomes empty.
+* A success message is shown.
+
 
 ### Saving data
+
+#### Data persistence
+
+1. Add an application:
+   `add n/TestCompany r/Test Role d/25-04-2026 s/Pending`
+2. Close the app.
+3. Launch the app again. <br>
+
+    Expected:
+   * The added application is still present.
+
+#### Missing data file
+
+1. Close the app.
+2. Navigate to the app folder and delete `data/HireME.json`.
+3. Launch the app again. <br>
+
+    Expected:
+   * The app starts normally.
+   * Sample data is loaded.
+
 
 1. Dealing with missing/corrupted data files
 
