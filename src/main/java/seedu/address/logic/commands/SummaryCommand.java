@@ -19,7 +19,9 @@ public class SummaryCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Shows a summary of your applications.\n"
             + "Example: " + COMMAND_WORD;
 
-    public static final String SHOWING_SUMMARY_MESSAGE = "Opened summary window.";
+    private static final String STATUS_PENDING = "PENDING";
+    private static final String STATUS_OFFERED = "OFFERED";
+    private static final String STATUS_REJECTED = "REJECTED";
 
     private static final Logger logger = LogsCenter.getLogger(SummaryCommand.class);
 
@@ -35,18 +37,9 @@ public class SummaryCommand extends Command {
                 .filter(Application::isArchived)
                 .count();
         long total = applications.size() - archived;
-        long pending = applications.stream()
-                .filter(a -> !a.isArchived())
-                .filter(a -> a.getStatus().toString().equalsIgnoreCase("Pending"))
-                .count();
-        long offered = applications.stream()
-                .filter(a -> !a.isArchived())
-                .filter(a -> a.getStatus().toString().equalsIgnoreCase("Offered"))
-                .count();
-        long rejected = applications.stream()
-                .filter(a -> !a.isArchived())
-                .filter(a -> a.getStatus().toString().equalsIgnoreCase("Rejected"))
-                .count();
+        long pending = countStatus(applications, STATUS_PENDING);
+        long offered = countStatus(applications, STATUS_OFFERED);
+        long rejected = countStatus(applications, STATUS_REJECTED);
 
         assert pending + offered + rejected == total
                 : "Status counts should sum to total: " + pending + "+" + offered + "+" + rejected + " != " + total;
@@ -55,11 +48,41 @@ public class SummaryCommand extends Command {
                 + ", pending=" + pending + ", offered=" + offered + ", rejected=" + rejected
                 + ", archived=" + archived);
 
+        String summaryText = buildSummaryText(total, pending, offered, rejected, archived);
+
+        return new CommandResult(summaryText, UiAction.SHOW_SUMMARY);
+    }
+
+    /**
+     * Counts the number of non-archived applications with the given status.
+     *
+     * @param applications List of all applications.
+     * @param status Status to filter by.
+     * @return Number of non-archived applications matching the status.
+     */
+    private long countStatus(List<Application> applications, String status) {
+        return applications.stream()
+                .filter(a -> !a.isArchived())
+                .filter(a -> a.getStatus().toString().equalsIgnoreCase(status))
+                .count();
+    }
+
+    /**
+     * Builds the summary text displaying application statistics.
+     *
+     * @param total Total number of non-archived applications.
+     * @param pending Number of pending applications.
+     * @param offered Number of offered applications.
+     * @param rejected Number of rejected applications.
+     * @param archived Number of archived applications.
+     * @return Formatted summary text.
+     */
+    private String buildSummaryText(long total, long pending, long offered, long rejected, long archived) {
         String successRate = (offered + rejected) > 0
                 ? String.format("%.1f%%", (offered * 100.0) / (offered + rejected))
                 : "N/A";
 
-        String summaryText = "Application Summary\n\n"
+        return "Application Summary\n\n"
                 + "Total Applications: " + total + "\n"
                 + "Pending: " + pending + "\n"
                 + "Offered: " + offered + "\n"
@@ -67,7 +90,5 @@ public class SummaryCommand extends Command {
                 + "Success Rate: " + successRate + "\n"
                 + "\n"
                 + "Archived: " + archived + "\n";
-
-        return new CommandResult(summaryText, UiAction.SHOW_SUMMARY);
     }
 }
