@@ -256,44 +256,60 @@ public class MainWindow extends UiPart<Stage> {
     private CommandResult executeCommand(String commandText) throws CommandException, ParseException {
         try {
             CommandResult commandResult = logic.execute(commandText);
-            Application selectedApp = logic.getSelectedNotesApplication();
-
             logger.info("Result: " + commandResult.getFeedbackToUser());
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
 
-            if (commandResult.isShowHelp()) {
-                handleHelp();
-            }
-
-            if (commandResult.isShowSummary()) {
-                handleSummary(commandResult.getFeedbackToUser());
-            }
-
-            if (commandResult.isShowNote()) {
-                handleShowNotes();
-            }
-
-            if (commandResult.isEditNote()) {
-                handleEditNotes();
-            }
-
-            if (commandResult.isExit()) {
-                handleExit();
-            }
-
-            if (notesWindow.isShowing()) {
-                if (selectedApp != null) {
-                    notesWindow.refreshCompanyName(selectedApp.getCompanyName().toString());
-                } else {
-                    notesWindow.showApplicationUnavailableAndClose();
-                }
-            }
+            processCommandResult(commandResult);
+            updateNotesWindowIfShowing();
 
             return commandResult;
         } catch (CommandException | ParseException e) {
             logger.info("An error occurred while executing command: " + commandText);
             resultDisplay.setFeedbackToUser(e.getMessage());
             throw e;
+        }
+    }
+
+    /**
+     * Processes the command result by triggering the appropriate UI actions
+     * based on the flags set in the given {@code commandResult}.
+     */
+    private void processCommandResult(CommandResult commandResult) {
+        if (commandResult.isShowHelp()) {
+            handleHelp();
+        }
+
+        if (commandResult.isShowSummary()) {
+            handleSummary(commandResult.getFeedbackToUser());
+        }
+
+        if (commandResult.isShowNote()) {
+            handleShowNotes();
+        }
+
+        if (commandResult.isEditNote()) {
+            handleEditNotes();
+        }
+
+        if (commandResult.isExit()) {
+            handleExit();
+        }
+    }
+
+    /**
+     * Refreshes the notes window with the current selected application's
+     * company name, or closes it if the application is no longer available.
+     */
+    private void updateNotesWindowIfShowing() {
+        if (!notesWindow.isShowing()) {
+            return;
+        }
+
+        Application selectedApp = logic.getSelectedNotesApplication();
+        if (selectedApp != null) {
+            notesWindow.refreshCompanyName(selectedApp.getCompanyName().toString());
+        } else {
+            notesWindow.showApplicationUnavailableAndClose();
         }
     }
 }
