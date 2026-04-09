@@ -5,7 +5,7 @@ title: About Us
 
 We are a team based in the [School of Computing, National University of Singapore](https://www.comp.nus.edu.sg).
 
-You can reach us at the email `seer[at]comp.nus.edu.sg`
+You can reach us at the email `guo_keming@u.nus.edu` or `qian_nuowen@u.nus.edu`
 
 ## Project team
 
@@ -15,7 +15,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 [[github](http://github.com/kinyean)]
 
-* Role: Grunt
+* Role: Developer
 * Responsibilities: A little bit of everything
 
 ### Guo Keming
