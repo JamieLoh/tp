@@ -26,7 +26,7 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 <div markdown="span" class="alert alert-primary">
 
-:bulb: **Tip:** The `.puml` files used to create diagrams are in this document `docs/diagrams` folder. Refer to the [_PlantUML Tutorial_ at se-edu/guides](https://se-education.org/guides/tutorials/plantUml.html) to learn how to create and edit diagrams.
+:bulb: **Tip:** The `.puml` files used to create diagrams are in this document `docs/diagrams` folder.
 </div>
 
 ### Architecture
@@ -174,6 +174,21 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 ## **Implementation**
 
 This section describes noteworthy implementation details of features that are currently present in HireME.
+
+### Find feature
+
+The `find` feature filters the displayed application list based on one or more user-provided search fields.
+
+The sequence diagram below illustrates the interactions when the user executes `find n/google`:
+
+![Interactions Inside the Logic Component for the `find n/google` Command](images/FindSequenceDiagram.png)
+
+`find` is implemented using `FindCommandParser`, `ApplicationMatchesPredicate`, and `FindCommand`:
+
+* `AddressBookParser` delegates `find` input to `FindCommandParser`.
+* `FindCommandParser` parses the supplied prefixed fields and constructs an `ApplicationMatchesPredicate`.
+* `FindCommand` applies that matching condition through `Model#updateFilteredApplicationList(...)`.
+
 
 ### Archive state and filtered list views
 
@@ -624,8 +639,6 @@ Use case ends.
 ### Data Integrity
 - The application should validate all user inputs and reject invalid data with clear error messages without crashing.
 
-### Scalability
-- The application should remain functional and responsive with up to 1000 application entries stored.
 
 ---
 
@@ -996,7 +1009,7 @@ Expected:
     * number of archived applications
 
 2. Test case:
-   Open the same feature from the menu bar.
+   Press `F2`.
 
 Expected:
 * The same summary window is shown.
@@ -1051,9 +1064,3 @@ Expected:
    * The app starts normally.
    * Sample data is loaded.
 
-
-1. Dealing with missing/corrupted data files
-
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
-
-1. _{ more test cases …​ }_
