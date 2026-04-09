@@ -27,7 +27,26 @@ public class FindCommandParser implements Parser<FindCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public FindCommand parse(String args) throws ParseException {
-        // check the input
+        // Trim the raw input and validate that it is not empty.
+        String trimmedArgs = trimAndValidateArgs(args);
+
+        // Tokenize the validated input into prefix-value mappings. e.g. PREFIX_NAME -> ["Google"]
+        ArgumentMultimap argMultimap = tokenizeArguments(trimmedArgs);
+
+        // Ensure that at least one searchable field is present.
+        validateSearchFields(argMultimap);
+
+        // Construct the predicate containing the user's search criteria.
+        ApplicationMatchesPredicate predicate = buildPredicate(argMultimap);
+
+        // Return a FindCommand that uses the constructed predicate.
+        return new FindCommand(predicate);
+    }
+
+    /**
+     * Trims the raw input and ensures that it is not empty.
+     */
+    private String trimAndValidateArgs(String args) throws ParseException {
         String trimmedArgs = args.trim();
 
         if (trimmedArgs.isEmpty()) {
@@ -35,7 +54,13 @@ public class FindCommandParser implements Parser<FindCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
 
-        // parse prefixes and their values. e.g. PREFIX_NAME -> ["Google"]
+        return trimmedArgs;
+    }
+
+    /**
+     * Tokenizes the user input into prefixed arguments.
+     */
+    private ArgumentMultimap tokenizeArguments(String trimmedArgs) {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(" " + trimmedArgs,
                         PREFIX_NAME,
@@ -46,8 +71,14 @@ public class FindCommandParser implements Parser<FindCommand> {
                         PREFIX_DATE,
                         PREFIX_STATUS,
                         PREFIX_TAG
-                        );
+                );
+        return argMultimap;
+    }
 
+    /**
+     * Ensures that at least one searchable field is provided.
+     */
+    private void validateSearchFields(ArgumentMultimap argMultimap) throws ParseException {
         if (!argMultimap.getValue(PREFIX_NAME).isPresent()
                 && !argMultimap.getValue(PREFIX_ROLE).isPresent()
                 && !argMultimap.getValue(PREFIX_EMAIL).isPresent()
@@ -60,8 +91,12 @@ public class FindCommandParser implements Parser<FindCommand> {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
+    }
 
-        // get the value. e.g. name = "Google"
+    /**
+     * Builds the predicate used by the find command from the parsed arguments.
+     */
+    private ApplicationMatchesPredicate buildPredicate(ArgumentMultimap argMultimap) {
         String name = argMultimap.getValue(PREFIX_NAME).orElse(null);
         String role = argMultimap.getValue(PREFIX_ROLE).orElse(null);
         String email = argMultimap.getValue(PREFIX_EMAIL).orElse(null);
@@ -71,10 +106,10 @@ public class FindCommandParser implements Parser<FindCommand> {
         String status = argMultimap.getValue(PREFIX_STATUS).orElse(null);
         List<String> tags = argMultimap.getAllValues(PREFIX_TAG);
 
-        ApplicationMatchesPredicate predicate = new ApplicationMatchesPredicate(
-                        name, role, email, website, address, date, status, tags);
+        ApplicationMatchesPredicate predicate =
+                new ApplicationMatchesPredicate(name, role, email, website, address, date, status, tags);
 
-        return new FindCommand(predicate);
+        return predicate;
     }
 
 }
