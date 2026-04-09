@@ -281,8 +281,12 @@ public class MainWindow extends UiPart<Stage> {
                 handleExit();
             }
 
-            if (notesWindow.isShowing() && selectedApp != null) {
-                notesWindow.refreshCompanyName(selectedApp.getCompanyName().toString());
+            if (notesWindow.isShowing()) {
+                if (selectedApp != null) {
+                    notesWindow.refreshCompanyName(selectedApp.getCompanyName().toString());
+                } else {
+                    notesWindow.showApplicationUnavailableAndClose();
+                }
             }
 
             return commandResult;

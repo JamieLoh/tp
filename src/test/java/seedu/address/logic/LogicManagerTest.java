@@ -1,7 +1,6 @@
 package seedu.address.logic;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_APPLICATION_DISPLAYED_INDEX;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
@@ -108,12 +107,12 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void saveApplicationNotes_noSelectedApplication_returnsFalse() {
-        assertEquals(false, logic.saveApplicationNotes("test notes"));
+    public void saveApplicationNotes_noSelectedApplication_returnsApplicationUnavailable() {
+        assertEquals(NotesSaveStatus.APPLICATION_UNAVAILABLE, logic.saveApplicationNotes("test notes"));
     }
 
     @Test
-    public void saveApplicationNotes_applicationDeletedAfterSelection_returnsFalse() {
+    public void saveApplicationNotes_applicationDeletedAfterSelection_returnsApplicationUnavailable() {
         Application application = new ApplicationBuilder().build();
         model.addApplication(application);
         model.editApplicationNotes(application);
@@ -121,23 +120,23 @@ public class LogicManagerTest {
         // Remove the application so to test if hasApplication returns false
         model.deleteApplication(application);
 
-        assertEquals(false, logic.saveApplicationNotes("test notes"));
+        assertEquals(NotesSaveStatus.APPLICATION_UNAVAILABLE, logic.saveApplicationNotes("test notes"));
     }
 
     @Test
-    public void saveApplicationNotes_validNotes_returnsTrue() throws Exception {
+    public void saveApplicationNotes_validNotes_returnsSuccess() throws Exception {
         Application application = new ApplicationBuilder().build();
         model.addApplication(application);
         model.editApplicationNotes(application);
 
-        assertEquals(true, logic.saveApplicationNotes("test notes"));
+        assertEquals(NotesSaveStatus.SUCCESS, logic.saveApplicationNotes("test notes"));
 
         Application updated = logic.getSelectedNotesApplication();
         assertEquals("test notes", updated.getNotes());
     }
 
     @Test
-    public void saveApplicationNotes_applicationEditedAfterSelection_returnsTrue() {
+    public void saveApplicationNotes_applicationEditedAfterSelection_returnsSuccess() {
         Application application = new ApplicationBuilder().build();
         model.addApplication(application);
         model.editApplicationNotes(application);
@@ -145,7 +144,7 @@ public class LogicManagerTest {
         Application editedApplication = new ApplicationBuilder(application).withStatus("Offered").build();
         model.setApplication(application, editedApplication);
 
-        assertEquals(true, logic.saveApplicationNotes("notes after edit"));
+        assertEquals(NotesSaveStatus.SUCCESS, logic.saveApplicationNotes("notes after edit"));
 
         Application updated = logic.getSelectedNotesApplication();
         assertEquals("notes after edit", updated.getNotes());
@@ -153,7 +152,7 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void saveApplicationNotes_applicationArchivedAfterSelection_returnsTrue() {
+    public void saveApplicationNotes_applicationArchivedAfterSelection_returnsSuccess() {
         Application application = new ApplicationBuilder().build();
         model.addApplication(application);
         model.editApplicationNotes(application);
@@ -161,7 +160,7 @@ public class LogicManagerTest {
         Application archivedApplication = new ApplicationBuilder(application).withArchived(true).build();
         model.setApplication(application, archivedApplication);
 
-        assertEquals(true, logic.saveApplicationNotes("notes after archive"));
+        assertEquals(NotesSaveStatus.SUCCESS, logic.saveApplicationNotes("notes after archive"));
 
         Application updated = logic.getSelectedNotesApplication();
         assertEquals("notes after archive", updated.getNotes());
@@ -186,9 +185,38 @@ public class LogicManagerTest {
         model.addApplication(application);
         model.editApplicationNotes(application);
 
-        assertFalse(ioExceptionLogic.saveApplicationNotes("notes with io error"));
+        assertEquals(NotesSaveStatus.STORAGE_FAILURE, ioExceptionLogic.saveApplicationNotes("notes with io error"));
 
         assertEquals("", model.getSelectedNotesApplication().getNotes());
+    }
+
+    @Test
+    public void saveApplicationNotes_storageThrowsIoException_preservesSelectedApplicationFields() {
+        JsonAddressBookStorage addressBookStorage = new JsonAddressBookStorage(
+                temporaryFolder.resolve("rollbackAddressBook.json")) {
+            @Override
+            public void saveAddressBook(ReadOnlyAddressBook addressBook, Path filePath) throws IOException {
+                throw new IOException("simulated IO error");
+            }
+        };
+        JsonUserPrefsStorage userPrefsStorage =
+                new JsonUserPrefsStorage(temporaryFolder.resolve("rollbackUserPrefs.json"));
+        StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage);
+        Logic ioExceptionLogic = new LogicManager(model, storage);
+
+        Application application = new ApplicationBuilder()
+                .withStatus("Offered")
+                .withNotes("original notes")
+                .build();
+        model.addApplication(application);
+        model.editApplicationNotes(application);
+
+        assertEquals(NotesSaveStatus.STORAGE_FAILURE, ioExceptionLogic.saveApplicationNotes("new notes"));
+
+        Application selectedApplication = model.getSelectedNotesApplication();
+        assertEquals("original notes", selectedApplication.getNotes());
+        assertEquals(application.getStatus(), selectedApplication.getStatus());
+        assertEquals(application.getCompanyName(), selectedApplication.getCompanyName());
     }
 
     /**
