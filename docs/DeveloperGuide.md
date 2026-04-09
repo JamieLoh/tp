@@ -179,6 +179,9 @@ This section describes noteworthy implementation details of features that are cu
 
 Archive state is stored directly in `Application` as the boolean field `isArchived`.
 
+![Archive/filter sequence](images/ArchiveFilterSequenceDiagram.png)
+
+
 This affects multiple layers:
 
 * `Application` stores the archive flag as part of the model state.
