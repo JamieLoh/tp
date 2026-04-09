@@ -54,7 +54,7 @@ public class SummaryCommand extends Command {
      * Counts the number of non-archived applications with the given status.
      *
      * @param applications List of all applications.
-     * @param statusType The {@code Status.StatusType} to filter by.
+     * @param statusType The {@code StatusType} to filter by.
      * @return Number of non-archived applications matching the status.
      */
     private long countStatus(List<Application> applications, StatusType statusType) {
