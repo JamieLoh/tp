@@ -407,19 +407,27 @@ Manage applications faster than a typical mouse/GUI driven app.
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority  | As a … | I want to …                                                                              | So that I can…                                       |
-|-----------|--------|------------------------------------------------------------------------------------------|------------------------------------------------------|
-| `* * *`   | user   | add new company information (name, email, website, address, etc.)                        | organise my internship applications in one place     |
-| `* * *`   | user   | add an application status and application date                                           | track the progress of each internship application    |
-| `* * *`   | user   | delete a company entry                                                                   | remove applications that I no longer need            |
-| `* * *`   | user   | update the status of a job application                                                   | keep my application records accurate and up to date  |
-| `* * *`   | user   | list all my job applications                                                             | easily monitor my overall application progress       |
-| `* * *`   | user   | search for applications by fields such as company name, website, or application status   | find relevant applications quickly                   |
-| `* * *`   | user   | archive an application                                                                   | hide inactive applications without losing the record |
-| `* * *`   | user   | unarchive an application                                                                 | restore an archived application to active tracking   |
-| `* * *`   | user   | open notes for an application                                                            | record or review interview and preparation details   |
-| `* * *`   | user   | view a summary of my applications                                                        | understand my application progress at a glance       |
-| `* * *`   | user   | view help information                                                                    | recall command formats when needed                   |
+| Priority  | As a … | I want to …                                                                           | So that I can…                                        |
+|-----------|--------|---------------------------------------------------------------------------------------|-------------------------------------------------------|
+| `* * *`   | user   | add new company information (name, email, website, address, etc.)                     | organise my internship applications in one place      |
+| `* * *`   | user   | add an application status and application date                                        | track the progress of each internship application     |
+| `* * *`   | user   | delete a company entry                                                                | remove applications that I no longer need             |
+| `* * *`   | user   | update the status of a job application                                                | keep my application records accurate and up to date   |
+| `* * *`   | user   | list all my job applications                                                          | easily monitor my overall application progress        |
+| `* * *`   | user   | search for applications by fields such as company name, website, or application status | find relevant applications quickly                    |
+| `* * *`   | user   | archive an application                                                                | hide inactive applications without losing the record  |
+| `* * *`   | user   | unarchive an application                                                              | restore an archived application to active tracking    |
+| `* * *`   | user   | open notes for an application                                                         | record or review interview and preparation details    |
+| `* * *`   | user   | view a summary of my applications                                                     | understand my application progress at a glance        |
+| `* * *`   | user   | view help information                                                                 | recall command formats when needed                    |
+| `* *`     | user   | add tags to applications                                                              | group applications by interview stage or category     |
+| `* *`     | user   | clear optional fields such as email, website, or address when editing                 | keep my records accurate when details change          |
+| `* *`     | user   | search for applications using partial details                                         | avoid having to remember every application exactly   |
+| `* *`     | user   | switch between active and archived application views                                  | review past applications without cluttering my list   |
+| `* *`     | user   | open notes in view mode or edit mode                                                  | avoid accidental edits when I only want to review     |
+| `*`       | user   | clear all applications at once                                                        | reset my tracker quickly when starting over           |
+| `*`       | user   | access help and summary using keyboard shortcuts                                      | open supporting windows faster                        |
+| `*`       | user   | have the app remember my window size and position                                     | continue from a familiar workspace each time          |
 
 
 ## Use cases
