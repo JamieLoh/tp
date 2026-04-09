@@ -1,6 +1,7 @@
-
-
-## User Guide
+---
+layout: page
+title: User guide
+---
 
 
 HireME helps you keep all your internship applications in one place, so you can easily track your progress.

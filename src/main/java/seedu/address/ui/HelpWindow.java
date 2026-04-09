@@ -58,6 +58,14 @@ public class HelpWindow extends UiPart<Stage> {
                 title(),
                 body("Track your internship applications using the commands below.\n\n")
         );
+        helpMessage.getChildren().addAll(header("Command format"),
+                body(
+                        "\n- Words in UPPER_CASE are inputs you provide (e.g. n/Google)\n"
+                                + "- [ ] indicates optional fields\n"
+                                + "- ... means the field can be repeated\n"
+                                + "- Parameters can be in any order\n"
+                                + "- Duplicate fields (except tags) are not allowed\n\n"
+                ));
 
         helpMessage.getChildren().addAll(section("add",
                 "Add a new application.",
