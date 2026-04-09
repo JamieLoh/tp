@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
 
@@ -14,8 +15,7 @@ import seedu.address.model.tag.Tag;
  * All matching is case-insensitive and partial.
  */
 public class ApplicationMatchesPredicate implements Predicate<Application> {
-    private static final Logger logger = Logger.getLogger(ApplicationMatchesPredicate.class.getName());
-
+    private static final Logger logger = LogsCenter.getLogger(ApplicationMatchesPredicate.class);
     private final String nameKeyword;
     private final String roleKeyword;
     private final String emailKeyword;
