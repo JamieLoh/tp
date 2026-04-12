@@ -22,47 +22,47 @@
         <padding>
           <Insets top="5" right="5" bottom="5" left="15" />
         </padding>
-        <HBox spacing="0.5" alignment="CENTER_LEFT">
+        <HBox spacing="0.5" alignment="TOP_LEFT">
           <Label fx:id="id" styleClass="cell_big_label">
             <minWidth>
               <!-- Ensures that the label text is never truncated -->
               <Region fx:constant="USE_PREF_SIZE" />
             </minWidth>
           </Label>
-          <Label fx:id="companyName" text="\$first" styleClass="cell_big_label" />
+          <Label fx:id="companyName" text="\$first" styleClass="cell_big_label" wrapText="true" minWidth="0" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
         </HBox>
         <FlowPane fx:id="tags" />
-        <HBox spacing="5" alignment="CENTER_LEFT">
+        <HBox spacing="5" alignment="TOP_LEFT">
             <ImageView fitHeight="16" fitWidth="16">
                 <image>
                     <Image url="@../images/role.png" />
                 </image>
             </ImageView>
-            <Label fx:id="role" styleClass="cell_small_label" text="\$role" />
+            <Label fx:id="role" styleClass="cell_small_label" text="\$role" wrapText="true" minWidth="0" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
         </HBox>
-        <HBox spacing="5" alignment="CENTER_LEFT">
+        <HBox spacing="5" alignment="TOP_LEFT">
             <ImageView fitHeight="16" fitWidth="16" preserveRatio="true">
                 <image>
                     <Image url="@../images/address.png" />
                 </image>
             </ImageView>
-            <Label fx:id="address" styleClass="cell_small_label" text="\$address" />
+            <Label fx:id="address" styleClass="cell_small_label" text="\$address" wrapText="true" minWidth="0" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
         </HBox>
-        <HBox spacing="5" alignment="CENTER_LEFT">
+        <HBox spacing="5" alignment="TOP_LEFT">
             <ImageView fitHeight="16" fitWidth="16">
                 <image>
                     <Image url="@../images/email.png" />
                 </image>
             </ImageView>
-            <Label fx:id="email" styleClass="cell_small_label" text="\$email" />
+            <Label fx:id="email" styleClass="cell_small_label" text="\$email" wrapText="true" minWidth="0" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
         </HBox>
-        <HBox spacing="5" alignment="CENTER_LEFT">
+        <HBox spacing="5" alignment="TOP_LEFT">
             <ImageView fitHeight="16" fitWidth="16" preserveRatio="true">
                 <image>
                     <Image url="@../images/website.png" />
                 </image>
             </ImageView>
-            <Label fx:id="website" styleClass="cell_small_label" text="\$website" />
+            <Label fx:id="website" styleClass="cell_small_label" text="\$website" wrapText="true" minWidth="0" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
         </HBox>
         <HBox spacing="5" alignment="CENTER_LEFT">
             <ImageView fitHeight="16" fitWidth="16">

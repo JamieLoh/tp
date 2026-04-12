@@ -39,7 +39,6 @@ public class ArchiveCommandTest {
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
         expectedModel.setApplication(applicationToArchive, expectedArchivedApplication);
-        expectedModel.updateFilteredApplicationList(Model.PREDICATE_SHOW_UNARCHIVED_APPLICATIONS);
 
         assertCommandSuccess(archiveCommand, model, expectedMessage, expectedModel);
     }
@@ -57,8 +56,11 @@ public class ArchiveCommandTest {
                 Messages.format(expectedArchivedApplication));
 
         Model expectedModel = new ModelManager(model.getAddressBook(), model.getUserPrefs());
-        expectedModel.setApplication(applicationToArchive, expectedArchivedApplication);
-        expectedModel.updateFilteredApplicationList(Model.PREDICATE_SHOW_UNARCHIVED_APPLICATIONS);
+        showApplicationAtIndex(expectedModel, INDEX_FIRST_APPLICATION);
+
+        Application applicationToArchiveInExpectedModel = expectedModel.getFilteredApplicationList()
+                .get(INDEX_FIRST_APPLICATION.getZeroBased());
+        expectedModel.setApplication(applicationToArchiveInExpectedModel, expectedArchivedApplication);
 
         assertCommandSuccess(archiveCommand, model, expectedMessage, expectedModel);
     }

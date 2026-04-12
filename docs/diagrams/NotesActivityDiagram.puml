@@ -1,0 +1,22 @@
+@startuml
+skin rose
+skinparam ActivityFontSize 15
+skinparam ArrowFontSize 12
+
+start
+
+:User executes OpenCommand;
+:Select application from list;
+
+if () then ([view mode])
+    :Display notes in view mode;
+else ([edit mode])
+    :Display notes in edit mode;
+    if () then ([user saves notes])
+        :Save updated notes to application;
+    else ([user does not save notes])
+    endif
+endif
+
+stop
+@enduml

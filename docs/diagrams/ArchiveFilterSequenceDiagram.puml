@@ -40,10 +40,6 @@ ArchiveCommand -> Model : setApplication(archivedCopy)
 activate Model
 deactivate Model
 
-ArchiveCommand -> Model : updateFilteredApplicationList(\nshow unarchived)
-activate Model
-deactivate Model
-
 deactivate ArchiveCommand
 deactivate LogicManager
 
@@ -69,5 +65,6 @@ note across
 Default list view excludes archived applications.
 `list archived` switches the current predicate
 to show only archived applications.
+Archive, edit, and unarchive keep the current predicate.
 end note
 @enduml

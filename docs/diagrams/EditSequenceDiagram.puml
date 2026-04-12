@@ -16,10 +16,10 @@ box Model MODEL_COLOR_T1
 participant "m:Model" as Model MODEL_COLOR
 end box
 
-[-> LogicManager : execute("edit 1 n/ Grab")
+[-> LogicManager : execute("edit 1 n/Grab")
 activate LogicManager
 
-LogicManager -> AddressBookParser : parseCommand("edit 1 n/ Grab")
+LogicManager -> AddressBookParser : parseCommand("edit 1 n/Grab")
 activate AddressBookParser
 
 create EditCommandParser
@@ -29,7 +29,7 @@ activate EditCommandParser
 EditCommandParser --> AddressBookParser
 deactivate EditCommandParser
 
-AddressBookParser -> EditCommandParser : parse("1 n/ Grab")
+AddressBookParser -> EditCommandParser : parse("1 n/Grab")
 activate EditCommandParser
 
 create EditApplicationDescriptor
@@ -64,7 +64,7 @@ activate Model
 Model --> EditCommand : lastShownList
 deactivate Model
 
-EditCommand -> EditApplicationDescriptor : getName()
+EditCommand -> EditApplicationDescriptor : getCompanyName()
 activate EditApplicationDescriptor
 
 EditApplicationDescriptor --> EditCommand : "Grab"

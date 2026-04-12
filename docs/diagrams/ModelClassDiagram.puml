@@ -13,12 +13,17 @@ Class ModelManager
 Class UserPrefs
 
 Class UniqueApplicationList
-Class Application
+Class Application {
+    - notes: String
+    - isArchived: boolean
+}
 Class Address
 Class Email
-Class Name
+Class CompanyName
 Class Website
 Class Role
+Class Date
+Class Status
 Class Tag
 
 Class I #FFFFFF
@@ -38,22 +43,29 @@ UserPrefs .up.|> ReadOnlyUserPrefs
 
 AddressBook *--> "1" UniqueApplicationList
 UniqueApplicationList --> "~* all" Application
-Application *--> Name
+Application *--> CompanyName
 Application *--> Email
 Application *--> Address
 Application *--> Website
 Application *--> Role
+Application *--> Date
+Application *--> Status
 Application *--> "*" Tag
 ModelManager --> "~* filtered" Application
 
 Application -[hidden]up--> I
 UniqueApplicationList -[hidden]right-> I
 
-Name -[hidden]right-> Email
-Email -[hidden]right-> Address
-Address -[hidden]right-> Website
-Website -[hidden]right-> Role
+CompanyName -[hidden]right-> Role
+Role -[hidden]right-> Date
+Date -[hidden]right-> Status
+Email -[hidden]right-> Website
+Website -[hidden]right-> Address
+Address -[hidden]right-> Tag
+CompanyName -[hidden]down-> Email
+Role -[hidden]down-> Website
+Date -[hidden]down-> Address
+Status -[hidden]down-> Tag
 
 
-ModelManager --> "~* filtered" Application
 @enduml

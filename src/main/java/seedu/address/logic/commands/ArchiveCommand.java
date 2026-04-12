@@ -61,7 +61,6 @@ public class ArchiveCommand extends Command {
         );
 
         model.setApplication(applicationToArchive, archivedApplication);
-        model.updateFilteredApplicationList(Model.PREDICATE_SHOW_UNARCHIVED_APPLICATIONS);
 
         return new CommandResult(String.format(MESSAGE_ARCHIVE_APPLICATION_SUCCESS,
                 Messages.format(archivedApplication)));
