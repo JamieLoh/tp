@@ -10,6 +10,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
@@ -55,6 +59,14 @@ public class NotesWindow extends UiPart<Stage> {
         root.setMinHeight(NOTES_WINDOW_HEIGHT);
         root.setWidth(NOTES_WINDOW_WIDTH);
         root.setHeight(NOTES_WINDOW_HEIGHT);
+
+        KeyCombination saveShortcut = new KeyCodeCombination(KeyCode.S, KeyCombination.SHORTCUT_DOWN);
+        root.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (saveShortcut.match(event)) {
+                handleSave();
+                event.consume();
+            }
+        });
     }
 
     /**
@@ -131,7 +143,7 @@ public class NotesWindow extends UiPart<Stage> {
      */
     @FXML
     private void handleSave() {
-        if (saveCallback == null) {
+        if (saveCallback == null || !isEditMode || saveButton.isDisabled()) {
             return;
         }
 
