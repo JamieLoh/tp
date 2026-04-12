@@ -22,9 +22,8 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 ## **Design**
 
-<div markdown="span" class="alert alert-primary">
-
-:bulb: **Tip:** The `.puml` files used to create diagrams are in this document `docs/diagrams` folder.
+<div class="alert alert-primary">
+<strong>Tip:</strong> The <code>.puml</code> files used to create diagrams are in this document <code>docs/diagrams</code> folder.
 </div>
 
 ### Architecture
@@ -102,14 +101,15 @@ The sequence diagram below illustrates the interactions within the `Logic` compo
 
 ![Interactions Inside the Logic Component for the `delete 1` Command](images/DeleteSequenceDiagram.png)
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
+<div class="alert alert-info">
+<strong>Note:</strong> The lifeline for <code>DeleteCommandParser</code> should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
 </div>
 
 How the `Logic` component works:
 
 1. When `Logic` is called upon to execute a command, it is passed to an `AddressBookParser` object which in turn creates a parser that matches the command (e.g., `DeleteCommandParser`) and uses it to parse the command.
 1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeleteCommand`) which is executed by the `LogicManager`.
-1. The command can communicate with the `Model` when it is executed (e.g. to delete a application).<br>
+1. The command can communicate with the `Model` when it is executed (e.g. to delete an application).<br>
    Note that although this is shown as a single step in the diagram above (for simplicity), in the code it can take several interactions (between the command object and the `Model`) to achieve.
 1. The result of the command execution is encapsulated as a `CommandResult` object which is returned back from `Logic`.
 
@@ -300,9 +300,8 @@ Step 3. The user executes `add n/David ...` to add a new application. The `add` 
 
 ![UndoRedoState2](images/UndoRedoState2.png)
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If a command fails its execution, it
-will not call `Model#commitAddressBook()`, so the HireME state will not be saved into `addressBookStateList`.
-
+<div class="alert alert-info">
+<strong>Note:</strong> If a command fails its execution, it will not call <code>Model#commitAddressBook()</code>, so the HireME state will not be saved into <code>addressBookStateList</code>.
 </div>
 
 Step 4. The user now decides that adding the application was a mistake, and decides to undo that action by executing
@@ -311,20 +310,16 @@ the `undo` command. The `undo` command calls `Model#undoAddressBook()`, which sh
 
 ![UndoRedoState3](images/UndoRedoState3.png)
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at
-index 0, pointing to the initial state, then there are no previous states to restore. The `undo` command uses
-`Model#canUndoAddressBook()` to check if this is the case. If so, it returns an error to the user rather than
-attempting to perform the undo.
-
+<div class="alert alert-info">
+<strong>Note:</strong> If the <code>currentStatePointer</code> is at index 0, pointing to the initial state, then there are no previous states to restore. The <code>undo</code> command uses <code>Model#canUndoAddressBook()</code> to check if this is the case. If so, it returns an error to the user rather than attempting to perform the undo.
 </div>
 
 The following sequence diagram shows how an undo operation would go through the `Logic` component:
 
 ![UndoSequenceDiagram](images/UndoSequenceDiagram-Logic.png)
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `UndoCommand` should
-end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
-
+<div class="alert alert-info">
+<strong>Note:</strong> The lifeline for <code>UndoCommand</code> should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 </div>
 
 Similarly, how an undo operation would go through the `Model` component is shown below:
@@ -334,11 +329,8 @@ Similarly, how an undo operation would go through the `Model` component is shown
 The `redo` command does the opposite - it calls `Model#redoAddressBook()`, which shifts the
 `currentStatePointer` once to the right, pointing to the previously undone state, and restores HireME to that state.
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at
-index `addressBookStateList.size() - 1`, pointing to the latest state, then there are no undone states to restore.
-The `redo` command uses `Model#canRedoAddressBook()` to check if this is the case. If so, it returns an error to the
-user rather than attempting to perform the redo.
-
+<div class="alert alert-info">
+<strong>Note:</strong> If the <code>currentStatePointer</code> is at index <code>addressBookStateList.size() - 1</code>, pointing to the latest state, then there are no undone states to restore. The <code>redo</code> command uses <code>Model#canRedoAddressBook()</code> to check if this is the case. If so, it returns an error to the user rather than attempting to perform the redo.
 </div>
 
 Step 5. The user then decides to execute the command `list`. Commands that do not modify stored data, such as `list`,
@@ -639,8 +631,13 @@ Use case ends.
 - The application should not depend on external services for core functionality.
 
 ### Maintainability
-- The codebase should follow consistent coding standards so that a new developer can understand and contribute within a reasonable onboarding period.
-- Major features should be documented clearly in the Developer Guide and User Guide.
+- The codebase shall pass the project's Checkstyle rules before each release.
+- A developer who has completed the setup steps in this guide should be able to locate the main logic, model, storage,
+  and UI packages by using the architecture and component diagrams in this guide.
+- Each major feature shall have a User Guide section that states its command format, parameters, constraints, and at
+  least one valid example.
+- Each feature described in the Developer Guide's Implementation section shall identify the main implementation classes
+  and explain the normal execution flow.
 
 ### Data Integrity
 - The application should validate all user inputs and reject invalid data with clear error messages without crashing.
@@ -702,9 +699,8 @@ base.
 
 Given below are instructions to test the app manually.
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** These instructions only provide a starting point for testers to work on;
-testers are expected to do more *exploratory* testing.
-
+<div class="alert alert-info">
+<strong>Note:</strong> These instructions only provide a starting point for testers to work on; testers are expected to do more <em>exploratory</em> testing.
 </div>
 
 ### Launch and shutdown
@@ -1069,4 +1065,3 @@ Expected:
     Expected:
    * The app starts normally.
    * Sample data is loaded.
-

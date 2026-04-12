@@ -86,7 +86,7 @@ Follow these steps to set up and start using HireME:
    > <br><br>
    > 3. To launch HireME, run the following command:
    > <br><br>
-   >    `java -jar hireME.jar`
+   >    `java -jar HireME.jar`
 
      <br><br>
 5.  A [GUI](#gui) similar to the below should appear in a few seconds. Note how the app contains some sample data.
@@ -674,6 +674,10 @@ The position number of an application in the displayed list.
 
 ### Application Status
 The current stage of an application (`Pending`, `Rejected`, or `Offered`).
+
+### Date
+The date entered using the `d/` prefix. It is typically used as the application date, but you can use it for any
+date that is useful for tracking the application. Dates must use the `DD-MM-YYYY` format, such as `15-03-2026`.
 
 ### Tag
 A label used to organise applications (e.g. `remote`, `tech`, `archived`).
