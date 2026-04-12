@@ -31,8 +31,8 @@ public class NameTest {
         assertFalse(CompanyName.isValidCompanyName("  Google")); // leading space
 
         // valid name
-        assertTrue(CompanyName.isValidCompanyName("Google")); // alphabets only
         assertTrue(CompanyName.isValidCompanyName("^")); // only non-alphanumeric characters
+        assertTrue(CompanyName.isValidCompanyName("Google")); // alphabets only
         assertTrue(CompanyName.isValidCompanyName("Google*")); // contains non-alphanumeric characters
         assertTrue(CompanyName.isValidCompanyName("google inc")); // alphabets with space
         assertTrue(CompanyName.isValidCompanyName("Google     Inc")); // alphabets with multiple spaces

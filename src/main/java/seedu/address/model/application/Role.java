@@ -10,8 +10,9 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class Role {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Role can contain any characters, but it should not be blank";
-    public static final String VALIDATION_REGEX = "\\S.*";
+            "Role may only contain printable English keyboard characters "
+                    + "(letters, digits, symbols), and must not be blank or start with a space";
+    public static final String VALIDATION_REGEX = "^[!-~][\\x20-\\x7E]*$";
     public final String value;
 
     /**

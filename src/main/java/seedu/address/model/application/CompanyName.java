@@ -10,13 +10,14 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class CompanyName {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Company name can contain any characters, but it should not be blank";
+            "Company name may only contain printable English keyboard characters "
+                    + "(letters, digits, symbols), and must not be blank or start with a space";
 
     /*
      * The first character of the address must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
      */
-    public static final String VALIDATION_REGEX = "\\S.*";
+    public static final String VALIDATION_REGEX = "^[!-~][\\x20-\\x7E]*$";
 
     public final String fullCompanyName;
 
