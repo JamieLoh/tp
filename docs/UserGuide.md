@@ -4,9 +4,10 @@ title: User guide
 ---
 
 
-HireME helps you keep all your internship applications in one place, so you can easily track your progress.
-If you prefer typing, HireME helps you manage your applications faster than using spreadsheets or handwritten notes.
+## Summary
 
+HireME is a Desktop application which allows you to track and manage the information related to internship application.
+This guide gives a clear overview of HireME's features and how to use them.
 
 ## Table of Contents
 
