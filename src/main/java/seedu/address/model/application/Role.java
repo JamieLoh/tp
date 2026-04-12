@@ -10,7 +10,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class Role {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Role should only contain alphanumeric characters and spaces, and it should not be blank";
+            "Role can contain any characters, but it should not be blank";
     public static final String VALIDATION_REGEX = "\\S.*";
     public final String value;
 
