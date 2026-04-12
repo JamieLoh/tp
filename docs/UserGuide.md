@@ -5,7 +5,7 @@ title: User guide
 
 
 HireME helps you keep all your internship applications in one place, so you can easily track your progress.
-If you type fast, you can complete your application listings faster with HireME than with mouse-based apps.
+If you prefer typing, HireME helps you manage your applications faster than using spreadsheets or handwritten notes.
 
 
 ## Table of Contents
@@ -71,10 +71,10 @@ Follow these steps to set up and start using HireME:
     > ![Releases](images/Releases.png)
 
     <br><br>
-3. Create a new folder and name it. This would be the _home folder_ for HireME. Copy `HireME.jar` to the folder. 
-   >Take note of the path of your home folder, you will need it when launching HireME
+3. Create a new folder to store HireME. This folder will be your HireME home folder. Copy `HireME.jar` to the folder. 
+   > Note down the folder path. You will need it when launching HireME.
    > 
-   >An example of a path: `C:\Users\your_username\Documents\your_folder_name`
+   > An example of a path: `C:\Users\your_username\Documents\your_folder_name`
 
    <br><br>
 4. Launch HireME by following the steps below:
@@ -126,6 +126,9 @@ Follow these steps to set up and start using HireME:
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
   e.g. in `add n/COMPANY_NAME`, `COMPANY_NAME` is a parameter which can be used as `add n/Google`.
   <br><br>
+* Leave a space between each parameter.<br>
+  e.g `edit 1 n/Grabe/john_doe@gmail.com` is not allowed.
+  <br><br>
 * Items in square brackets are optional.<br>
   e.g. `n/COMPANY_NAME [e/EMAIL]` can be used as `n/Google e/hr@google.com` or as `n/Google`.
   <br><br>
@@ -140,7 +143,10 @@ Follow these steps to set up and start using HireME:
   <br><br>
 * Each parameter (except tags) should only appear once in a command. If you accidentally provide duplicates (e.g. `n/Google n/Meta`), the app will flag an error.
   <br><br>
+
 > ⚠ **Warning:** If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
+
+> ⚠ **Warning:** Special characters (including emojis and invisible spaces such as zero-width spaces) are allowed, but they may cause parsing issues and should be used with caution.
 
 <br><br>
 
@@ -149,7 +155,8 @@ Follow these steps to set up and start using HireME:
 # Managing Applications
 ## Adding an application: `add`
 
-Add a new application so you can keep track of where you have applied and what stage each application is at. Recording your applications early helps you avoid losing track follow-ups and important details such as contacts or job websites. You can also include tags to organise your applications and make them easier to find later.
+Add a new application so you can keep track of where you have applied and what stage each application is at. 
+Recording your applications early helps you avoid losing track of follow-ups and important details such as contacts or job websites. You can also include tags to organise your applications and make them easier to find later.
 
 #### Format: `add n/COMPANY_NAME r/ROLE d/DATE s/STATUS [e/EMAIL] [w/WEBSITE] [a/ADDRESS] [t/TAG]…​`
 > 💡 **Tip:** See [Command Format Notes](#command-format-notes).
@@ -158,22 +165,22 @@ Add a new application so you can keep track of where you have applied and what s
 ![Application](images/Application.png)
 <br><br>
 
-| Parameter    | Prefix | Required | Constraints                                 | Parameter Example       |
-|--------------|--------|----------|---------------------------------------------|-------------------------|
-| Company Name | `n/`   | Yes      | Alphanumeric characters and spaces only     | `n/Google`              |
-| Role         | `r/`   | Yes      | Alphanumeric characters and spaces only     | `r/SWE Intern`          |
-| Date         | `d/`   | Yes      | Must be in `DD-MM-YYYY` format              | `d/15-03-2026`          |
-| Status       | `s/`   | Yes      | Must be `Offered`, `Pending`, or `Rejected` | `s/Pending`             |
-| Email        | `e/`   | Optional | Must follow email format                    | `e/hr@google.com`       |
-| Website      | `w/`   | Optional | Must follow website format                  | `w/https://google.com`  |
-| Address      | `a/`   | Optional | Must not be blank                           | `a/Singapore`           |
-| Tag          | `t/`   | Optional | Alphanumeric only, no spaces                | `t/govtech` `t/fintech` |
+| Parameter    | Prefix | Required | Constraints                                      | Parameter Example       |
+|--------------|--------|----------|--------------------------------------------------|-------------------------|
+| Company Name | `n/`   | Yes      | Must not be blank (See warning for rare cases)   | `n/Google`              |
+| Role         | `r/`   | Yes      | Must not be blank (See warning for rare cases)   | `r/SWE Intern`          |
+| Date         | `d/`   | Yes      | Must be in `DD-MM-YYYY` format                   | `d/15-03-2026`          |
+| Status       | `s/`   | Yes      | Must be `Offered`, `Pending`, or `Rejected`      | `s/Pending`             |
+| Email        | `e/`   | Optional | Must follow email format                         | `e/hr@google.com`       |
+| Website      | `w/`   | Optional | Must follow website format                       | `w/https://google.com`  |
+| Address      | `a/`   | Optional | Must not be blank (See warning for rare cases)   | `a/Singapore`           |
+| Tag          | `t/`   | Optional | Alphanumeric only, no spaces                     | `t/govtech` `t/fintech` |
 
 
 > ⚠ **Warning:** Two applications with the same `Company Name` and `Role` are not allowed. (Case-insensitive) 
 > You can reuse either field as long as the other is different.
 
-> ⚠ **Warning:** All tags must be unique, duplicated tags will be truncated to a single tag.
+> ⚠ **Warning:** All tags must be unique (Case-sensitive, e.g. `t/PM` and `t/pm` are treated as different tags to support user-defined meanings), duplicated tags will be truncated to a single tag .
 
 > 💡 **Tip:** An application can have any number of tags (including 0).
 
@@ -193,7 +200,7 @@ Add a new application so you can keep track of where you have applied and what s
 ---
 ## Editing an application: `edit`
 
-Edits an existing application in HireME. Use this when you need to update details like a new status or correct a mistake.
+Update an existing application in HireME. Use this when you need to update details like a new status or correct a mistake.
 
 #### Format: `edit INDEX [n/COMPANY_NAME] [r/ROLE] [d/DATE] [s/STATUS] [e/EMAIL] [w/WEBSITE] [a/ADDRESS] [t/TAG]…​`
 > 💡 **Tip:** See [Command Format Notes](#command-format-notes).
@@ -251,7 +258,7 @@ Delete an application you no longer need from HireME.
 
 > ⚠ **Warning:** Deleting an application is irreversible. The command does not come with a confirmation message.
 
-> 💡 **Tip:** The index refers to the index number shown in the displayed list. The [`list` command](#listing-all-applications--list) and [`find` command](#locating-applications-find) can modify the displayed list.
+> 💡 **Tip:** The index refers to the index number shown in the displayed list. The [`list` command](#listing-all-applications-list) and [`find` command](#locating-applications-find) can modify the displayed list.
 
 <br><br>
 #### Valid Examples:
@@ -283,7 +290,7 @@ View all your applications currently stored in HireME.
 | (blank)   | —      | —        | Shows all **active (unarchived)** applications | `list`          |
 | archived  | —      | Optional | Shows all **archived** applications            | `list archived` |
 
-> 💡 **Tip:** The displayed list affects all commands that uses Index.
+> 💡 **Tip:** The displayed list affects all commands that uses `INDEX`.
 >
 
 <br><br>
@@ -313,6 +320,9 @@ Search for applications by entering keywords (e.g. company, role, or status) to 
 
 > ⚠ **Warning:** At least **ONE** optional parameter must be provided.
 
+> ⚠ **Warning:** If you used special characters (including emojis and invisible spaces such as zero-width spaces) this
+> command may behave unexpectedly.
+
 > 💡 **Tip:** Archived Applications **WILL BE INCLUDED** in the find command.
 
 
@@ -333,7 +343,8 @@ Search for applications by entering keywords (e.g. company, role, or status) to 
 | Multiple tags             | `find t/tech t/fintech`  | Matches applications with **either** tag              |
 | Missing prefix            | `find Google s/Pending`  | `Google` is ignored; only `s/Pending` is applied      |
 
-> ⚠  **Warning:** Duplicate parameters that are not `tags` will only match the last value. To read more, [click here](#troubleshooting---find)
+> ⚠  **Warning:** If the same prefix (except `t/`) is used multiple times in `find`, only the last value will be used.
+See [Troubleshooting – Find](#troubleshooting---find).
 
  <br><br>
 #### Valid Examples:
@@ -364,13 +375,13 @@ Search for applications by entering keywords (e.g. company, role, or status) to 
 <br><br>
 An example of a filtered list is shown below:
 
-![find result for 'find t/oa t/fintech'](images/FindCommand.png)
+![Applications tagged with `oa` or `fintech` are shown below.](images/FindCommand.png)
 
 <br>
 
  Applications with roles matching "Software" is listed.
 
-![find result for 'find t/oa t/fintech'](images/FindResult.png)
+![Applications with roles matching `Software` are shown below.](images/FindResult.png)
 
 
 #### Troubleshooting - Find
@@ -402,11 +413,11 @@ Archive an application to remove it from your main list while keeping it availab
 
 | Parameter | Prefix | Required | Constraints                                                          | Result                                          | Example |
 |-----------|--------|----------|----------------------------------------------------------------------|-------------------------------------------------|---------|
-| Index     | —      | Yes      | Must be a positive integer and within the bounds of the current list | Archives the application at the specified index | `1`     |
+| INDEX     | —      | Yes      | Must be a positive integer and within the bounds of the current list | Archives the application at the specified index | `1`     |
 
 > 💡 **Tip:** Archiving an application does not delete it. It sets the application as archived and hides it from the main list.
 
-> 💡 **Tip:** You can view archived applications using the [`list archived` command](#listing-all-applications--list).
+> 💡 **Tip:** You can view archived applications using the [`list archived` command](#listing-all-applications-list).
 
 <br><br>
 
@@ -437,9 +448,9 @@ Move an archived application back to your main list so you can continue tracking
 
 | Parameter | Prefix | Required | Constraints                                                          | Result                                            | Example |
 |-----------|--------|----------|----------------------------------------------------------------------|---------------------------------------------------|---------|
-| Index     | —      | Yes      | Must be a positive integer and within the bounds of the current list | Unarchives the application at the specified index | `1`     |
+| INDEX     | —      | Yes      | Must be a positive integer and within the bounds of the current list | Unarchives the application at the specified index | `1`     |
 
-> 💡 **Tip:** This command will only work on archived applications. See how to display archived applications [here](#listing-all-applications--list).
+> 💡 **Tip:** This command will only work on archived applications. See how to display archived applications [here](#listing-all-applications-list).
 
 <br><br>
 #### Valid Examples:
@@ -464,7 +475,7 @@ Open or update an application's notes to review  important details from your app
 
 | Parameter | Prefix  | Required | Constraints                                                          | Result                                                                             | Full Example     |
 |-----------|---------|----------|----------------------------------------------------------------------|------------------------------------------------------------------------------------|------------------|
-| Index     | —       | Yes      | Must be a positive integer and within the bounds of the current list | Opens the notes for the application at the specified index (Defaults to View Mode) | `open 1`         |
+| INDEX     | —       | Yes      | Must be a positive integer and within the bounds of the current list | Opens the notes for the application at the specified index (Defaults to View Mode) | `open 1`         |
 | View mode | m/False | Optional | m/ is **case-sensitive**. `False` is **case-insensitive**.           | Opens the notes in view mode                                                       | `open 1 m/False` |
 | Edit Mode | m/True  | Optional | m/ is **case-sensitive**. `True` is **case-insensitive**.            | Opens the notes in edit mode                                                       | `open 1 m/True`  |
 
@@ -478,7 +489,7 @@ The Notes window will pop up, showing your notes for the application at the spec
 #### Notes in Edit Mode: `open INDEX m/True`
 The Notes window will pop up, showing your notes for the application at the specified index. You are able to modify your notes in this mode. The changes will only be saved if you click the **_'Save'_** button.
 
-![Notes in View Mode](images/Notes_editmode.png)
+![Notes in Edit Mode](images/Notes_editmode.png)
 
 
 #### Valid Examples:
@@ -517,14 +528,14 @@ See an overview of your job applications and track your progress at a glance in 
 
 <br>
 
-| Field              | What it shows                                                                             |
-|--------------------|-------------------------------------------------------------------------------------------|
-| Total Applications | Total number of active (non-archived) applications                                        |
-| Pending            | Number of pending applications                                                            |
-| Offered            | Number of offered applications                                                            |
-| Rejected           | Number of rejected applications                                                           |
-| Success Rate       | Percentage of applications that resulted in an offer<br/>(Excludes Archived Applications) |
-| Archived           | Number of applications that have been archived                                            |
+| Field              | What it shows                                                                                                           |
+|--------------------|-------------------------------------------------------------------------------------------------------------------------|
+| Total Applications | Total number of active (non-archived) applications                                                                      |
+| Pending            | Number of pending applications                                                                                          |
+| Offered            | Number of offered applications                                                                                          |
+| Rejected           | Number of rejected applications                                                                                         |
+| Success Rate       | Percentage of decided applications (Offered + Rejected) that resulted in an offer <br/>(Excludes Archived Applications) |
+| Archived           | Number of applications that have been archived                                                                          |
 
 <br><br>
 
@@ -559,7 +570,7 @@ Clears all application entries from HireME. Useful if you want a fresh start (e.
 ---
 ## Exiting HireME: `exit`
 
-Exits the program.
+Closes HireME.
 
 #### Format: `exit`
 <br><br>
@@ -587,7 +598,7 @@ HireME data is saved automatically as a JSON file `[JAR file location]/data/Hire
 **Q: How do I transfer my data to another Computer?<br>**
 **A**: Install HireME on the other computer and overwrite the empty data file it creates with the file that contains the data from your previous HireME home folder.
 
-**Q**: Can I add two applications to the same company?<br>
+**Q: Can I add two applications to the same company?<br>**
 **A**: Yes, as long as the **role** and/or **company name** is different. They are case-insensitive so `Grab` and `grab` are considered the same company name. HireME identifies duplicates by the combination of company name and role.
 
 **Q: Is the email field mandatory?<br>**
@@ -636,20 +647,20 @@ Example: `find n/Grab n/Google` searches only for `Google`.
 
 ## Command summary
 
-| Action                                                  | Format                                                                                                 | Example                                                                                                             |
-|---------------------------------------------------------|--------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|
-| [**Add**](#adding-an-application-add)                   | `add n/COMPANY_NAME r/ROLE d/DATE s/STATUS [e/EMAIL] [w/WEBSITE] [a/ADDRESS] [t/TAG]…​`                | `add n/Google r/Software Engineer d/15-03-2026 s/Pending t/tech` w/https://careers.google.com a/70 Pasir Panjang Rd |
-| [**Edit***](#editing-an-application--edit)              | `edit INDEX [n/COMPANY_NAME] [r/ROLE] [d/DATE] [s/STATUS] [e/EMAIL] [w/WEBSITE] [a/ADDRESS] [t/TAG]…​` | `edit 1 s/Offered`                                                                                                  |
-| [**Delete**](#deleting-an-application--delete)          | `delete INDEX`                                                                                         | `delete 3`                                                                                                          |
-| [**List**](#listing-all-applications--list)             | `list [archived]`                                                                                      | —                                                                                                                   |
-| [**Find***](#locating-applications-find)                | `find [n/NAME] [r/ROLE] [d/DATE] [s/STATUS] [e/EMAIL] [w/WEBSITE] [a/ADDRESS] [t/TAG]…​`               | `find n/Google`                                                                                                     |
-| [**Archive**](#archiving-an-application--archive)       | `archive INDEX`                                                                                        | `archive 2`                                                                                                         |
-| [**Unarchive**](#unarchiving-an-application--unarchive) | `unarchive INDEX`                                                                                      | `unarchive 1`                                                                                                       |
-| [**Open**](#opening-application-notes--open)            | `open INDEX m/[CHOICE_OF_EDIT]`                                                                        | `open 1 m/True`                                                                                                     |
-| [**Summary**](#viewing-application-summary--summary)    | `summary`                                                                                              | —                                                                                                                   |
-| [**Help**](#viewing-help--help)                         | `help`                                                                                                 | —                                                                                                                   |
-| [**Clear**](#clearing-all-entries--clear)               | `clear`                                                                                                | —                                                                                                                   |
-| [**Exit**](#exiting-hireme--exit)                       | `exit`                                                                                                 | —                                                                                                                   |
+| Action                                                 | Format                                                                                                 | Example                                                                                                             |
+|--------------------------------------------------------|--------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|
+| [**Add**](#adding-an-application-add)                  | `add n/COMPANY_NAME r/ROLE d/DATE s/STATUS [e/EMAIL] [w/WEBSITE] [a/ADDRESS] [t/TAG]…​`                | `add n/Google r/Software Engineer d/15-03-2026 s/Pending t/tech` w/https://careers.google.com a/70 Pasir Panjang Rd |
+| [**Edit***](#editing-an-application-edit)              | `edit INDEX [n/COMPANY_NAME] [r/ROLE] [d/DATE] [s/STATUS] [e/EMAIL] [w/WEBSITE] [a/ADDRESS] [t/TAG]…​` | `edit 1 s/Offered`                                                                                                  |
+| [**Delete**](#deleting-an-application-delete)          | `delete INDEX`                                                                                         | `delete 3`                                                                                                          |
+| [**List**](#listing-all-applications-list)             | `list [archived]`                                                                                      | —                                                                                                                   |
+| [**Find***](#locating-applications-find)               | `find [n/NAME] [r/ROLE] [d/DATE] [s/STATUS] [e/EMAIL] [w/WEBSITE] [a/ADDRESS] [t/TAG]…​`               | `find n/Google`                                                                                                     |
+| [**Archive**](#archiving-an-application-archive)       | `archive INDEX`                                                                                        | `archive 2`                                                                                                         |
+| [**Unarchive**](#unarchiving-an-application-unarchive) | `unarchive INDEX`                                                                                      | `unarchive 1`                                                                                                       |
+| [**Open**](#opening-application-notes-open)            | `open INDEX m/[CHOICE_OF_EDIT]`                                                                        | `open 1 m/True`                                                                                                     |
+| [**Summary**](#viewing-application-summary-summary)    | `summary`                                                                                              | —                                                                                                                   |
+| [**Help**](#viewing-help-help)                         | `help`                                                                                                 | —                                                                                                                   |
+| [**Clear**](#clearing-all-entries-clear)               | `clear`                                                                                                | —                                                                                                                   |
+| [**Exit**](#exiting-hireme-exit)                       | `exit`                                                                                                 | —                                                                                                                   |
 
 > ⚠ **Warning:** At least **ONE** optional field is required for the `edit` and `find` command.
 
@@ -658,27 +669,31 @@ Example: `find n/Grab n/Google` searches only for `Google`.
 ## Glossary
 [Back to Table of Contents](#table-of-contents)
 
-### Java 17
-A version of Java required to run HireME. It provides the environment that allows your computer to open and run the application.
-
-### GUI
-Graphical User Interface — the visual interface of the app (windows, buttons, panels).
-
-### Index 
-The position number of an application in the displayed list.
-
 ### Application Status
 The current stage of an application (`Pending`, `Rejected`, or `Offered`).
 
-### Tag
-A label used to organise applications (e.g. `remote`, `tech`, `archived`).
+### Date
+Currently, we left this field ambiguous as users may wish to use this date to represent the application date or interview date.
+Future implementations will include two different date fields for application date and interview date.
 
 ### Field
 A category of information in a command, such as `n/NAME` or `r/ROLE`.
 
-### Prefix
-A short label (e.g. `n/`, `r/`, `t/`) used to indicate the type of information being entered.
+### GUI
+Graphical User Interface — the visual interface of the app (windows, buttons, panels).
+
+### INDEX 
+The position number of an application in the displayed list.
+
+### Java 17
+A version of Java required to run HireME. It provides the environment that allows your computer to open and run the application.
 
 ### Keyword
 The value entered after a prefix.  
 For example, in `n/Google`, `Google` is the keyword.
+
+### Prefix
+A short label (e.g. `n/`, `r/`, `t/`) used to indicate the type of information being entered.
+
+### Tag
+A label used to organise applications (e.g. `remote`, `tech`, `archived`).
