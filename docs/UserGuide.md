@@ -679,8 +679,11 @@ Example: `find n/Grab n/Google` searches only for `Google`.
 The current stage of an application (`Pending`, `Rejected`, or `Offered`).
 
 ### Date
-Currently, we left this field ambiguous as users may wish to use this date to represent the application date or interview date.
-Future implementations will include two different date fields for application date and interview date.
+The date entered using the `d/` prefix. It is typically used as the application date, but you can use it for any
+date that is useful for tracking the application. Dates must use the `DD-MM-YYYY` format, such as `15-03-2026`.
+
+### Tag
+A label used to organise applications (e.g. `remote`, `tech`, `archived`).
 
 ### Field
 A category of information in a command, such as `n/NAME` or `r/ROLE`.
