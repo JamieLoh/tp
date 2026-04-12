@@ -140,7 +140,7 @@ Follow these steps to set up and start using HireME:
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/COMPANY_NAME r/ROLE`, `r/ROLE n/COMPANY_NAME` is also acceptable.
   <br><br>
-* Extraneous parameters for commands that do not take in parameters (such as `help`, `exit` and `clear`) will be ignored.<br>
+* Extraneous parameters for commands that do not take in parameters (such as `help`, `summary`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
   <br><br>
 * Each parameter (except tags) should only appear once in a command. If you accidentally provide duplicates (e.g. `n/Google n/Meta`), the app will flag an error.
@@ -171,8 +171,8 @@ Recording your applications early helps you avoid losing track of follow-ups and
 |--------------|--------|----------|--------------------------------------------------|-------------------------|
 | Company Name | `n/`   | Yes      | Must not be blank (See warning for rare cases)   | `n/Google`              |
 | Role         | `r/`   | Yes      | Must not be blank (See warning for rare cases)   | `r/SWE Intern`          |
-| Date         | `d/`   | Yes      | Must be in `DD-MM-YYYY` format                   | `d/15-03-2026`          |
-| Status       | `s/`   | Yes      | Must be `Offered`, `Pending`, or `Rejected`      | `s/Pending`             |
+| Date         | `d/`   | Yes      | Must be a valid calendar date in `DD-MM-YYYY` format | `d/15-03-2026`      |
+| Status       | `s/`   | Yes      | Must be `Offered`, `Pending`, or `Rejected` (case-insensitive) | `s/Pending` |
 | Email        | `e/`   | Optional | Must follow email format                         | `e/hr@google.com`       |
 | Website      | `w/`   | Optional | Must follow website format                       | `w/https://google.com`  |
 | Address      | `a/`   | Optional | Must not be blank (See warning for rare cases)   | `a/Singapore`           |
@@ -216,8 +216,8 @@ Update an existing application in HireME. Use this when you need to update detai
 | Index        | —      | Yes      | Must be a positive integer and within the bounds of the current list     | Edits the position in the list |
 | Company Name | `n/`   | Optional | Cannot be empty                                                          | Updated company name           |
 | Role         | `r/`   | Optional | Cannot be empty                                                          | Updated job role               |
-| Date         | `d/`   | Optional | Must be in DD-MM-YYYY format                                             | Updated application date       |
-| Status       | `s/`   | Optional | Must be Offered, Pending, or Rejected                                    | Updated application status     |
+| Date         | `d/`   | Optional | Must be a valid calendar date in `DD-MM-YYYY` format                     | Updated application date       |
+| Status       | `s/`   | Optional | Must be `Offered`, `Pending`, or `Rejected` (case-insensitive)           | Updated application status     |
 | Email        | `e/`   | Optional | Must follow email format, <br/>_Leave this blank to clear the field_     | Updated email                  |
 | Website      | `w/`   | Optional | Must follow website format, <br/>_Leave this blank to clear the field_   | Updated job link               |
 | Address      | `a/`   | Optional | _Leave this blank to clear the field_                                    | Updated company location       |
@@ -282,7 +282,7 @@ Deletes the 1st application in the results of the `find` command.
 
 ## Listing all applications: `list`
 
-View all your applications currently stored in HireME.
+View active or archived applications currently stored in HireME.
 
 #### Format: `list [archived]`
 > 💡 **Tip:** See [Command Format Notes](#command-format-notes).
@@ -294,7 +294,7 @@ View all your applications currently stored in HireME.
 | (blank)   | —      | —        | Shows all **active (unarchived)** applications | `list`          |
 | archived  | —      | Optional | Shows all **archived** applications            | `list archived` |
 
-> 💡 **Tip:** The displayed list affects all commands that uses `INDEX`.
+> 💡 **Tip:** The displayed list affects all commands that use `INDEX`.
 >
 
 <br><br>
@@ -317,8 +317,8 @@ Search for applications by entering keywords (e.g. company, role, or status) to 
 |--------------|--------|----------|-----------------------------------------------------|------------------------|
 | Company Name | `n/`   | Optional | Matches applications with similar company names     | `n/Google`             |
 | Role         | `r/`   | Optional | Matches applications with similar roles             | `r/SWE Intern`         |
-| Date         | `d/`   | Optional | Matches applications with the same date             | `d/15-03-2026`         |
-| Status       | `s/`   | Optional | Matches applications with the specified status      | `s/Offered`            |
+| Date         | `d/`   | Optional | Matches applications with dates containing the keyword | `d/15-03-2026`      |
+| Status       | `s/`   | Optional | Matches applications with statuses containing the keyword | `s/Offered`       |
 | Email        | `e/`   | Optional | Matches applications with similar email             | `e/hr@google.com`      |
 | Website      | `w/`   | Optional | Matches applications with similar website           | `w/https://google.com` |
 | Address      | `a/`   | Optional | Matches applications with similar address           | `a/Singapore`          |
@@ -340,8 +340,9 @@ Search for applications by entering keywords (e.g. company, role, or status) to 
 
 | Pattern                   | Input Example            | Result                                                |
 |---------------------------|--------------------------|-------------------------------------------------------|
-| Empty compulsory field    | `find n/`                | Returns all applications (no filtering applied)       |
+| Empty required-value field | `find n/`               | Returns all applications (no filtering applied)       |
 | Empty optional field      | `find e/`                | Returns applications with no email                    |
+| Empty tag field           | `find t/`                | Returns applications with no tags                     |
 | Case-insensitive search   | `find n/google`          | Matches `Google`                                      |
 | Partial match (substring) | `find n/Goog`            | Matches `Google`                                      |
 | Invalid partial match     | `find n/Gogle`           | No match found                                        |
@@ -423,6 +424,8 @@ Archive an application to remove it from your main list while keeping it availab
 
 > 💡 **Tip:** Archiving an application does not delete it. It sets the application as archived and hides it from the main list.
 
+> 💡 **Tip:** The current view is preserved after archiving. In the default `list` view, the archived application disappears because it is no longer active.
+
 > 💡 **Tip:** You can view archived applications using the [`list archived` command](#listing-all-applications-list).
 
 <br><br>
@@ -479,11 +482,10 @@ Open or update an application's notes to review  important details from your app
 
 <br><br>
 
-| Parameter | Prefix  | Required | Constraints                                                          | Result                                                                             | Full Example     |
-|-----------|---------|----------|----------------------------------------------------------------------|------------------------------------------------------------------------------------|------------------|
-| INDEX     | —       | Yes      | Must be a positive integer and within the bounds of the current list | Opens the notes for the application at the specified index (Defaults to View Mode) | `open 1`         |
-| View mode | m/False | Optional | m/ is **case-sensitive**. `False` is **case-insensitive**.           | Opens the notes in view mode                                                       | `open 1 m/False` |
-| Edit Mode | m/True  | Optional | m/ is **case-sensitive**. `True` is **case-insensitive**.            | Opens the notes in edit mode                                                       | `open 1 m/True`  |
+| Parameter | Prefix | Required | Constraints                                                          | Result                                                                            | Full Example     |
+|-----------|--------|----------|----------------------------------------------------------------------|-----------------------------------------------------------------------------------|------------------|
+| INDEX     | —      | Yes      | Must be a positive integer and within the bounds of the current list | Opens the notes for the application at the specified index. Defaults to view mode | `open 1`         |
+| Mode      | `m/`   | Optional | Must be `true` or `false` (case-insensitive). The `m/` prefix is lower-case. | Opens the notes in edit mode if `true`, or view mode if `false`          | `open 1 m/True`  |
 
 > 💡 **Tip:** If the mode is omitted, the open command defaults to view mode. E.g. `open 1` opens the notes of the 1st application in view mode.
 
@@ -653,20 +655,20 @@ Example: `find n/Grab n/Google` searches only for `Google`.
 
 ## Command summary
 
-| Action                                                 | Format                                                                                                 | Example                                                                                                             |
-|--------------------------------------------------------|--------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|
-| [**Add**](#adding-an-application-add)                  | `add n/COMPANY_NAME r/ROLE d/DATE s/STATUS [e/EMAIL] [w/WEBSITE] [a/ADDRESS] [t/TAG]…​`                | `add n/Google r/Software Engineer d/15-03-2026 s/Pending t/tech` w/https://careers.google.com a/70 Pasir Panjang Rd |
-| [**Edit***](#editing-an-application-edit)              | `edit INDEX FIELD [FIELD]…​`                                                                           | `edit 1 s/Offered`                                                                                                  |
-| [**Delete**](#deleting-an-application-delete)          | `delete INDEX`                                                                                         | `delete 3`                                                                                                          |
-| [**List**](#listing-all-applications-list)             | `list [archived]`                                                                                      | —                                                                                                                   |
-| [**Find***](#locating-applications-find)               | `find FIELD [FIELD]…​`                                                                                 | `find n/Google`                                                                                                     |
-| [**Archive**](#archiving-an-application-archive)       | `archive INDEX`                                                                                        | `archive 2`                                                                                                         |
-| [**Unarchive**](#unarchiving-an-application-unarchive) | `unarchive INDEX`                                                                                      | `unarchive 1`                                                                                                       |
-| [**Open**](#opening-application-notes-open)            | `open INDEX m/[CHOICE_OF_EDIT]`                                                                        | `open 1 m/True`                                                                                                     |
-| [**Summary**](#viewing-application-summary-summary)    | `summary`                                                                                              | —                                                                                                                   |
-| [**Help**](#viewing-help-help)                         | `help`                                                                                                 | —                                                                                                                   |
-| [**Clear**](#clearing-all-entries-clear)               | `clear`                                                                                                | —                                                                                                                   |
-| [**Exit**](#exiting-hireme-exit)                       | `exit`                                                                                                 | —                                                                                                                   |
+| Action                                                 | Format                                                                                  | Example                                                                                                          |
+|--------------------------------------------------------|-----------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
+| [**Add**](#adding-an-application-add)                  | `add n/COMPANY_NAME r/ROLE d/DATE s/STATUS [e/EMAIL] [w/WEBSITE] [a/ADDRESS] [t/TAG]…​` | `add n/Google r/Software Engineer d/15-03-2026 s/Pending w/https://careers.google.com a/70 Pasir Panjang Rd` |
+| [**Edit***](#editing-an-application-edit)              | `edit INDEX FIELD [FIELD]…​`                                                            | `edit 1 s/Offered`                                                                                               |
+| [**Delete**](#deleting-an-application-delete)          | `delete INDEX`                                                                          | `delete 3`                                                                                                       |
+| [**List**](#listing-all-applications-list)             | `list [archived]`                                                                       | —                                                                                                                |
+| [**Find***](#locating-applications-find)               | `find FIELD [FIELD]…​`                                                                  | `find n/Google`                                                                                                  |
+| [**Archive**](#archiving-an-application-archive)       | `archive INDEX`                                                                         | `archive 2`                                                                                                      |
+| [**Unarchive**](#unarchiving-an-application-unarchive) | `unarchive INDEX`                                                                       | `unarchive 1`                                                                                                    |
+| [**Open**](#opening-application-notes-open)            | `open INDEX [m/CHOICE_OF_EDIT]`                                                         | `open 1 m/True`                                                                                                  |
+| [**Summary**](#viewing-application-summary-summary)    | `summary`                                                                               | —                                                                                                                |
+| [**Help**](#viewing-help-help)                         | `help`                                                                                  | —                                                                                                                |
+| [**Clear**](#clearing-all-entries-clear)               | `clear`                                                                                 | —                                                                                                                |
+| [**Exit**](#exiting-hireme-exit)                       | `exit`                                                                                  | —                                                                                                                |
 
 > ⚠ **Warning:** At least **ONE** optional field is required for the `edit` command. At least **ONE** search field is required for the `find` command.
 
