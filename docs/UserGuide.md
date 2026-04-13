@@ -346,7 +346,7 @@ Search for applications by entering keywords (e.g. company, role, or status) to 
 | Empty tag field           | `find t/`                | Returns applications with no tags                     |
 | Case-insensitive search   | `find n/google`          | Matches `Google`                                      |
 | Partial match (substring) | `find n/Goog`            | Matches `Google`                                      |
-| Invalid partial match     | `find n/Gogle`           | No match found                                        |
+| Invalid partial match     | `find n/Gogle`           | Will not match `Google`                               |
 | Multiple different fields | `find n/Google r/Intern` | Matches applications that satisfy **both** conditions |
 | Multiple tags             | `find t/tech t/fintech`  | Matches applications with **either** tag              |
 | Missing prefix            | `find Google s/Pending`  | `Google` is ignored; only `s/Pending` is applied      |
@@ -620,7 +620,7 @@ HireME data is saved automatically as a JSON file `[JAR file location]/data/Hire
 **A:** Ensure that:
 - you are using prefixes (e.g. `n/Google`)
 - the spelling matches
-- you are not missing prefixes (text without prefixes is ignored)
+- you are not missing prefixes
 
 **Q: Why does only one value get used when I repeat a prefix in `find`?**  
 **A:** If the same prefix is used multiple times, only the **last value** is applied.  
