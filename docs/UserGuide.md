@@ -496,12 +496,14 @@ The Notes window will pop up, showing your notes for the application at the spec
 ![Notes in View Mode](images/Notes_viewmode.png)
 <br><br>
 #### Notes in Edit Mode: `open INDEX m/True`
-The Notes window will pop up, showing your notes for the application at the specified index. You are able to modify your notes in this mode. The changes will only be saved if you click the **_'Save'_** button.
+The Notes window will pop up, showing your notes for the application at the specified index. You are able to modify your notes in this mode. The changes will only be saved if you click the **_'Save'_** button or press `Ctrl+S` (`Cmd+S` on Mac).
 
 > 💡 **Tip:** You can also use the keyboard shortcut `Ctrl + S` to save.
 
 ![Notes in Edit Mode](images/Notes_editmode.png)
 
+> ⚠ **Warning:** Save your notes before using the `open` command again, even for the same application.
+> To avoid confusion, the notes window will reload notes from your last save, and any unsaved changes will be lost.
 
 #### Valid Examples:
 * `open 1` 
