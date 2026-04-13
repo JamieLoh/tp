@@ -26,6 +26,12 @@ Class Date
 Class Status
 Class Tag
 
+Enum StatusType {
+    PENDING
+    OFFERED
+    REJECTED
+}
+
 Class I #FFFFFF
 }
 
@@ -44,12 +50,13 @@ UserPrefs .up.|> ReadOnlyUserPrefs
 AddressBook *--> "1" UniqueApplicationList
 UniqueApplicationList --> "~* all" Application
 Application *--> CompanyName
-Application *--> Email
-Application *--> Address
-Application *--> Website
+Application *--> "0..1" Email
+Application *--> "0..1" Address
+Application *--> "0..1" Website
 Application *--> Role
 Application *--> Date
 Application *--> Status
+Status *--> "1" StatusType
 Application *--> "*" Tag
 ModelManager --> "~* filtered" Application
 

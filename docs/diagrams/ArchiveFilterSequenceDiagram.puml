@@ -36,7 +36,11 @@ ArchiveCommand -> Model : getFilteredApplicationList()
 activate Model
 deactivate Model
 
-ArchiveCommand -> Model : setApplication(archivedCopy)
+ArchiveCommand -> ArchiveCommand : create new Application\nwith isArchived=true
+activate ArchiveCommand
+deactivate ArchiveCommand
+
+ArchiveCommand -> Model : setApplication(original, archivedCopy)
 activate Model
 deactivate Model
 

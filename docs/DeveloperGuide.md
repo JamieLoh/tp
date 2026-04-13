@@ -555,22 +555,22 @@ Use case ends.
 3. User enters an edit command with the target index and at least one field to update.
 4. HireME validates the target index and provided fields.
 5. HireME updates the application record and saves it.
+
 Use case ends.
 
-Extensions:
-
-- 3a. No field is provided.
-  - 3a1. HireME informs the user that at least one field to edit must be provided. Use case ends.
-
-- 4a. The specified application index is invalid.
-  - 4a1. HireME informs the user that the application index is invalid. Use case ends.
-
-- 4b. One or more provided fields are invalid.
-  - 4b1. HireME informs the user of the relevant field constraint.
-  - Use case ends.
-
-- 4c. The edited application would duplicate another application.
-  - 4c1. HireME informs the user that the application already exists. Use case ends.
+**Extensions**:
+* 3a. No field is provided.
+    * 3a1. HireME informs the user that at least one field to edit must be provided.
+    * Use case ends.
+* 4a. The specified application index is invalid.
+    * 4a1. HireME informs the user that the application index is invalid.
+    * Use case ends.
+* 4b. One or more provided fields are invalid.
+    * 4b1. HireME informs the user of the relevant field constraint.
+    * Use case ends.
+* 4c. The edited application would duplicate another application.
+    * 4c1. HireME informs the user that the application already exists.
+    * Use case ends.
 
   
 ### UC05 - Find applications
@@ -663,11 +663,12 @@ Use case ends.
 
 ### UC10 - Open Help
 
-Main Success Scenario:
+**Main Success Scenario**:
 1. User requests to view help information (enters help).
 2. HireME opens the help window.
 3. HireME displays all available commands and their formats in the help window.
 4. User reads the command formats to learn/recall how to use the system.
+
 Use case ends.
 
 ---
