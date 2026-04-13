@@ -7,7 +7,8 @@ title: User guide
 ## Summary
 
 HireME is a Desktop application designed for Singapore students who study computer science to track and manage the
-information related to internship applications. This guide provides a clear overview of HireME's features and their usage.
+information related to internship applications. It helps you monitor your application progress and stay organised by 
+storing all relevant information in one place. This guide provides an overview of HireME's features and their usage.
 
 --------------------------------------------------------------------------------------------------------------------
 
