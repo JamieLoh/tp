@@ -326,6 +326,7 @@ coupling them directly to JavaFX classes such as `Stage`.
 Undo/redo is not implemented in the current codebase yet, but it remains a possible future enhancement.
 The following design is therefore a proposal rather than a description of existing behavior.
 
+The proposal uses HireME naming for proposed classes and methods, existing class names such as `AddressBook` are retained where they reference current code.
 #### Proposed Implementation
 
 The proposed undo/redo mechanism is facilitated by `VersionedHireME`. It extends `AddressBook` with an undo/redo
@@ -404,7 +405,7 @@ behavior of many desktop applications where making a new change invalidates the 
 
 The following activity diagram summarizes what would happen when a user executes a new mutating command:
 
-<img src="images/CommitActivityDiagram.png" width="250" />
+![CommitActivityDiagram](images/CommitActivityDiagram.png)
 
 #### Design considerations
 
@@ -554,22 +555,22 @@ Use case ends.
 3. User enters an edit command with the target index and at least one field to update.
 4. HireME validates the target index and provided fields.
 5. HireME updates the application record and saves it.
+
 Use case ends.
 
-Extensions:
-
-- 3a. No field is provided.
-  - 3a1. HireME informs the user that at least one field to edit must be provided. Use case ends.
-
-- 4a. The specified application index is invalid.
-  - 4a1. HireME informs the user that the application index is invalid. Use case ends.
-
-- 4b. One or more provided fields are invalid.
-  - 4b1. HireME informs the user of the relevant field constraint.
-  - Use case ends.
-
-- 4c. The edited application would duplicate another application.
-  - 4c1. HireME informs the user that the application already exists. Use case ends.
+**Extensions**:
+* 3a. No field is provided.
+    * 3a1. HireME informs the user that at least one field to edit must be provided.
+    * Use case ends.
+* 4a. The specified application index is invalid.
+    * 4a1. HireME informs the user that the application index is invalid.
+    * Use case ends.
+* 4b. One or more provided fields are invalid.
+    * 4b1. HireME informs the user of the relevant field constraint.
+    * Use case ends.
+* 4c. The edited application would duplicate another application.
+    * 4c1. HireME informs the user that the application already exists.
+    * Use case ends.
 
   
 ### UC05 - Find applications
@@ -662,11 +663,12 @@ Use case ends.
 
 ### UC10 - Open Help
 
-Main Success Scenario:
+**Main Success Scenario**:
 1. User requests to view help information (enters help).
 2. HireME opens the help window.
 3. HireME displays all available commands and their formats in the help window.
 4. User reads the command formats to learn/recall how to use the system.
+
 Use case ends.
 
 ---
