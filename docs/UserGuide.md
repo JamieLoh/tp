@@ -146,7 +146,7 @@ Follow these steps to set up and start using HireME:
 * Commands that do not take parameters (such as `help`, `summary`, `exit` and `clear`) ignore extraneous input.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
   <br><br>
-* Each parameter (except tags) should only appear once in a command. If you accidentally provide duplicates (e.g. `n/Google n/Meta`), the app will flag an error.
+* For `add`, `edit`, and `open`, each parameter (except tags) should only appear once. If you accidentally provide duplicates (e.g. `n/Google n/Meta`), the app will flag an error. `find` handles repeated prefixes differently; see [Locating applications](#locating-applications-find).
   <br><br>
 
 > ⚠ **Warning:** If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
@@ -180,7 +180,7 @@ Recording your applications early helps you avoid losing track of follow-ups and
 | Date         | `d/`   | Yes      | Must be a valid calendar date in `DD-MM-YYYY` format                                                           | `d/15-03-2026`          |
 | Status       | `s/`   | Yes      | Must be `Offered`, `Pending`, or `Rejected` (case-insensitive)                                                 | `s/Pending`             |
 | Email        | `e/`   | Optional | If not left blank, must follow email format                                                                    | `e/hr@google.com`       |
-| Website      | `w/`   | Optional | If not left blank, must follow website format. `https://` will be added automatically if no protocol is given  | `w/google.com`          |
+| Website      | `w/`   | Optional | If not left blank, must be a valid domain name or URL. Protocol is optional                                   | `w/google.com`          |
 | Address      | `a/`   | Optional | Must not be blank (see [special characters warning](#special-characters-warning) for rare edge cases)                                        | `a/Singapore`           |
 | Tag          | `t/`   | Optional | Alphanumeric only, no spaces, max 20 characters                                                                | `t/govtech` `t/fintech` |
 
@@ -226,7 +226,7 @@ Update the details of an existing application in HireME.
 | Date         | `d/`   | Optional | Must be a valid calendar date in `DD-MM-YYYY` format                                                                | Updated application date       |
 | Status       | `s/`   | Optional | Must be `Offered`, `Pending`, or `Rejected` (case-insensitive)                                                      | Updated application status     |
 | Email        | `e/`   | Optional | Must follow email format, <br/>_Leave this blank to clear the field_                                                | Updated email                  |
-| Website      | `w/`   | Optional | Must follow website format, <br/>_Leave this blank to clear the field_                                              | Updated job link               |
+| Website      | `w/`   | Optional | Must be a valid domain name or URL. Protocol is optional. <br/>_Leave this blank to clear the field_                 | Updated job link               |
 | Address      | `a/`   | Optional | See [Command Format Notes](#command-format-notes) for special characters.<br/>_Leave this blank to clear the field_ | Updated company location       |
 | Tag          | `t/`   | Optional | Alphanumeric only, no spaces, max 20 characters. <br/>_Leave this blank to clear the field_                         | Replaces all existing tags     |
 
@@ -331,7 +331,7 @@ Search for applications by entering keywords (e.g. company, role, or status) to 
 
 > ⚠ **Warning:** At least **ONE** field must be provided. Entering `find` by itself is invalid.
 
-> ⚠ **Warning:** For Address, special characters (including emojis and invisible spaces such as zero-width spaces) are not recommended as they may cause unexpected behavior.
+> ⚠ **Warning:** For address searches, special characters (including emojis and invisible spaces such as zero-width spaces) are not recommended as they may cause unexpected behavior.
 
 > 💡 **Tip:** The find command **includes** archived applications in search results.
 
@@ -498,7 +498,7 @@ The Notes window will pop up, showing your notes for the application at the spec
 #### Notes in Edit Mode: `open INDEX m/True`
 The Notes window will pop up, showing your notes for the application at the specified index. You are able to modify your notes in this mode. The changes will only be saved if you click the **_'Save'_** button or press `Ctrl+S` (`Cmd+S` on Mac).
 
-> 💡 **Tip:** You can also use the keyboard shortcut `Ctrl + S` to save.
+> 💡 **Tip:** You can also use the keyboard shortcut `Ctrl+S` (`Cmd+S` on Mac) to save.
 
 ![Notes in Edit Mode](images/Notes_editmode.png)
 
@@ -692,7 +692,7 @@ The date entered using the `d/` prefix. It is typically used as the application 
 date that is useful for tracking the application. Dates must use the `DD-MM-YYYY` format, such as `15-03-2026`.
 
 ### Tag
-A label used to organise applications (e.g. `remote`, `tech`, `archived`).
+A label used to organise applications (e.g. `remote`, `tech`, `oa`).
 
 ### Field
 A category of information in a command, such as `n/NAME` or `r/ROLE`.
