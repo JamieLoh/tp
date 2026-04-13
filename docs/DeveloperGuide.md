@@ -325,47 +325,47 @@ The following design is therefore a proposal rather than a description of existi
 
 #### Proposed Implementation
 
-The proposed undo/redo mechanism is facilitated by `VersionedAddressBook`. It extends `AddressBook` with an undo/redo
-history, stored internally as an `addressBookStateList` and `currentStatePointer`. Additionally, it implements the
+The proposed undo/redo mechanism is facilitated by `VersionedHireME`. It extends `AddressBook` with an undo/redo
+history, stored internally as an `HireMEStateList` and `currentStatePointer`. Additionally, it implements the
 following operations:
 
-* `VersionedAddressBook#commit()` - Saves the current HireME state in its history.
-* `VersionedAddressBook#undo()` - Restores the previous HireME state from its history.
-* `VersionedAddressBook#redo()` - Restores a previously undone HireME state from its history.
+* `VersionedHireME#commit()` - Saves the current HireME state in its history.
+* `VersionedHireME#undo()` - Restores the previous HireME state from its history.
+* `VersionedHireME#redo()` - Restores a previously undone HireME state from its history.
 
-These operations are exposed in the `Model` interface as `Model#commitAddressBook()`,
-`Model#undoAddressBook()` and `Model#redoAddressBook()` respectively.
+These operations are exposed in the `Model` interface as `Model#commitHireME()`,
+`Model#undoHireME()` and `Model#redoHireME()` respectively.
 
 Given below is an example usage scenario and how the undo/redo mechanism would behave at each step.
 
-Step 1. The user launches the application for the first time. `VersionedAddressBook` is initialized with the initial
+Step 1. The user launches the application for the first time. `VersionedHireME` is initialized with the initial
 HireME state, and the `currentStatePointer` points to that single state.
 
 ![UndoRedoState0](images/UndoRedoState0.png)
 
 Step 2. The user executes `delete 5` to delete the 5th application in HireME. The `delete` command calls
-`Model#commitAddressBook()`, causing the modified state after the command executes to be saved in
-`addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted state.
+`Model#commitHireME()`, causing the modified state after the command executes to be saved in
+`HireMEStateList`, and the `currentStatePointer` is shifted to the newly inserted state.
 
 ![UndoRedoState1](images/UndoRedoState1.png)
 
-Step 3. The user executes `add n/David ...` to add a new application. The `add` command also calls
-`Model#commitAddressBook()`, causing another modified state to be saved into `addressBookStateList`.
+Step 3. The user executes `add n/Grab r/Backend Developer Intern d/01-03-2026 s/Pending` to add a new application. The `add` command also calls
+`Model#commitHireME()`, causing another modified state to be saved into `HireMEStateList`.
 
 ![UndoRedoState2](images/UndoRedoState2.png)
 
 <div class="alert alert-info">
-<strong>Note:</strong> If a command fails its execution, it will not call <code>Model#commitAddressBook()</code>, so the HireME state will not be saved into <code>addressBookStateList</code>.
+<strong>Note:</strong> If a command fails its execution, it will not call <code>Model#commitHireME()</code>, so the HireME state will not be saved into <code>HireMEStateList</code>.
 </div>
 
 Step 4. The user now decides that adding the application was a mistake, and decides to undo that action by executing
-the `undo` command. The `undo` command calls `Model#undoAddressBook()`, which shifts the
+the `undo` command. The `undo` command calls `Model#undoHireME()`, which shifts the
 `currentStatePointer` once to the left, pointing it to the previous state, and restores HireME to that state.
 
 ![UndoRedoState3](images/UndoRedoState3.png)
 
 <div class="alert alert-info">
-<strong>Note:</strong> If the <code>currentStatePointer</code> is at index 0, pointing to the initial state, then there are no previous states to restore. The <code>undo</code> command uses <code>Model#canUndoAddressBook()</code> to check if this is the case. If so, it returns an error to the user rather than attempting to perform the undo.
+<strong>Note:</strong> If the <code>currentStatePointer</code> is at index 0, pointing to the initial state, then there are no previous states to restore. The <code>undo</code> command uses <code>Model#canUndoHireME()</code> to check if this is the case. If so, it returns an error to the user rather than attempting to perform the undo.
 </div>
 
 The following sequence diagram shows how an undo operation would go through the `Logic` component:
@@ -380,21 +380,21 @@ Similarly, how an undo operation would go through the `Model` component is shown
 
 ![UndoSequenceDiagram](images/UndoSequenceDiagram-Model.png)
 
-The `redo` command does the opposite - it calls `Model#redoAddressBook()`, which shifts the
+The `redo` command does the opposite - it calls `Model#redoHireME()`, which shifts the
 `currentStatePointer` once to the right, pointing to the previously undone state, and restores HireME to that state.
 
 <div class="alert alert-info">
-<strong>Note:</strong> If the <code>currentStatePointer</code> is at index <code>addressBookStateList.size() - 1</code>, pointing to the latest state, then there are no undone states to restore. The <code>redo</code> command uses <code>Model#canRedoAddressBook()</code> to check if this is the case. If so, it returns an error to the user rather than attempting to perform the redo.
+<strong>Note:</strong> If the <code>currentStatePointer</code> is at index <code>HireMEStateList.size() - 1</code>, pointing to the latest state, then there are no undone states to restore. The <code>redo</code> command uses <code>Model#canRedoHireME()</code> to check if this is the case. If so, it returns an error to the user rather than attempting to perform the redo.
 </div>
 
 Step 5. The user then decides to execute the command `list`. Commands that do not modify stored data, such as `list`,
-would usually not call `Model#commitAddressBook()`, `Model#undoAddressBook()` or `Model#redoAddressBook()`. Thus,
-`addressBookStateList` remains unchanged.
+would usually not call `Model#commitHireME()`, `Model#undoHireME()` or `Model#redoHireME()`. Thus,
+`HireMEStateList` remains unchanged.
 
 ![UndoRedoState4](images/UndoRedoState4.png)
 
-Step 6. The user executes `clear`, which calls `Model#commitAddressBook()`. Since `currentStatePointer` is not
-pointing at the end of `addressBookStateList`, all states after `currentStatePointer` are purged. This matches the
+Step 6. The user executes `clear`, which calls `Model#commitHireME()`. Since `currentStatePointer` is not
+pointing at the end of `HireMEStateList`, all states after `currentStatePointer` are purged. This matches the
 behavior of many desktop applications where making a new change invalidates the redo chain.
 
 ![UndoRedoState5](images/UndoRedoState5.png)
