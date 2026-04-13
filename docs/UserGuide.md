@@ -346,7 +346,7 @@ Search for applications by entering keywords (e.g. company, role, or status) to 
 | Empty tag field           | `find t/`                | Returns applications with no tags                     |
 | Case-insensitive search   | `find n/google`          | Matches `Google`                                      |
 | Partial match (substring) | `find n/Goog`            | Matches `Google`                                      |
-| Invalid partial match     | `find n/Gogle`           | No match found                                        |
+| Invalid partial match     | `find n/Gogle`           | Will not match `Google`                               |
 | Multiple different fields | `find n/Google r/Intern` | Matches applications that satisfy **both** conditions |
 | Multiple tags             | `find t/tech t/fintech`  | Matches applications with **either** tag              |
 | Missing prefix            | `find Google s/Pending`  | `Google` is ignored; only `s/Pending` is applied      |
