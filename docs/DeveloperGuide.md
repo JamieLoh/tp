@@ -91,7 +91,7 @@ Given below is a quick overview of main components and how they interact with ea
 
 **Main components of the architecture**
 
-**`Main`** (consisting of classes [`Main`](../src/main/java/seedu/address/Main.java) and [`MainApp`](../src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
+**`Main`** (consisting of classes [`Main`](https://github.com/AY2526S2-CS2103T-W11-3/tp/blob/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/AY2526S2-CS2103T-W11-3/tp/blob/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
 * At app launch, it initializes the other components in the correct sequence, and connects them up with each other.
 * At shut down, it shuts down the other components and invokes cleanup methods where necessary.
 
@@ -123,7 +123,7 @@ The sections below give more details of each component.
 
 ### UI component
 
-The **API** of this component is specified in [`Ui.java`](../src/main/java/seedu/address/ui/Ui.java)
+The **API** of this component is specified in [`Ui.java`](https://github.com/AY2526S2-CS2103T-W11-3/tp/blob/master/src/main/java/seedu/address/ui/Ui.java)
 
 ![Structure of the UI Component](images/UiClassDiagram.png)
 
@@ -132,7 +132,7 @@ The UI consists of a `MainWindow` that is made up of parts such as `CommandBox`,
 All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the
 commonalities between classes that represent parts of the visible GUI.
 
-The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](../src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](../src/main/resources/view/MainWindow.fxml)
+The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/AY2526S2-CS2103T-W11-3/tp/blob/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/AY2526S2-CS2103T-W11-3/tp/blob/master/src/main/resources/view/MainWindow.fxml)
 
 The `UI` component,
 
@@ -146,7 +146,7 @@ The `UI` component,
 
 ### Logic component
 
-**API** : [`Logic.java`](../src/main/java/seedu/address/logic/Logic.java)
+**API** : [`Logic.java`](https://github.com/AY2526S2-CS2103T-W11-3/tp/blob/master/src/main/java/seedu/address/logic/Logic.java)
 
 Here's a (partial) class diagram of the `Logic` component:
 
@@ -177,7 +177,7 @@ How the parsing works:
 * All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
 ### Model component
-**API** : [`Model.java`](../src/main/java/seedu/address/model/Model.java)
+**API** : [`Model.java`](https://github.com/AY2526S2-CS2103T-W11-3/tp/blob/master/src/main/java/seedu/address/model/Model.java)
 
 <img src="images/ModelClassDiagram.png" width="450" />
 
@@ -209,7 +209,7 @@ can refresh the list without unexpectedly changing the user’s current view.
 
 ### Storage component
 
-**API** : [`Storage.java`](../src/main/java/seedu/address/storage/Storage.java)
+**API** : [`Storage.java`](https://github.com/AY2526S2-CS2103T-W11-3/tp/blob/master/src/main/java/seedu/address/storage/Storage.java)
 
 <img src="images/StorageClassDiagram.png" width="550" />
 
@@ -464,7 +464,7 @@ The following activity diagram summarizes what would happen when a user executes
 
 **Target user profile**:
 
-* Is a Computer Science Student Looking for employment
+* Is a computer science student looking for internships or employment opportunities
 * Has a need to manage a significant number of job applications at the same time
 * Prefers a desktop application over a web application or spreadsheet for personal tracking of applications
 * Can type fast and prefers keyboard interactions over mouse usage
@@ -473,8 +473,8 @@ The following activity diagram summarizes what would happen when a user executes
 
 **Value proposition**: 
 HireME provides a convenient way to keep track of internship applications and current application status. 
-Allow easy access to company information and contact details. 
-Manage applications faster than a typical mouse/GUI driven app. 
+Allow easy access to company information and contact details.
+Manage applications more efficiently than with a typical mouse-driven GUI app
 
 
 ### User stories
@@ -538,7 +538,7 @@ Use case ends.
 1. User enters list command to list applications.
 2. HireME retrieves applications based on the requested view.
 3. HireME displays the applications in the current list.
-4. HireME displays a success message indicating the result of the listing operation.
+
 
 Use case ends.
 
@@ -576,27 +576,25 @@ Use case ends.
 **Preconditions**: At least one application exists in HireME.
 
 **Main Success Scenario**:
-1. User displays the list that contains the application to edit.
-2. HireME displays applications in the current view.
-3. User enters an edit command with the target index and at least one field to update.
-4. HireME validates the target index and provided fields.
-5. HireME updates the application record and saves it.
+1. User requests to edit an existing application.
+2. HireME verifies the request.
+3. HireME updates the application.
 
 Use case ends.
 
 **Extensions**:
-* 3a. No field is provided.
-    * 3a1. HireME informs the user that at least one field to edit must be provided.
-    * Use case ends.
-* 4a. The specified application index is invalid.
-    * 4a1. HireME informs the user that the application index is invalid.
-    * Use case ends.
-* 4b. One or more provided fields are invalid.
-    * 4b1. HireME informs the user of the relevant field constraint.
-    * Use case ends.
-* 4c. The edited application would duplicate another application.
-    * 4c1. HireME informs the user that the application already exists.
-    * Use case ends.
+* 1a. No changes are provided by the user.
+  * 1a1. HireME informs the user that at least one change must be provided.
+  * Use case ends.
+* 1b. User selects an invalid application.
+  * 1b1. HireME informs the user that the application index is invalid.
+  * Use case ends.
+* 2a. One or more provided changes are invalid.
+  * 2a1. HireME informs the user of the relevant input constraints.
+  * Use case ends.
+* 2b. The edited application would duplicate another application.
+  * 2b1. HireME informs the user that the application already exists.
+  * Use case ends.
 
   
 ### UC05 - Find applications
@@ -625,35 +623,33 @@ Use case ends.
 **Precondition**: At least one active application is shown in the current list
 
 **Main Success Scenario**:
-1. User enters archive command to archive an application by index.
-2. HireME marks the selected application as archived.
-3. HireME updates the displayed list.
-4. HireME shows a success message.
+1. User chooses an application to archive.
+2. HireME archives the application.
+3. HireME shows a success message.
 
 Use case ends.
 
 **Extensions**:
-* 1a. The given index is invalid.
+* 1a. The application user chooses is already archived.
     * 1a1. HireME shows an error message.
     * Use case ends.
 
 
 ### UC07 - Unarchive application
 
-**Precondition**: One or more archived applications are displayed
+**Precondition**: One or more archived applications exist.
 
 **Main success scenario**:
-1. User lists archived applications.
-2. HireME shows the archived applications.
-3. User enters a command to unarchive an application by index.
-4. HireME marks the selected application as no longer archived.
-5. HireME shows a success message.
+1. User <u>list applications (UC02)</u> with the archived view.
+2. User enters unarchive command for an application by index.
+3. HireME updates the selected application’s archive status to active.
+4. HireME shows a success message.
 
 Use case ends.
 
 **Extensions**:
-* 3a. The given index is invalid.
-    * 3a1. HireME shows an error message.
+* 2a. The given index is invalid.
+    * 2a1. HireME shows an error message.
     * Use case ends.
 
 ### UC08 - Open application notes
@@ -663,8 +659,8 @@ Use case ends.
 **Main Success Scenario**:
 1. User enters open command to open an application's notes by index.
 2. HireME identifies the selected application.
-3. HireME opens the notes window in view mode or edit mode, depending on the command.
-4. User reads or edits the notes.
+3. HireME displays the selected application's notes.
+4. User views or edits the notes.
 
 Use case ends.
 
@@ -679,10 +675,9 @@ Use case ends.
 **Precondition**: None
 
 **Main Success Scenario**:
-1. User requests the application summary using the command or menu option.
-2. HireME computes the relevant statistics.
-3. HireME opens the summary window.
-4. User reviews the summary information.
+1. User requests an application summary.
+2. HireME computes and displays relevant application statistics.
+3. User reviews the summary information.
 
 Use case ends.
 
@@ -690,10 +685,9 @@ Use case ends.
 ### UC10 - Open Help
 
 **Main Success Scenario**:
-1. User requests to view help information (enters help).
-2. HireME opens the help window.
-3. HireME displays all available commands and their formats in the help window.
-4. User reads the command formats to learn/recall how to use the system.
+1. User requests help information.
+2. HireME displays help information, including available commands and usage formats.
+3. User reads the command formats to learn/recall how to use the system.
 
 Use case ends.
 
@@ -702,15 +696,15 @@ Use case ends.
 ## Non-Functional Requirements (NFRs)
 
 ### Usability
-- A user who is comfortable with CLI should be able to complete core tasks (add, delete, edit, list) faster than using a mouse driven GUI.
-- A new user should be able to learn the basic commands within 10 minutes using only the help command.
+- A user familiar with CLI applications should be able to complete core tasks using keyboard-only input after reading the help feature and User Guide.
+- The help feature and User Guide should provide sufficient examples for a new user to perform core commands without external assistance.
 - Command formats shall follow a consistent prefix-based structure (e.g., n/, r/, s/) to ensure predictability.
-- The system shall provide clear and specific error messages for invalid commands or parameters.
+- The system should provide error messages that identify invalid commands or parameters and state the expected input format.
 - Core tasks should be executable without requiring mouse interaction.
 
 ### Reliability
 - Application data should be saved automatically after commands that modify stored data.
-- Invalid user input should not cause the application to crash.
+- The system should not terminate unexpectedly during normal use.
 
 ### Portability
 - The application should work on Windows, macOS, and Linux with Java 17 or above installed.
@@ -718,17 +712,16 @@ Use case ends.
 - The application should not depend on external services for core functionality.
 
 ### Maintainability
-- The codebase should adhere to the SE-EDU Java coding standards before each release.
-- A developer who has completed the setup steps in this guide should be able to locate the main logic, model, storage,
-  and UI packages by using the architecture and component diagrams in this guide.
-- Each major feature shall have a User Guide section that states its command format, parameters, constraints, and at
-  least one valid example.
-- Each feature described in the Developer Guide's Implementation section shall identify the main implementation classes
-  and explain the normal execution flow.
+- The codebase should conform to SE-EDU Java coding standards, with no major style violations in the main codebase.
+- A new command should be implementable by modifying no more than three existing classes, excluding test files.
+- Core components (UI, Logic, Model, Storage) should interact only through their defined interfaces.
 
 ### Data Integrity
-- The application should validate all user inputs and reject invalid data with clear error messages without crashing.
+- Invalid commands or inputs should not modify existing stored application data.
+- The application should reject invalid input without corrupting or losing existing stored data.
 
+### Performance
+- The application should respond to user commands within 2 seconds for datasets of up to 500 applications.
 
 ---
 
@@ -866,9 +859,9 @@ Given below are instructions to test the app manually.
 
 1. Test case: `list` <br>
 
-   Expected:
-    * The app shows all active (unarchived) applications.
-    * Archived applications, if any, are hidden. Details about archived applications in the later section.
+    Expected:
+   * The app shows all active (unarchived) applications.
+   * Archived applications, if any, are hidden. Details about archived applications in the later section.
 
 2. Test case: `list abc` <br>
 
@@ -897,22 +890,24 @@ Given below are instructions to test the app manually.
 1. Prerequisite: List all active applications using `list`. Ensure multiple applications are shown.
 
 2. Test case: `delete 1` <br>
-   Expected:
-   * The first displayed application is deleted from the list.
-   * A success message is shown.
+    Expected:
+
+    * The first displayed application is deleted from the list.
+    * A success message is shown.
 
 3. Test case: `delete 0` <br>
-   Expected:
-   * No application is deleted.
-   * An invalid index error is shown.
+    Expected:
+
+    * No application is deleted.
+    * An invalid index error is shown.
 
 4. Other incorrect delete commands to try:
    `delete`
    `delete x`
     <br>
 
-    Expected:
-   * Similar to the previous case: no application is deleted and an error message is shown.
+   Expected:
+    * Similar to the previous case: no application is deleted and an error message is shown.
 
 
 ### Editing an application
@@ -1063,37 +1058,33 @@ Use these test cases after ensuring that there are applications matching the rel
 2. Test case:
    `open 1`
 
-Expected:
-* A notes window opens in view-only mode for the first displayed application.
+    Expected:
+  * A notes window opens in view-only mode for the first displayed application.
 
 3. Test case:
    `open 1 m/true`
 
-Expected:
-* A notes window opens in edit mode for the first displayed application.
-
-4. In the edit-mode notes window, enter some text such as:
+    Expected:
+   * A notes window opens in edit mode for the first displayed application. 
+   * In the edit-mode notes window, enter some text such as:
    `Reached OA stage. Review graphs before interview.`
-
-5. Save the notes, close the window, then run:
+   * Save the notes, close the window, then run:
    `open 1`
+   * The saved notes are shown in view-only mode.
 
-Expected:
-* The saved notes are shown in view-only mode.
-
-6. Test case:
+4. Test case:
    `open 0`
 
-Expected:
-* No notes window is opened.
-* An invalid index error is shown.
+    Expected:
+   * No notes window is opened.
+   * An invalid index error is shown.
 
-7. Test case:
+5. Test case:
    `open 1 m/yes`
 
-Expected:
-* No notes window is opened.
-* An error message is shown because `m/` only accepts `true` or `false`.
+    Expected:
+   * No notes window is opened.
+   * An error message is shown because `m/` only accepts `true` or `false`.
 
 
 ### Viewing the summary
@@ -1101,19 +1092,19 @@ Expected:
 1. Test case:
    `summary`
 
-Expected:
-* A summary window opens.
-* It shows:
-    * total active applications
-    * counts of `Pending`, `Offered`, and `Rejected`
-    * success rate
-    * number of archived applications
+    Expected:
+   * A summary window opens.
+   * It shows:
+      * total active applications
+      * counts of `Pending`, `Offered`, and `Rejected`
+      * success rate
+      * number of archived applications
 
 2. Test case:
    Press `F2`.
 
-Expected:
-* The same summary window is shown.
+    Expected:
+   * The same summary window is shown.
 
 
 ### Viewing help
@@ -1121,14 +1112,14 @@ Expected:
 1. Test case:
    `help`
 
-Expected:
-* A help window opens showing command formats and examples.
+    Expected:
+   * A help window opens showing command formats and examples.
 
 2. Test case:
    Press `F1`.
 
-Expected:
-* The help window opens.
+    Expected:
+   * The help window opens.
 
 
 ### Clearing all entries
@@ -1137,10 +1128,10 @@ Expected:
 2. Test case:
    `clear`
 
-Expected:
-* All applications are deleted.
-* The list becomes empty.
-* A success message is shown.
+    Expected:
+   * All applications are deleted.
+   * The list becomes empty.
+   * A success message is shown.
 
 
 ### Saving data
