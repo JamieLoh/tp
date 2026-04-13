@@ -6,8 +6,8 @@ title: User guide
 
 ## Summary
 
-HireME is a Desktop application designed for NUS School of Computing (SoC) students to track and manage the information related to internship applications.
-This guide gives a clear overview of HireME's features and how to use them.
+HireME is a Desktop application designed for Singapore students who study computer science to track and manage the
+information related to internship applications. This guide provides a clear overview of HireME's features and their usage.
 
 --------------------------------------------------------------------------------------------------------------------
 
