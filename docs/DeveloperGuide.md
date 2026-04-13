@@ -238,6 +238,7 @@ The `find` feature filters the displayed application list based on one or more u
 * `AddressBookParser` delegates `find` input to `FindCommandParser`.
 * `FindCommandParser` parses the supplied prefixed fields, constructs an `ApplicationMatchesPredicate`, and uses it to create a `FindCommand`.
 * `FindCommand` applies that matching condition through `Model#updateFilteredApplicationList(...)`, then creates a `CommandResult` based on the filtered application list.
+* Because the matching predicate does not include archive state, `find` can return both active and archived applications.
 
 
 
@@ -733,6 +734,7 @@ Use case ends.
 | Active application   | An application that is not archived                                            |
 | Archived application | An application kept in storage but hidden from the default list                |
 | Notes                | Free-form text attached to an application for interview or tracking details    |
+| Date                 | A `DD-MM-YYYY` value, typically the application date but usable for any tracking date |
 | Mainstream OS        | Windows, Linux, MacOS                                                          |
 | Index                | The 1-based number shown beside an application in the currently displayed list |
 
