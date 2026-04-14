@@ -528,7 +528,7 @@ Use case ends.
 
 - 3a. Duplicate application detected.
   - 3a1. HireME detects an existing application with the same Company Name and Role (case-insensitive).
-  - 3a2. HireME displays error message: "This application already exists in the HireME."
+  - 3a2. HireME displays error message.
   - 3a3. No application is added. 
   - Use case ends.
 
